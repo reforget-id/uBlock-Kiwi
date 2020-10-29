@@ -39,7 +39,7 @@ const cmEditor = new CodeMirror(document.getElementById('userFilters'), {
     foldGutter: true,
     gutters: [ 'CodeMirror-linenumbers', 'CodeMirror-foldgutter' ],
     lineNumbers: true,
-    lineWrapping: true,
+    lineWrapping: false,
     matchBrackets: true,
     maxScanLines: 1,
     styleActiveLine: true,
@@ -58,6 +58,17 @@ vAPI.messaging.send('dashboard', {
 });
 
 let cachedUserFilters = '';
+
+/******************************************************************************/
+
+const getEditorText = function() {
+    const text = cmEditor.getValue().replace(/\s+$/, '');
+    return text === '' ? text : text + '\n';
+};
+
+const setEditorText = function(text) {
+    cmEditor.setValue(text.replace(/\s+$/, '') + '\n\n\n');
+};
 
 /******************************************************************************/
 
@@ -81,10 +92,13 @@ const renderUserFilters = async function() {
 
     let content = details.content.trim();
     cachedUserFilters = content;
+    /*
     if ( content.length !== 0 ) {
         content += '\n';
     }
     cmEditor.setValue(content);
+    */
+    setEditorText(content);
 
     userFiltersChanged(false);
 };
@@ -115,13 +129,17 @@ const handleImportFilePicker = function() {
 
     const fileReaderOnLoadHandler = function() {
         let content = abpImporter(this.result);
+        /*
         content = uBlockDashboard.mergeNewLines(
             cmEditor.getValue().trim(),
             content
         );
+        */
+        content = uBlockDashboard.mergeNewLines(getEditorText(), content);
         cmEditor.operation(( ) => {
             const cmPos = cmEditor.getCursor();
-            cmEditor.setValue(`${content}\n`);
+            //cmEditor.setValue(`${content}\n`);
+            setEditorText(content);
             cmEditor.setCursor(cmPos);
             cmEditor.focus();
         });
@@ -148,7 +166,8 @@ const startImportFilePicker = function() {
 /******************************************************************************/
 
 const exportUserFiltersToFile = function() {
-    const val = cmEditor.getValue().trim();
+    //const val = cmEditor.getValue().trim();
+    const val = getEditorText();
     if ( val === '' ) { return; }
     const filename = vAPI.i18n('1pExportFilename')
         .replace('{{datetime}}', uBlockDashboard.dateNowToSensibleString())
@@ -164,7 +183,8 @@ const exportUserFiltersToFile = function() {
 const applyChanges = async function() {
     const details = await vAPI.messaging.send('dashboard', {
         what: 'writeUserFilters',
-        content: cmEditor.getValue(),
+        //content: cmEditor.getValue(),
+        content: getEditorText(),
     });
     if ( details instanceof Object === false || details.error ) { return; }
 
@@ -176,11 +196,14 @@ const applyChanges = async function() {
 };
 
 const revertChanges = function() {
+    /*
     let content = cachedUserFilters;
     if ( content.length !== 0 ) {
         content += '\n';
     }
     cmEditor.setValue(content);
+    */
+    setEditorText(cachedUserFilters);
 };
 
 /******************************************************************************/
@@ -192,7 +215,8 @@ const getCloudData = function() {
 const setCloudData = function(data, append) {
     if ( typeof data !== 'string' ) { return; }
     if ( append ) {
-        data = uBlockDashboard.mergeNewLines(cmEditor.getValue(), data);
+        //data = uBlockDashboard.mergeNewLines(cmEditor.getValue(), data);
+        data = uBlockDashboard.mergeNewLines(getEditorText(), data);
     }
     cmEditor.setValue(data);
 };
@@ -203,7 +227,8 @@ self.cloud.onPull = setCloudData;
 /******************************************************************************/
 
 self.hasUnsavedData = function() {
-    return cmEditor.getValue().trim() !== cachedUserFilters;
+    //return cmEditor.getValue().trim() !== cachedUserFilters;
+    return getEditorText().trim() !== cachedUserFilters;
 };
 
 /******************************************************************************/
