@@ -60,8 +60,10 @@ input[type="checkbox"][disabled] + * {
     The rule below makes it possible to scroll the edited
     content within view.
 */
+
 :root.mobile {
-    overflow: auto;
+    /*overflow: auto;*/
+    height: 100%;
     }
 :root.mobile body {
     min-height: 10px;

@@ -114,7 +114,6 @@ const setEditorText = function(text) {
 const whitelistChanged = function() {
     const whitelistElem = uDom.nodeFromId('whitelist');
     const bad = whitelistElem.querySelector('.cm-error') !== null;
-    //const changedWhitelist = cmEditor.getValue().trim();
     const changedWhitelist = getEditorText().trim();
     const changed = changedWhitelist !== cachedWhitelist;
     uDom.nodeFromId('whitelistApply').disabled = !changed || bad;
@@ -156,15 +155,9 @@ const renderWhitelist = async function() {
         }
         return ad.localeCompare(bd);
     });
-    //let whitelistStr = details.whitelist.join('\n').trim();
+  
     const whitelistStr = details.whitelist.join('\n').trim();
     cachedWhitelist = whitelistStr;
-    /*
-    if ( whitelistStr !== '' ) {
-        whitelistStr += '\n';
-    }
-    cmEditor.setValue(whitelistStr);
-    */
     setEditorText(whitelistStr);
     if ( first ) {
         cmEditor.clearHistory();
@@ -180,13 +173,6 @@ const handleImportFilePicker = function() {
     const fr = new FileReader();
     fr.onload = ev => {
         if ( ev.type !== 'load' ) { return; }
-        /*
-        cmEditor.setValue(
-            [
-                cmEditor.getValue().trim(),
-                fr.result.trim()
-            ].join('\n').trim()
-        */
             setEditorText(
                 [ getEditorText().trim(), fr.result.trim() ].join('\n').trim()
         );
@@ -208,7 +194,6 @@ const startImportFilePicker = function() {
 /******************************************************************************/
 
 const exportWhitelistToFile = function() {
-    //const val = cmEditor.getValue().trim();
     const val = getEditorText();
     if ( val === '' ) { return; }
     const filename =
@@ -224,7 +209,6 @@ const exportWhitelistToFile = function() {
 /******************************************************************************/
 
 const applyChanges = async function() {
-    //cachedWhitelist = cmEditor.getValue().trim();
     cachedWhitelist = getEditorText().trim();
     await messaging.send('dashboard', {
         what: 'setWhitelist',
@@ -234,11 +218,6 @@ const applyChanges = async function() {
 };
 
 const revertChanges = function() {
-    /*
-    let content = cachedWhitelist;
-    if ( content !== '' ) { content += '\n'; }
-    cmEditor.setValue(content);
-    */
     setEditorText(cachedWhitelist);
 };
 
@@ -251,10 +230,8 @@ const getCloudData = function() {
 const setCloudData = function(data, append) {
     if ( typeof data !== 'string' ) { return; }
     if ( append ) {
-        //data = uBlockDashboard.mergeNewLines(cmEditor.getValue().trim(), data);
         data = uBlockDashboard.mergeNewLines(getEditorText().trim(), data);
     }
-    //cmEditor.setValue(data.trim() + '\n');
     setEditorText(data.trim());
 };
 
@@ -264,7 +241,6 @@ self.cloud.onPull = setCloudData;
 /******************************************************************************/
 
 self.hasUnsavedData = function() {
-    //return cmEditor.getValue().trim() !== cachedWhitelist;
     return getEditorText().trim() !== cachedWhitelist;
 };
 
