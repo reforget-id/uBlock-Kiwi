@@ -1,9 +1,9 @@
 body {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100%;
     overflow: hidden;
-    width: 100vw;
+    position: absolute;
     }
 textarea {
     box-sizing: border-box;
@@ -76,6 +76,7 @@ body[dir="rtl"] #pageSelector {
     border-top: 1px solid #ccc;
     display: flex;
     flex-direction: column;
+    height: 130vh;
     }
 .vscrollable {
     direction: ltr;
@@ -487,7 +488,7 @@ body.colorBlind #netFilteringDialog > .panes > .details > div[data-status="2"] b
     padding: 1em;
     max-height: 90vh;
     overflow-y: auto;
-    width: 90vw;
+    width: 120vw;
     }
 #modalOverlay > div > div:nth-of-type(2) {
     stroke: #000;
@@ -921,7 +922,7 @@ body.colorBlind  #netFilteringDialog > div.panes > .dynamic .entry > .action > .
     }
 #loggerExportDialog .output {
     font: smaller mono;
-    height: 60vh;
+    height: 90vh;
     padding: 0.5em;
     white-space: pre;
     }
