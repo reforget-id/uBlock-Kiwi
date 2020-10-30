@@ -155,6 +155,7 @@ const renderWhitelist = async function() {
         }
         return ad.localeCompare(bd);
     });
+  
     const whitelistStr = details.whitelist.join('\n').trim();
     cachedWhitelist = whitelistStr;
     setEditorText(whitelistStr);
