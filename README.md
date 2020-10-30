@@ -42,6 +42,7 @@ uBlock Origin is **NOT** an "ad blocker": [it is a wide-spectrum blocker](https:
 1. To install or update the extension, download crx file.
 2. In extensions page, toggle Developer Mode On .
 3. Click Load button and browse the file.
+4. Don't forget to update your filters.
 
 **Note :**
 * Don't install zip file directly from Load button because it will be deleted by cache cleaner.
