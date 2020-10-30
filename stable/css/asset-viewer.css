@@ -22,11 +22,12 @@ body {
     border: 0;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100%;
     margin: 0;
     overflow: hidden;
     padding: 0;
     width: 100vw;
+    position: absolute;
     }
 #subscribe {
     background-color: var(--bg-transient-notice);

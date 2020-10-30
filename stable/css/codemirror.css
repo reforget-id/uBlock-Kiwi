@@ -1,14 +1,17 @@
 .codeMirrorContainer {
-    font-size: 12px;
+    font-size: 13px;
     line-height: 1.25;
     overflow: hidden;
     position: relative;
+    height: 100%;
     }
 .CodeMirror {
     box-sizing: border-box;
     flex-grow: 1;
-    height: 100%;
-    width: 100%;
+    width: 113%;
+    }
+.CodeMirror-lines {
+    padding-bottom: 25rem;
     }
 
 /* For when panels are used */
@@ -91,6 +94,7 @@ div.CodeMirror span.CodeMirror-matchingbracket {
 .cm-search-widget-input {
     display: inline-flex;
     flex-grow: 1;
+    width: 90%;
     }
 .cm-search-widget .fa-icon {
     fill: #888;

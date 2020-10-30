@@ -21,6 +21,7 @@ body {
 }
 #diff .tools > * {
     margin-bottom: 0.5em;
+    width: max-content;
     }
 #diff .ruleActions {
     border: 0;
