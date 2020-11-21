@@ -49,7 +49,7 @@
         foldGutter: true,
         gutters: [ 'CodeMirror-linenumbers', 'CodeMirror-foldgutter' ],
         lineNumbers: true,
-        lineWrapping: true,
+        lineWrapping: false,
         matchBrackets: true,
         maxScanLines: 1,
         readOnly: true,

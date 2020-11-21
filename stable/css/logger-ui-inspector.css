@@ -9,6 +9,7 @@
     }
 #domInspector .vscrollable {
     overflow-x: auto;
+    background-color: #fff;
     }
 #domInspector > ul:first-of-type {
     padding-left: 0.5em;
@@ -17,6 +18,7 @@
     background-color: var(--default-surface);  /* UPSTREAM CHANGES */
     margin: 0;
     padding-left: 1em;
+    width: 120vw;
     }
 #domInspector li {
     list-style-type: none;

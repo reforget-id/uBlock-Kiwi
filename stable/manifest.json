@@ -1,5 +1,5 @@
 {
-  "author": "Raymond Hill & contributors",
+  "author": "Reforget-id, Raymond Hill & contributors",
   "background": {
     "page": "background.html"
   },
@@ -9,7 +9,7 @@
       "32": "img/icon_32.png"
     },
     "default_popup": "popup-fenix.html",
-    "default_title": "uBlock Origin"
+    "default_title": "uBlock Origin for Kiwi"
   },
   "commands": {
     "launch-element-picker": {
@@ -71,7 +71,7 @@
   "incognito": "split",
   "manifest_version": 2,
   "minimum_chrome_version": "51.0",
-  "name": "uBlock Origin",
+  "name": "uBlock Origin for Kiwi",
   "options_ui": {
     "open_in_tab": true,
     "page": "dashboard.html"
@@ -87,11 +87,11 @@
     "webRequestBlocking",
     "<all_urls>"
   ],
-  "short_name": "uBlock\u2080",
+  "short_name": "uBlock\u2080 for kiwi",
   "storage": {
     "managed_schema": "managed_storage.json"
   },
-  "version": "1.30.6",
+  "version": "1.30.6.2",
   "web_accessible_resources": [
     "/web_accessible_resources/*"
   ]
