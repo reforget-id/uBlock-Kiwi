@@ -1,7 +1,7 @@
 html#ublock0-epicker,
 #ublock0-epicker body {
     background: transparent;
-    color: black;
+    color: var(--default-ink);  /* UPSTREAM CHANGES */
     cursor: not-allowed;
     font: 12px sans-serif;
     height: 100vh;
@@ -14,12 +14,13 @@ html#ublock0-epicker,
 }
 #ublock0-epicker aside {
     background-color: var(--default-surface);
-    border: 1px solid #aaa;
+    border: 1px solid var(--default-surface-border);  /* UPSTREAM CHANGES */
     bottom: 4px;
     box-sizing: border-box;
     cursor: default;
     display: none;
-    min-width: 24em;
+    max-width: 36rem;  /* UPSTREAM CHANGES */
+    min-width: 24rem;  /* UPSTREAM CHANGES */
     padding: 4px;
     position: fixed;
     right: 4px;
@@ -28,19 +29,23 @@ html#ublock0-epicker,
 #ublock0-epicker.paused:not(.zap) aside {
     display: block;
 }
-#ublock0-epicker ul,
-#ublock0-epicker li,
-#ublock0-epicker div {
-    display: block;
-}
+/* DELETED LINES
+// #ublock0-epicker ul,
+// #ublock0-epicker li,
+// #ublock0-epicker div {
+// display: block;
+// }
+*/
 #ublock0-epicker #toolbar {
     cursor: grab;
     display: flex;
-    justify-content: space-between;
+    /* DELETED LINES // justify-content: space-between; */
 }
-#ublock0-epicker aside.moving #toolbar {
-    cursor: grabbing;
-}
+/* DELETED LINES 
+// #ublock0-epicker aside.moving #toolbar {
+//  cursor: grabbing;
+//}
+*/
 #ublock0-epicker ul {
     margin: 0.25em 0 0 0;
 }
@@ -71,6 +76,19 @@ html#ublock0-epicker,
     background-color: var(--button-preferred-surface);
     color: var(--button-preferred-ink);
 }
+
+/* UPSTREAM CHANGES */
+/* ===> */
+#ublock0-epicker #move {
+    cursor: grab;
+    flex-grow: 1;
+    }
+#ublock0-epicker aside.moving #move {
+    cursor: grabbing;
+}
+/* UPSTREAM CHANGES */
+/* ===> */
+
 #ublock0-epicker section {
     border: 0;
     box-sizing: border-box;
@@ -78,36 +96,37 @@ html#ublock0-epicker,
     width: 100%;
 }
 #ublock0-epicker section > div:first-child {
-    border: 1px solid #aaa;
+    border: 1px solid var(--default-surface-border);  /* UPSTREAM CHANGES */
     margin: 0;
     position: relative;
 }
 #ublock0-epicker section.invalidFilter > div:first-child {
     border-color: red;
 }
-#ublock0-epicker section textarea {
-    background-color: #fff;
+#ublock0-epicker section .codeMirrorContainer {  /* UPSTREAM CHANGES */
     border: none;
     box-sizing: border-box;
-    color: #000;
     font: 11px monospace;
     height: 8em;
-    margin: 0;
-    overflow: hidden;
-    overflow-y: auto;
-    padding: 2px 2px 1.2em 2px;
-    resize: none;
+    padding: 2px;  /* UPSTREAM CHANGES */
     width: 100%;
-    word-break: break-all;
-}
-#ublock0-epicker section textarea + div {
-    background-color: transparent;
-    bottom: 0;
+
+/* UPSTREAM CHANGES */
+/* ===> */
+    }
+.CodeMirror-lines,
+.CodeMirror pre {
+    padding: 0;
+    }
+.CodeMirror-vscrollbar {
+    z-index: 0;
+/* <=== */
+/* UPSTREAM CHANGES */
+
+    }
+
+#ublock0-epicker section .resultsetWidgets {  /* UPSTREAM CHANGES */
     display: flex;
-    left: 0;
-    pointer-events: none;
-    position: absolute;
-    right: 0;
 }
 #resultsetModifiers {
     align-items: flex-end;
@@ -126,12 +145,20 @@ html#ublock0-epicker,
     }
 .resultsetModifier > span {
     align-items: flex-end;
-    border-bottom: 2px solid white;
     display: flex;
     height: 100%;
     pointer-events: none;
     width: 100%;
     }
+
+/* UPSTREAM CHANGES */
+/* ===> */
+.resultsetModifier > span > span {
+    margin: 2px 0;
+    }
+/* <=== */
+/* UPSTREAM CHANGES */
+
 .resultsetModifier  > span > span:nth-of-type(1) {
     background-color: var(--checkbox-checked-ink);
     border-inline-end: 1px solid #aaa;
@@ -195,7 +222,7 @@ html#ublock0-epicker,
     overflow: hidden;
 }
 #ublock0-epicker #candidateFilters {
-    max-height: 16em;
+    max-height: 14em;  /* UPSTREAM CHANGES */
     overflow-y: auto;
 }
 #ublock0-epicker #candidateFilters > li:first-of-type {
@@ -225,7 +252,7 @@ html#ublock0-epicker,
     border: 1px dotted var(--blue-50);
     }
 #ublock0-epicker #candidateFilters .changeFilter li:hover {
-    background-color: white;
+    background-color: var(--default-surface-hover);  /* UPSTREAM CHANGES */
 }
 
 /**

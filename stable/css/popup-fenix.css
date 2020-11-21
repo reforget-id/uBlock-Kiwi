@@ -24,7 +24,8 @@
     opacity: 0;
     }
 a {
-    color: inherit;
+    color: var(--default-ink);  /* UPSTREAM CHANGES */
+    fill: var(--default-ink);  /* UPSTREAM CHANGES */
     text-decoration: none;
     }
 :focus {
@@ -48,7 +49,7 @@ a {
     }
 hr {
     border: 0;
-    border-top: 1px solid #e3e2e3;
+    border-top: 1px solid var(--hr-ink);  /* UPSTREAM CHANGES */
     margin: 0;
     padding: 0;
     }
@@ -551,6 +552,18 @@ body:not([data-more~="f"]) [data-more="f"] {
 body:not([data-more~="e"]) [data-more="e"] {
     display: none;
     }
+
+/* UPSTREAM CHANGES */
+/* ===> */
+/* popup-in-tab mode, useful for screenshots */
+:root.desktop.intab body {
+    overflow: auto;
+    }
+:root.desktop.intab #firewall {
+    max-height: none;
+    }
+/* <=== */
+/* UPSTREAM CHANGES */
 
 /* horizontally-constrained viewport */
 :root.portrait body {
