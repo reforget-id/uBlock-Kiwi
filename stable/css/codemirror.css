@@ -10,7 +10,9 @@
     height: 100%;
     width: 100%;
     }
-
+.CodeMirror-lines {
+    padding-bottom: 6rem;
+    }
 /* For when panels are used */
 .codeMirrorContainer > div:not([class^="CodeMirror"]) {
     display: flex;
