@@ -214,6 +214,7 @@ const LogEntry = function(details) {
             this[prop] = details[prop];
         }
     }
+    this.type = details.stype;
     if ( details.aliasURL !== undefined ) {
         this.aliased = true;
     }
@@ -301,7 +302,13 @@ const processLoggerEntries = function(response) {
             if ( autoDeleteVoidedRows ) { continue; }
             parsed.voided = true;
         }
-        if ( parsed.type === 'main_frame' && parsed.aliased === false ) {
+        if (
+            parsed.type === 'main_frame' &&
+            parsed.aliased === false && (
+                parsed.filter === undefined ||
+                parsed.filter.source !== 'redirect'
+            )
+        ) {
             const separator = createLogSeparator(parsed, unboxed.url);
             loggerEntries.unshift(separator);
             if ( rowFilterer.filterOne(separator) ) {
@@ -1263,13 +1270,16 @@ const reloadTab = function(ev) {
             // Avoid duplicates
             if ( createdStaticFilters.hasOwnProperty(value) ) { return; }
             createdStaticFilters[value] = true;
+            // https://github.com/uBlockOrigin/uBlock-issues/issues/1281#issuecomment-704217175
+            // TODO:
+            //   Figure a way to use the actual document URL. Currently using
+            //   a synthetic URL derived from the document hostname.
             if ( value !== '' ) {
                 messaging.send('loggerUI', {
                     what: 'createUserFilter',
                     autoComment: true,
                     filters: value,
-                    origin: targetPageDomain,
-                    pageDomain: targetPageDomain,
+                    docURL: `https://${targetFrameHostname}/`,
                 });
             }
             updateWidgets();
@@ -1871,8 +1881,6 @@ const reloadTab = function(ev) {
         ev => { toggleOn(ev); }
     );
 })();
-
-// https://www.youtube.com/watch?v=XyNYrmmdUd4
 
 /******************************************************************************/
 /******************************************************************************/

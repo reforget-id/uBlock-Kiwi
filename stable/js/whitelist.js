@@ -106,7 +106,7 @@ const getEditorText = function() {
 };
 
 const setEditorText = function(text) {
-    cmEditor.setValue(text.replace(/\s+$/, '') + '\n\n\n');
+    cmEditor.setValue(text.replace(/\s+$/, '') + '\n');
 };
 
 /******************************************************************************/
@@ -172,8 +172,8 @@ const handleImportFilePicker = function() {
     const fr = new FileReader();
     fr.onload = ev => {
         if ( ev.type !== 'load' ) { return; }
-            setEditorText(
-                [ getEditorText().trim(), fr.result.trim() ].join('\n').trim()
+        setEditorText(
+            [ getEditorText().trim(), fr.result.trim() ].join('\n').trim()
         );
     };
     fr.readAsText(file);
@@ -223,7 +223,7 @@ const revertChanges = function() {
 /******************************************************************************/
 
 const getCloudData = function() {
-    return cmEditor.getValue();
+    return getEditorText();
 };
 
 const setCloudData = function(data, append) {
