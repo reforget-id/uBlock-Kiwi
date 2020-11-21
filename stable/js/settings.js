@@ -66,11 +66,13 @@ const handleImportFilePicker = function() {
             window.alert(vAPI.i18n('aboutRestoreDataError'));
             return;
         }
+        /*
         const time = new Date(userData.timeStamp);
         const msg = vAPI.i18n('aboutRestoreDataConfirm')
                         .replace('{{time}}', time.toLocaleString());
         const proceed = window.confirm(msg);
         if ( proceed !== true ) { return; }
+        */
         vAPI.messaging.send('dashboard', {
             what: 'restoreUserData',
             userData,

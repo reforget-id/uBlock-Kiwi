@@ -1,16 +1,19 @@
 .codeMirrorContainer {
-    font-size: 12px;
+    font-size: 13px;
     line-height: 1.25;
     overflow: hidden;
     position: relative;
+    height: 100%;
     }
 .CodeMirror {
     background-color: var(--default-surface);  /* UPSTREAM CHANGES */
     box-sizing: border-box;
     color: var(--default-ink);  /* UPSTREAM CHANGES */
     flex-grow: 1;
-    height: 100%;
-    width: 100%;
+    width: 113%;
+    }
+.CodeMirror-lines {
+    padding-bottom: 25rem;
     }
 .CodeMirror-lines {
     padding-bottom: 6rem;
@@ -160,6 +163,7 @@ div.CodeMirror span.CodeMirror-matchingbracket {
 .cm-search-widget-input {
     display: inline-flex;
     flex-grow: 1;
+    width: 90%;
     }
 .cm-search-widget .fa-icon {
     fill: var(--cm-gutter-ink);  /* UPSTREAM CHANGES */
