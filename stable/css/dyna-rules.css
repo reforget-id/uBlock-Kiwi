@@ -21,7 +21,7 @@ body {
 }
 #diff .tools > * {
     margin-bottom: 0.5em;
-    width: max-content;
+    width: max-content; /* LOCAL CHANGES */
     }
 #diff .ruleActions {
     border: 0;

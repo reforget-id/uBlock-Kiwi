@@ -1,11 +1,11 @@
 body > div.body {
     padding: 0 0.5em;
-    z-index: 20;
-    background-color: ghostwhite;
+    z-index: 20; /* LOCAL CHANGES */
+    background-color: ghostwhite; /* LOCAL CHANGES */
     }
 @media screen and (max-device-width: 960px) {
     body {
-        zoom: 1;
+        zoom: 1; /* LOCAL CHANGES */
         }
     }
 h2, h3 {
@@ -60,11 +60,10 @@ input[type="checkbox"][disabled] + * {
     The rule below makes it possible to scroll the edited
     content within view.
 */
-
 :root.mobile {
-    /*overflow: auto;*/
-    height: 100%;
+    /*overflow: auto;*/ /* LOCAL CHANGES */
+    height: 100%; /* LOCAL CHANGES */
     }
 :root.mobile body {
-    min-height: 10px;
+    min-height: 10px; /* LOCAL CHANGES */
     }

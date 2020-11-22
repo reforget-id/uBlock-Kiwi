@@ -20,7 +20,7 @@ body {
 #advancedSettings {
     border-top: 1px solid #ddd;
     text-align: left;
-    padding-right: 13vw;
+    padding-right: 13vw;  /* LOCAL CHANGES */
     }
 .CodeMirror-wrap pre {
     word-break: break-all;

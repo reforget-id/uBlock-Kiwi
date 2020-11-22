@@ -9,16 +9,16 @@
     }
 #domInspector .vscrollable {
     overflow-x: auto;
-    background-color: #fff;
+    background-color: var(--default-surface); /* LOCAL CHANGES */
     }
 #domInspector > ul:first-of-type {
     padding-left: 0.5em;
     }
 #domInspector ul {
-    background-color: #fff;
+    background-color: var(--default-surface);
     margin: 0;
     padding-left: 1em;
-    width: 120vw;
+    width: 120vw; /* LOCAL CHANGES */
     }
 #domInspector li {
     list-style-type: none;
@@ -39,7 +39,7 @@
     color: #aaa;
     }
 #domInspector li > span:first-child {
-    color: #000;
+    color: var(--default-ink);
     cursor: default;
     font-size: 1rem;
     margin-right: 0;
