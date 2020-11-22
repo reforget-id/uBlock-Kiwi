@@ -39,10 +39,12 @@ const cmEditor = new CodeMirror(document.getElementById('userFilters'), {
     foldGutter: true,
     gutters: [ 'CodeMirror-linenumbers', 'CodeMirror-foldgutter' ],
     lineNumbers: true,
-    lineWrapping: false,
+    lineWrapping: false, /* LOCAL CHANGES */
     matchBrackets: true,
     maxScanLines: 1,
-    styleActiveLine: true,
+    styleActiveLine: {
+        nonEmpty: true,
+    },
 });
 
 uBlockDashboard.patchCodeMirrorEditor(cmEditor);
@@ -55,6 +57,7 @@ vAPI.messaging.send('dashboard', {
     if ( mode.setHints instanceof Function ) {
         mode.setHints(response);
     }
+    mode.parser.expertMode = response.expertMode !== false;
 });
 
 let cachedUserFilters = '';
@@ -67,7 +70,7 @@ const getEditorText = function() {
 };
 
 const setEditorText = function(text) {
-    cmEditor.setValue(text.replace(/\s+$/, '') + '\n\n\n');
+    cmEditor.setValue(text.replace(/\s+$/, '') + '\n\n\n'); /* LOCAL CHANGES */
 };
 
 /******************************************************************************/
@@ -187,7 +190,7 @@ const revertChanges = function() {
 /******************************************************************************/
 
 const getCloudData = function() {
-    return cmEditor.getValue();
+    return getEditorText();
 };
 
 const setCloudData = function(data, append) {
