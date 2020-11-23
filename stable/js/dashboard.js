@@ -51,7 +51,7 @@ const discardUnsavedData = function(synchronous = false) {
 
         const onDone = status => {
             modal.classList.remove('on');
-            document.removeEventListener('focus', onClick, true);
+            document.removeEventListener('focus', onClick, true); /* LOCAL CHANGES */
             resolve(status);
         };
 
@@ -69,7 +69,7 @@ const discardUnsavedData = function(synchronous = false) {
             onDone(false);
         };
 
-        document.addEventListener('focus', onClick, true);
+        document.addEventListener('focus', onClick, true); /* LOCAL CHANGES */
     });
 };
 

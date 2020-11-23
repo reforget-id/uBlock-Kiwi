@@ -20,8 +20,10 @@ body {
 #advancedSettings {
     border-top: 1px solid #ddd;
     text-align: left;
-    padding-right: 13vw;
     }
 .CodeMirror-wrap pre {
     word-break: break-all;
     }
+.CodeMirror-sizer {
+    min-width: 650px !important;
+}
