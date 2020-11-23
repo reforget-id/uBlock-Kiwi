@@ -10,7 +10,7 @@
     box-sizing: border-box;
     color: var(--default-ink);
     flex-grow: 1;
-    width: 113%; /* LOCAL CHANGES */
+    width: 100%; /* LOCAL CHANGES */
     }
 .CodeMirror-lines {
     padding-bottom: 25rem; /* LOCAL CHANGES */

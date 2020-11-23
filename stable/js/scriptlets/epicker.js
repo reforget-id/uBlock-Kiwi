@@ -951,7 +951,8 @@ const zapElementAtPoint = function(mx, my, options) {
     }
 
     elem.remove();
-    highlightElementAtPoint(mx, my);
+    quitPicker();  /* LOCAL CHANGES 
+    highlightElementAtPoint(mx, my); */
 };
 
 /******************************************************************************/

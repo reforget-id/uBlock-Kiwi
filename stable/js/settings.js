@@ -66,18 +66,36 @@ const handleImportFilePicker = function() {
             window.alert(vAPI.i18n('aboutRestoreDataError'));
             return;
         }
-        /*  LOCAL CHANGES ===>
+        /*  LOCAL CHANGES 
+        ================> */
+        
         const time = new Date(userData.timeStamp);
         const msg = vAPI.i18n('aboutRestoreDataConfirm')
                         .replace('{{time}}', time.toLocaleString());
-        const proceed = window.confirm(msg);
-        if ( proceed !== true ) { return; }
-         <=== LOCAL CHANGES */
-        vAPI.messaging.send('dashboard', {
-            what: 'restoreUserData',
-            userData,
-            file: filename,
-        });
+
+        document.getElementById('dialogText').innerHTML = msg;
+        const settingsDialog = document.getElementById('settingsDialog');
+        settingsDialog.showModal();
+
+        const cancelButton = document.getElementById('cancelAction');
+        cancelButton.addEventListener('click', function() {
+            return;
+        })
+        
+        const confirmButton = document.getElementById('confirmAction');
+        confirmButton.addEventListener('click', function() {
+            settingsDialog.close();
+            const noticeDialog = document.getElementById('noticeDialog');
+            noticeDialog.showModal();
+            vAPI.messaging.send('dashboard', {
+                what: 'restoreUserData',
+                userData,
+                file: filename,
+            });
+        })
+
+        /* <================ 
+            LOCAL CHANGES */
     };
 
     const fr = new FileReader();
@@ -185,12 +203,31 @@ const onLocalDataReceived = function(details) {
 /******************************************************************************/
 
 const resetUserData = function() {
+    /*  LOCAL CHANGES 
+    ================> */
+
     const msg = vAPI.i18n('aboutResetDataConfirm');
-    const proceed = window.confirm(msg);
-    if ( proceed !== true ) { return; }
-    vAPI.messaging.send('dashboard', {
-        what: 'resetUserData',
-    });
+    document.getElementById('dialogText').innerHTML = msg;
+    const settingsDialog = document.getElementById('settingsDialog');
+    settingsDialog.showModal();
+
+    const cancelButton = document.getElementById('cancelAction');
+    cancelButton.addEventListener('click', function() {
+        return;
+    })
+
+    const confirmButton = document.getElementById('confirmAction');
+    confirmButton.addEventListener('click', function() {
+        settingsDialog.close();
+        const noticeDialog = document.getElementById('noticeDialog');
+        noticeDialog.showModal();
+        vAPI.messaging.send('dashboard', {
+            what: 'resetUserData',
+        });
+    })
+
+    /* <=============== 
+        LOCAL CHANGES */
 };
 
 /******************************************************************************/

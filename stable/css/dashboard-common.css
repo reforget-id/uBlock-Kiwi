@@ -54,6 +54,29 @@ input[type="checkbox"][disabled] + * {
         display: none !important;
         }
     }
+
+/*  LOCAL CHANGES 
+    ================> */
+.dialog-style {
+    position: fixed; 
+    bottom: 45%; 
+    width: 75%; 
+    z-index: 98;
+    border-width: 2px;
+    border-radius: 13px;
+}
+.dialog-menu-1 {
+    margin-left: 51px; 
+    padding-left: 0;
+}
+.dialog-menu-2 {
+    margin-left: 107px; 
+    padding-left: 0;
+}
+/* <================ 
+    LOCAL CHANGES */
+
+
 /**
     On mobile device, the on-screen keyboard may take up
     so much space that it overlaps the content being edited.
