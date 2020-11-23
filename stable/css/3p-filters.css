@@ -11,7 +11,7 @@
       position: absolute;
       top: 100%;
       color: var(--black);
-      background-color: var(-white);
+      background-color: var(--white);
       border: 1px solid;
       width: 50vw;
       padding: 3px;
