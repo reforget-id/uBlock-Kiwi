@@ -9,7 +9,7 @@
       height="38"
       width="38">
 </sub>
-uBlock Origin for Kiwi
+uBlock Origin for Kiwi Browser
 </h1>
 <p align="center">
 <sup> <!-- Pronounciation -->
@@ -29,11 +29,31 @@ _This version is only for Kiwi browser on Android._
 
 See [Releases Page](https://github.com/reforget-id/uBlock-Kiwi/releases) to download.
 
-
 <br>
 
 **An efficient blocker add-on for various browsers. Fast, potent, and lean.**
 
 uBlock Origin is **NOT** an "ad blocker": [it is a wide-spectrum blocker](https://github.com/gorhill/uBlock/wiki/Blocking-mode) -- which happens to be able to function as a mere "ad blocker". The default behavior of uBlock Origin when newly installed is to block ads, trackers and malware sites -- through [_EasyList_](https://easylist.github.io/#easylist), [_EasyPrivacy_](https://easylist.github.io/#easyprivacy), [_Peter Lowe’s ad/tracking/malware servers_](https://pgl.yoyo.org/adservers/policy.php), [_Online Malicious URL Blocklist_](https://gitlab.com/curben/urlhaus-filter#urlhaus-malicious-url-blocklist), and uBlock Origin's [own filter lists](https://github.com/uBlockOrigin/uAssets/tree/master/filters).
 
+***
 
+### How to Install / Update :
+
+1. To install or update the extension, download crx file.
+2. In extensions page, toggle Developer Mode On .
+3. Click Load button and browse the file.
+4. Don't forget to update your filters.
+
+**Note :**
+* Don't install zip file directly from Load button because it will be deleted by cache cleaner.
+* Use zip file if you want to pack the extension by yourself.
+
+***
+
+### How to Pack The Extension : 
+
+1. Extract zip file. Click Pack Extension button.
+2. Browse extension root folder. **Example : /storage/emulated/0/download/uBlockKiwi**
+3. If this is the first packing, leave private key file empty.
+4. Click Pack Extension button. You will get extension (\*.crx) and private key (\*.pem).
+4. If you want to update the extension from zip, browse the private key file from the first packing.
