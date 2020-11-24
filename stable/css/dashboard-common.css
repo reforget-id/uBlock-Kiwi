@@ -1,7 +1,7 @@
 body > div.body {
     padding: 0 0.5em;
     z-index: 20; /* LOCAL CHANGES */
-    background-color: ghostwhite; /* LOCAL CHANGES */
+    background-color: var(--default-surface); /* LOCAL CHANGES */
     }
 @media screen and (max-device-width: 960px) {
     body {
@@ -64,13 +64,11 @@ input[type="checkbox"][disabled] + * {
     z-index: 98;
     border-width: 2px;
     border-radius: 13px;
+    background-color: var(--default-surface);
+    color: var(--default-ink);
+    fill: var(--default-ink);
 }
-.dialog-menu-1 {
-    margin-left: 51px; 
-    padding-left: 0;
-}
-.dialog-menu-2 {
-    margin-left: 107px; 
+.dialog-menu { 
     padding-left: 0;
 }
 /* <================ 

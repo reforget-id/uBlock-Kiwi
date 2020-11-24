@@ -2,22 +2,23 @@
 ================> */
 @media (pointer: coarse), (hover: none) {
     [title] {
-      position: relative;
-      display: inline-flex;
-      justify-content: center;
+        position: relative;
+        display: inline-flex;
+        justify-content: center;
     }
     [title]:focus::after {
-      content: attr(title);
-      position: absolute;
-      top: 100%;
-      color: var(--black);
-      background-color: var(--white);
-      border: 1px solid;
-      width: 50vw;
-      padding: 3px;
-      font-size: 12px;
-      z-index: 99;
-      right: 0;
+        content: attr(title);
+        position: absolute;
+        top: 100%;
+        border: 1px solid;
+        width: 50vw;
+        padding: 3px;
+        font-size: 12px;
+        z-index: 99;
+        right: 0;
+        background-color: var(--default-surface);
+        color: var(--default-ink);
+        fill: var(--default-ink);
     }
 }
 label {

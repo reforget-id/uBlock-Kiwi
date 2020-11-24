@@ -72,6 +72,14 @@ iframe {
 body:not(.canUpdateShortcuts) .tabButton[data-pane="shortcuts.html"] {
     display: none;
     }
+/*  LOCAL CHANGES 
+    ================> */
+.warning-text {
+    display: block;
+    margin-bottom: 15px;
+}
+/* <================ 
+    LOCAL CHANGES */
 
 /* high dpi devices */
 :root.hidpi .tabButton {
