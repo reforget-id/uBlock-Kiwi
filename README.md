@@ -37,12 +37,17 @@ uBlock Origin is **NOT** an "ad blocker": [it is a wide-spectrum blocker](https:
 
 ***
 
-### How to Install / Update :
+### How to Install :
 
-1. To install or update the extension, download crx file.
+1. To install the extension, download crx file.
 2. In extensions page, toggle Developer Mode On .
 3. Click Load button and browse the file.
 4. Don't forget to update your filters.
+
+### How to Update : 
+
+This extension will update automatically now or you can force update by click Update button in extensions page
+
 
 **Note :**
 * Don't install zip file directly from Load button because it will be deleted by cache cleaner.
@@ -54,6 +59,6 @@ uBlock Origin is **NOT** an "ad blocker": [it is a wide-spectrum blocker](https:
 
 1. Extract zip file. Click Pack Extension button.
 2. Browse extension root folder. **Example : /storage/emulated/0/download/uBlockKiwi**
-3. If this is the first packing, leave private key file empty.
+3. If this is the first time packing, leave private key file empty.
 4. Click Pack Extension button. You will get extension (\*.crx) and private key (\*.pem).
-4. If you want to update the extension from zip, browse the private key file from the first packing.
+4. If you want to update the extension from zip, browse the private key file from the first time packing.
