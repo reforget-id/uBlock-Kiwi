@@ -27,6 +27,8 @@ uBlock Origin for Kiwi Browser
 
 _This version is only for Kiwi browser on Android._
 
+Mostly UI improvements, i also fixed features that weren't working properly on Kiwi.
+
 See [Releases Page](https://github.com/reforget-id/uBlock-Kiwi/releases) to download.
 
 <br>
