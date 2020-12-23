@@ -10,6 +10,7 @@
     box-sizing: border-box;
     color: var(--default-ink);
     flex-grow: 1;
+    height: 100%;  /* LOCAL CHANGES */
     width: 100%; /* LOCAL CHANGES */
     }
 .CodeMirror-lines {
@@ -18,6 +19,7 @@
 .CodeMirror-gutters {
     background-color: var(--cm-gutter-surface);
     border-color: var(--cm-gutter-border);
+    position: fixed; left: 0px !important; top: 0;  /* LOCAL CHANGES */
     }
 .CodeMirror-linenumber {
     color: var(--cm-gutter-ink);
@@ -74,9 +76,9 @@
 .cm-s-default .cm-keyword {
     color: var(--sf-keyword-ink);
     }
-.cm-s-default .cm-regex {
+.cm-s-default .cm-notice {
     text-underline-position: under;
-    text-decoration-color: var(--sf-regex-ink);
+    text-decoration-color: var(--sf-notice-ink);
     text-decoration-style: solid;
     text-decoration-line: underline;
     }

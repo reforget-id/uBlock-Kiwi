@@ -24,6 +24,8 @@ body {
 .CodeMirror-wrap pre {
     word-break: break-all;
     }
+/* LOCAL CHANGES */
 .CodeMirror-sizer {
     min-width: 650px !important;
 }
+/* LOCAL CHANGES */

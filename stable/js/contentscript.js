@@ -116,7 +116,7 @@ vAPI.contentScript = true;
     try {
         while (
             context !== self.top &&
-            context.location.protocol === 'about:'
+            context.location.href.startsWith('about:blank')
         ) {
             context = context.parent;
         }
@@ -362,7 +362,7 @@ vAPI.SafeAnimationFrame = class {
     };
 
     // https://github.com/chrisaljoudi/uBlock/issues/205
-    // Do not handle added node directly from within mutation observer.
+    //   Do not handle added node directly from within mutation observer.
     const observerHandler = function(mutations) {
         let i = mutations.length;
         while ( i-- ) {
@@ -376,7 +376,7 @@ vAPI.SafeAnimationFrame = class {
                 removedNodeLists.push(nodeList);
             }
         }
-        if ( addedNodeLists.length !== 0 || removedNodes ) {
+        if ( addedNodeLists.length !== 0 || removedNodeLists.length !== 0 ) {
             safeObserverHandlerTimer.start(
                 addedNodeLists.length < 100 ? 1 : undefined
             );
@@ -867,6 +867,7 @@ vAPI.injectScriptlet = function(doc, text) {
             for ( const node of nodes ) {
                 node.setAttribute(this.masterToken, '');
                 node.setAttribute(styleToken, '');
+                this.styledNodes.add(node);
             }
         }
 

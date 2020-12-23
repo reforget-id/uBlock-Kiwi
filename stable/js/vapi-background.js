@@ -959,7 +959,7 @@ vAPI.messaging = {
             try {
                 port.postMessage(messageWrapper);
             } catch(ex) {
-                this.ports.delete(port.name);
+                this.onPortDisconnect(port);
             }
         }
     },
@@ -985,7 +985,11 @@ vAPI.messaging = {
             msg.tabId = tabId;
             for ( const { port: toPort } of this.ports.values() ) {
                 if ( toPort === port ) { continue; }
-                toPort.postMessage(request);
+                try {
+                    toPort.postMessage(request);
+                } catch (ex) {
+                    this.onPortDisconnect(toPort);
+                }
             }
             break;
         case 'connectionBroken':
@@ -1006,6 +1010,7 @@ vAPI.messaging = {
         case 'extendClient':
             vAPI.tabs.executeScript(tabId, {
                 file: '/js/vapi-client-extra.js',
+                frameId: portDetails.frameId,
             }).then(( ) => {
                 callback();
             });
@@ -1020,22 +1025,29 @@ vAPI.messaging = {
         }
         case 'userCSS':
             if ( tabId === undefined ) { break; }
-            const details = {
-                code: undefined,
-                frameId: portDetails.frameId,
-                matchAboutBlank: true
-            };
-            if ( msg.add ) {
-                details.runAt = 'document_start';
-            }
             const promises = [];
-            for ( const cssText of msg.add ) {
-                details.code = cssText;
-                promises.push(vAPI.tabs.insertCSS(tabId, details));
+            if ( msg.add ) {
+                const details = {
+                    code: undefined,
+                    frameId: portDetails.frameId,
+                    matchAboutBlank: true,
+                    runAt: 'document_start',
+                };
+                for ( const cssText of msg.add ) {
+                    details.code = cssText;
+                    promises.push(vAPI.tabs.insertCSS(tabId, details));
+                }
             }
-            for ( const cssText of msg.remove ) {
-                details.code = cssText;
-                promises.push(vAPI.tabs.removeCSS(tabId, details));
+            if ( msg.remove ) {
+                const details = {
+                    code: undefined,
+                    frameId: portDetails.frameId,
+                    matchAboutBlank: true,
+                };
+                for ( const cssText of msg.remove ) {
+                    details.code = cssText;
+                    promises.push(vAPI.tabs.removeCSS(tabId, details));
+                }
             }
             Promise.all(promises).then(( ) => {
                 callback();
