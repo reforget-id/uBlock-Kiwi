@@ -84,6 +84,27 @@ let cachedUserFilters = '';
 }
 
 /******************************************************************************/
+/*  LOCAL CHANGES 
+    ================> */
+{ 
+    function setButtonVisibility() {
+        const icon = document.getElementsByClassName('fa-icon_check')[0]
+
+        if (icon == null || icon == undefined) {
+            setTimeout(setButtonVisibility(), 100)
+        }
+        else {
+            const body = document.getElementsByClassName('body')[0]
+            body.classList.remove('hideinit')
+        }
+    }
+
+    setButtonVisibility()
+}
+/* <================ 
+    LOCAL CHANGES */
+
+/******************************************************************************/
 
 const getEditorText = function() {
     const text = cmEditor.getValue().replace(/\s+$/, '');

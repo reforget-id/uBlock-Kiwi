@@ -58,6 +58,27 @@ vAPI.broadcastListener.add(msg => {
 });
 
 /******************************************************************************/
+/*  LOCAL CHANGES 
+    ================> */
+{ 
+    function setButtonVisibility() {
+        const icon = document.getElementsByClassName('fa-icon_check')[0]
+
+        if (icon == null || icon == undefined) {
+            setTimeout(setButtonVisibility(), 100)
+        }
+        else {
+            const actions = document.getElementById('actions')
+            actions.classList.remove('hideinit')
+        }
+    }
+
+    setButtonVisibility()
+}
+/* <================ 
+    LOCAL CHANGES */
+
+/******************************************************************************/
 
 const renderNumber = function(value) {
     return value.toLocaleString();

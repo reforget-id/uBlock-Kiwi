@@ -116,6 +116,27 @@ const getDiffer = (( ) => {
 })();
 
 /******************************************************************************/
+/*  LOCAL CHANGES 
+    ================> */
+{ 
+    function setButtonVisibility() {
+        const icon = document.getElementsByClassName('fa-icon_upload-alt')[0]
+
+        if (icon == null || icon == undefined) {
+            setTimeout(setButtonVisibility(), 100)
+        }
+        else {
+            const body = document.getElementsByClassName('body')[0]
+            body.classList.remove('hideinit')
+        }
+    }
+
+    setButtonVisibility()
+}
+/* <================ 
+    LOCAL CHANGES */
+
+/******************************************************************************/
 
 // Borrowed from...
 // https://github.com/codemirror/CodeMirror/blob/3e1bb5fff682f8f6cbfaef0e56c61d62403d4798/addon/search/search.js#L22

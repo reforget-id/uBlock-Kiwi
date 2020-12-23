@@ -190,6 +190,13 @@ select {
     visibility: hidden;
     width: 0;
     }
+/*  LOCAL CHANGES 
+    ================> */
+.hideinit {
+    visibility: hidden;
+}
+/* <================ 
+    LOCAL CHANGES */
 .fieldset {
     margin: var(--font-size);
     }
