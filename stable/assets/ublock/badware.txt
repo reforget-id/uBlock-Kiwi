@@ -68,9 +68,6 @@
 ! https://github.com/uBlockOrigin/uAssets/issues/1853
 ||havenworks.com^$document
 
-! https://github.com/HandyUserscripts/AntiAdware/issues/52
-upload4earn.org##+js(ra, checked)
-
 ! https://github.com/gorhill/uBlock/wiki/Badware-risks#ublockorg
 ||ublock.org^$document
 
@@ -443,7 +440,7 @@ thepiratebay3.com^$all
 ||smsiak.pl^$document
 ||smsy24.pl^$document
 
-! redirect domain
+! redirecting domains
 ||programma-di-fidelizzazione.top^$all
 ||prizesworldcenter.com^$all
 ||rootsingput9.live^$all
@@ -466,12 +463,45 @@ thepiratebay3.com^$all
 ||vid-adblocker.com^$all
 ||global-survey-online.com^$all
 ||popsads.link^$all
-||rsafrwd.com^
-||adverdirect.com^
-||followclick.pro^
-||euphe-gun.com^
-||survey-tracking-69.com^
-||shoppingsurveysonline.com^
+||rsafrwd.com^$all
+||adverdirect.com^$all
+||followclick.pro^$all
+||euphe-gun.com^$all
+||survey-tracking-69.com^$all
+||shoppingsurveysonline.com^$all
+||ordinaryluckrewardextra.club^$all
+||weekly-lucky-2020-gift.club^$all
+/?btd=*token$all
+||laidauni.com^$all
+||bestwinexperience.com^$all
+||triumphantplace.com^$all
+||traffic-go.com^$all
+||syncwowsails.com^$all
+||wignewsee.club^$all
+||bainushe.com^$all
+||streamssitesearch.com^$all
+||trackertrak.com^$all
+||acceder.gratis^$all
+||cn-2020.top^$all
+||catbeardx.com^$all
+||newsinform.net^$all
+||pshtr.xyz^$all
+||ssionsupre.fun^$all
+||vfgrse.com^$all
+||wdeliv.net^$all
+&td=redirect4u.com$all
+||37.1.209.213^$all
+||bestprizeday.life^$all
+||watch-video.net^$all
+||findmedia.biz^$all
+||polimer.xyz^$all
+||bingstyle.com^$all
+||zctrack.com^$all
+||macotuqa.xyz^$all
+||redirekted.com^$all
+||1ownandfresh1.com^$all
+||get19dragos.club^$all
+||best-prizes-house.life^$all
 
 ! fraud
 ||Profitto.org^$all
@@ -480,7 +510,83 @@ thepiratebay3.com^$all
 ||newsglobal.live^
 ||ricavato.com^
 ||bitcoingenerator.me^$all
-
+||bqyvip.cn^$all
+||rom.xprofile.icu^$all
+||privatewinners.com^$all
+! fraud => https://forums.lanik.us/viewtopic.php?f=90&t=45586
+||antiker-steintrog.de^$all
+||augstburger-foto.de^$all
+||axel-erfurt.de^$all
+||baufirma-wegert.de^$all
+||beschichtung-beton.de^$all
+||cadanse.de^$all
+||der-weber-freiburg.de^$all
+||derkellermann.de^$all
+||doubletriplechance.de^$all
+||dresdner-walzernacht.de^$all
+||einfallsinsel.de^$all
+||ekirmes.de^$all
+||electrixx-lan.de^$all
+||engel-emanuel.de^$all
+||erlebnispfadfinder.de^$all
+||eu-dienstleistungen.de^$all
+||fahrschule-carstensen.de^$all
+||fahrschule-eckert.de^$all
+||farbenhof-mayer.de^$all
+||fellbacher-gebaeudereinigung.de^$all
+||ferienwohnungen-heidemarie.de^$all
+||fischerhude-tipps.de^$all
+||fsp-metallbau.de^$all
+||gebaeudereinigung-wintermeyer.de^$all
+||goettinger-blaetter.de^$all
+||gottesdienste-online.de^$all
+||heilpraktiker-pfeiffer.de^$all
+||heilungdurchliebe.de^$all
+||ju-nm.de^$all
+||katzen-auetaler-land.de^$all
+||kegelfreunde-obernburg.de^$all
+||kijubobo.de^$all
+||konrad-hardes.de^$all
+||kurtisautopflege.de^$all
+||lousiana.de^$all
+||lsv-hegenscheid.de^$all
+||mutternatur-shop.de^$all
+||mv-adp-pflege.de^$all
+||next-architecture.de^$all
+||nordfriesland-datenbank.de^$all
+||olympia-bewegt-alle.de^$all
+||raidrush.info^$all
+||restaurant-resi.de^$all
+||rudis-kuenstlerwerkstatt.de^$all
+||schaarschmidt-ahr.de^$all
+||sehnsucht-limited.de^$all
+||simonis-serviceagentur.de^$all
+||socken-fuer-fast-nichts.de^$all
+||tattoomesse-wuerzburg.de^$all
+||thewoodennerd.de^$all
+||thom-blog.de^$all
+||tierkinesiologieundco.de^$all
+||titus-reinmuth.de^$all
+||tr-ex.me^$all
+||trebbinevent.de^$all
+||tui-vital.de^$all
+||ubwestermann.de^$all
+||uranische-astrologie.de^$all
+||veldenzeraufgebot1462.de^$all
+||veltenfranzjakoby.de^$all
+||waatched.de^$all
+||wasserschadenrheinmain24.de^$all
+||winterberger-blitz.de^$all
+||aerztepfusch-psychiatrie.de^$all
+||bioregional-berlin.de^$all
+||cdu-coswig-anhalt.de^$all
+||galerie-schneider-sato.de^$all
+||heikosohn.de^$all
+||igem-hannover.de^$all
+||z-classic-cars.de^$all
+||zahnarzt-neuweiler.de^$all
+||zvk-sachsen-anhalt.de^$all
+ 
 ! https://github.com/NanoMeow/QuickReports/issues/4581
 ||installnow.xyz^
 
@@ -491,3 +597,19 @@ thepiratebay3.com^$all
 ||0addon.com^
 ||ogtrk.net^
 ||gameglitcher.com^
+
+! https://github.com/AdguardTeam/AdguardFilters/issues/70414
+||app-department.report^$all
+
+! https://www.joesandbox.com/analysis/300638/0/html
+||antivirus-protection.me^$all
+
+! browser-jack
+||kr-106.xyz^$all
+
+! https://www.hybrid-analysis.com/sample/3ad8f4dc6a021e82d25247c266d89d20d981f7187413405f0b2e35d984bd60cb
+||secureconv-dl.com^$all
+
+! https://github.com/uBlockOrigin/uAssets/issues/8466
+||91.241.60.117^$all
+||91.241.60.119^$all

@@ -44,8 +44,7 @@
 ! https://github.com/chrisaljoudi/uBlock/issues/227
 ! To counter `2mdn.net` in Peter Lowe's
 ! To counter `s0.2mdn.net` in MVPS, hpHosts, Dan Pollock's
-@@||s0.2mdn.net/instream/*$domain=cnet.com|nfl.com
-@@||s0.2mdn.net/instream/flash/v3/adsapi_3.swf$object
+@@||s0.2mdn.net/instream/*$domain=cnet.com
 
 ! https://twitter.com/ethanveres/status/527122036649639936
 ! Fortunately, further connections to `mxpnl.com` are blocked
@@ -954,14 +953,6 @@ techadvisor.co.uk#@#.adsbygoogle
 ! https://github.com/NanoAdblocker/NanoFilters/issues/128
 @@||imasdk.googleapis.com/js/sdkloader/ima3.js$script,domain=sbs.com.au
 
-! https://github.com/uBlockOrigin/uAssets/issues/2870
-||www.infowars.com/*.png$image,badfilter
-@@||platform.cmmtr.com/static/*$script,domain=infowars.com
-@@||infowarsmedia.com/js/player.js$script,domain=infowars.com
-@@||streamroot.io/videojs-*$script,domain=vod-api.infowars.com
-! https://github.com/easylist/easylist/issues/2788
-@@||infowars.com/videojs-event-tracking/dist/videojs$script,1p
-
 ! https://github.com/uBlockOrigin/uAssets/issues/2884
 @@||jsonip.com^$xhr,domain=djs-jpn.ga
 
@@ -1101,10 +1092,6 @@ nbcsports.com#@##nbcsports-leaderboard
 warszawawpigulce.pl#@#.code-block-5, .eklama, #undermenu-block, .code-block-6
 warszawawpigulce.pl##.eklama
 
-! https://github.com/uBlockOrigin/uAssets/issues/3523
-|http://$script,domain=yts.am,badfilter
-|https://$script,domain=yts.am,badfilter
-
 ! https://www.reddit.com/r/uBlockOrigin/comments/9hh9kb/pornhub_videos_only_works_after_i_disable_ublock/
 |https://$3p,script,domain=~feedback.pornhub.com|~feedback.pornhubthbh7ap3u.onion|pornhub.com|pornhubthbh7ap3u.onion|redtube.com|redtube.com.br|tube8.com|tube8.es|tube8.fr|youporn.com|youporngay.co,badfilter
 |https://$image,domain=pornhub.com|redtube.com|redtube.com.br|tube8.com|tube8.es|tube8.fr|youporn.com|youporngay.com,badfilter
@@ -1243,11 +1230,7 @@ tubewolf.com##.bnnr
 ||admost.com^$script,important,domain=sahadan.com
 
 ! https://github.com/uBlockOrigin/uAssets/issues/4021
-|https://$3p,script,domain=damimage.com|dimtus.com|imagedecode.com|imageteam.org|imgadult.com|imgclick.net|imgdew.com|imgdew.pw|imgdrive.net|imgkings.com|imgmaid.net|imgmaze.com|imgmaze.pw|imgnemo.com|imgoutlet.com|imgrock.info|imgrock.net|imgstudio.org|imgtaxi.com|imgtown.net|imgtown.pw|imgtrex.com|imgview.net|imgview.pw|imgwallet.com|ironimg.net,badfilter
-|https://$3p,image,domain=damimage.com|dimtus.com|imagedecode.com|imageteam.org|imgadult.com|imgclick.net|imgdew.com|imgdew.pw|imgdrive.net|imgkings.com|imgmaid.net|imgmaze.com|imgmaze.pw|imgnemo.com|imgoutlet.com|imgrock.info|imgrock.net|imgstudio.org|imgtaxi.com|imgtown.net|imgtown.pw|imgtrex.com|imgview.net|imgview.pw|imgwallet.com|ironimg.net,badfilter
-|https://$3p,image,domain=damimage.com|dimtus.com|imagedecode.com|imageteam.org|imgadult.com|imgclick.net|imgdew.com|imgdew.pw|imgdrive.net|imgkings.com|imgmaid.net|imgmaze.com|imgmaze.pw|imgnemo.com|imgoutlet.com|imgrock.co|imgrock.info|imgrock.net|imgstudio.org|imgtaxi.com|imgtown.net|imgtown.pw|imgtrex.com|imgview.net|imgview.pw|imgwallet.com|ironimg.net,badfilter
-|https://$3p,image,domain=damimage.com|dimtus.com|imagedecode.com|imageteam.org|imgadult.com|imgclick.net|imgdew.com|imgdew.pw|imgdrive.net|imgkings.com|imgmaze.com|imgmaze.pw|imgoutlet.com|imgrock.info|imgrock.net|imgrock.pw|imgstudio.org|imgtaxi.com|imgtown.net|imgtown.pw|imgview.net|imgview.pw|imgwallet.com,badfilter
-|https://$3p,script,domain=damimage.com|dimtus.com|imagedecode.com|imageteam.org|imgadult.com|imgclick.net|imgdew.com|imgdew.pw|imgdrive.net|imgkings.com|imgmaze.com|imgmaze.pw|imgoutlet.com|imgrock.info|imgrock.net|imgrock.pw|imgstudio.org|imgtaxi.com|imgtown.net|imgtown.pw|imgview.net|imgview.pw|imgwallet.com,badfilter
+|https://$3p,image,script,domain=damimage.com|imagedecode.com|imageteam.org,badfilter
 @@||imgview.pw^$ghide
 ! https://github.com/uBlockOrigin/uAssets/issues/4993
 @@||imgdew.com/js/*$script,domain=imgdew.pw
@@ -1471,9 +1454,6 @@ coed.com#@#[style*="background-image:"]
 
 ! https://twitter.com/RyuTechGaming/status/1098525246687248384
 @@||europarl.europa.eu/website/webanalytics/*$script,1p
-
-! https://forums.lanik.us/viewtopic.php?f=64&t=42660
-/transparent-pixel.$badfilter
 
 ! https://github.com/NanoMeow/QuickReports/issues/714
 @@||code.adsales.snidigital.com/conf/ads-config.js$script,domain=travelchannel.com
@@ -1784,9 +1764,6 @@ calgaryherald.com#@#.local-branding
 ! https://github.com/NanoMeow/QuickReports/issues/1321
 @@||cdn.cdn000.club/js/loadjs.min.js$script,domain=vipstand.se
 
-! https://github.com/uBlockOrigin/uAssets/issues/2070#issuecomment-498000989
-@@/video-js.swf$object,1p
-
 ! player broken http://www. digi24. ro/live/digi24
 @@||scdn.cxense.com/cx.js$script,domain=digi24.ro
 
@@ -1795,8 +1772,7 @@ calgaryherald.com#@#.local-branding
 @@||rakuten.com/dist/static/*/analytics/*$script,1p
 
 ! #1589 csp filters breaking injecting filters / pages
-@@*$csp,domain=activistpost.com|conservativefiringline.com|addictinginfo.com|allenbwest.com|allthingsvegas.com|americasfreedomfighters.com|appleeats.com|aupetitparieur.com|bb4sp.com|bestfunnyjokes4u.com|bighealthreport.com|bigleaguepolitics.com|bizpacreview.com|boomsbeat.com|breakingfirst.com|bugout.news|bulletsfirst.net|canadafreepress.com|celebrity-gossip.net|cheapism.com|cheatsheet.com|chicksonright.com|clashdaily.com|classicalite.com|codefille.com|collapse.news|comicallyincorrect.com|concomber.com|constitution.com|craigjames.com|dailyheadlines.net|dailylol.com|dailysurge.com|deneenborelli.com|designbump.com|directexpose.com|eaglerising.com|enstarz.com|evil.news|faithit.com|firstinfreedomdaily.com|foreverymom.com|freedom.news|freedomoutpost.com|funnyand.com|gamer4k.com|glitch.news|godfatherpolitics.com|grammarist.com|greatamericanrepublic.com|guardianlv.com|guns.news|hackspirit.com|hautereport.com|hispolitica.com|hngn.com|icepop.com|ifyouonlynews.com|infowars.com|intellectualconservative.com|itechpost.com|janmorganmedia.com|jobsnhire.com|joeforamerica.com|justdiy.com|kdramastars.com|kpopstarz.com|lastresistance.com|latinpost.com|legalinsurrection.com|letocard.fr|liberty.news|libertyunyielding.com|lidblog.com|lifebuzz.com|lovezin.fr|madworldnews.com|mamieastuce.com|meilleurpronostic.fr|moneyversed.com|mpolitical.com|musictimes.com|natural.news|naturalblaze.com|naturalsociety.com|natureworldnews.com|newser.com|o4anews.com|opednews.com|patriotnationpress.com|patriotoutdoornews.com|pjmedia.com|politicalcowboy.com|politicalmayhem.news|politicaloutcast.com|politichicks.com|practicallyviral.com|profitconfidential.com|publicservicealerts.com|quirlycues.com|readysethealth.com|realmomsrealreviews.com|realtytoday.com|redhotchacha.com|redmaryland.com|reverbpress.com|reviveusa.com|rightwing.news|rightwingtribune.com|rollingout.com|sciencetimes.com|shark-tank.com|shedthoselbs.com|slender.news|sonsoflibertymedia.com|sportsworldnews.com|sportsworldreport.com|stupid.news|supercheats.com|survivalnation.com|sweepstakesfanatics.com|techconsumer.com|telexplorer.com.ar|terezowens.com|thealternativedaily.com|theblacksphere.net|theboredmind.com|thedesigninspiration.com|thefreethoughtproject.com|thegatewaypundit.com|thehayride.com|thelastlineofdefense.org|thelibertydaily.com|themattwalshblog.com|thepoke.co.uk|thepolitistick.com|therealside.com|thewashingtonsentinel.com|threepercenternation.com|tiebreaker.com|topminceur.fr|tosavealife.com|twisted.news|universityherald.com|vcpost.com|videogamesblogger.com|viralnova.com|visiontoamerica.com|vitamiiin.com|wakingtimes.com|weaponsmedia.com|westernjournalism.com|worldlifestyle.com|xtribune.com|youngcons.com|yourdailypulse.com|youthhealthmag.com
-@@||addictinginfo.*^$csp,1p
+@@*$csp,domain=activistpost.com
 
 ! https://github.com/uBlockOrigin/uAssets/issues/5768
 @@||d24n15hnbwhuhn.cloudfront.net/libs/amplitude-$script,domain=gethuman.com
@@ -1988,7 +1964,6 @@ techpowerup.com##[rel="nofollow external"]
 
 ! https://github.com/uBlockOrigin/uAssets/issues/2870#issuecomment-528066013
 @@||api.infowarsmedia.com/videojs-event-tracking/$script,1p
-|https://$3p,script,domain=infowars.com,badfilter
 
 ! https://forums.lanik.us/viewtopic.php?f=64&t=43469&p=149630#p149630
 techradar.com#@#a[href^="https://amazon."][href*="tag="]
@@ -2060,9 +2035,6 @@ twitter.com#@#article[role="article"]:has-text(Promoted)
 ! whitelisting recaptcha .net
 @@||recaptcha.net/recaptcha/
 
-! https://github.com/NanoMeow/QuickReports/issues/1893
-*$3p,script,domain=sankakucomplex.com,badfilter
-
 ! https://github.com/uBlockOrigin/uAssets/issues/6334
 ||rtl.de/pf/resources/js/videotracking.min.js$script,redirect=noopjs,1p
 
@@ -2071,10 +2043,6 @@ twitter.com#@#article[role="article"]:has-text(Promoted)
 
 ! https://www.reddit.com/r/uBlockOrigin/comments/d8uc9z/remove_peter_lowes_list_from_company_ublock/f1ed6id/
 @@||en25.com^$image,domain=eloquaeditors.com
-
-! https://github.com/easylist/easylist/issues/4067
-/v1/events|$other,xhr,badfilter
-/v2/events|$other,xhr,badfilter
 
 ! https://github.com/uBlockOrigin/uAssets/issues/6352
 @@||googletagmanager.com/gtm.js$script,domain=carvana.com
@@ -2157,7 +2125,6 @@ arstechnica.com#@#a[href^="https://www.amazon."][href*="tag="]
 
 ! https://github.com/uBlockOrigin/uAssets/issues/6480
 ||pushengage.com^$badfilter
-||pushengage.com^$3p
 
 ! https://github.com/easylist/easylist/issues/4185
 ||cbsistatic.com/*/dw-tracking$script,important,redirect=noopjs,domain=techrepublic.com
@@ -2168,8 +2135,8 @@ wallpaperset.com#@#.ads1
 ! https://github.com/easylist/easylist/issues/4203
 ||2mdn.net/instream/html5/ima3.js$script,important,redirect=noopjs,domain=playercdn.earthtv.com
 
-! https://forums.lanik.us/viewtopic.php?f=62&t=43771
-@@||pubads.g.doubleclick.net/ssai/$xhr,domain=timesnownews.com
+! https://github.com/uBlockOrigin/uAssets/issues/3995#issuecomment-750930450
+@@||pubads.g.doubleclick.net/ssai/$xmlhttprequest,domain=timesnownews.com|zoomtventertainment.com|timesnowhindi.com|timesnowmarathi.com
 
 ! https://github.com/uBlockOrigin/uAssets/issues/6490
 @@||dogtime.com/wp-content/plugins/bwp-minify/min/*-google-analytics-$script,1p
@@ -2246,9 +2213,6 @@ los40.com###adunit
 @@||mac-torrent-download.net^$ghide
 mac-torrent-download.net##[href^="//sundhopen.site/"]
 
-! https://github.com/NanoMeow/QuickReports/issues/2259
-@@||linuxandubuntu.com^$font,1p
-
 ! https://github.com/uBlockOrigin/uAssets/issues/7910
 @@||metacritic.com/js/omniture/uuid.js$script,1p
 
@@ -2261,9 +2225,6 @@ mac-torrent-download.net##[href^="//sundhopen.site/"]
 
 ! https://github.com/NanoMeow/QuickReports/issues/2274
 @@||googletagservices.com/tag/js/gpt.js$script,domain=phonearena.com
-
-! https://github.com/uBlockOrigin/uAssets/issues/6563
-*$script,domain=ancensored.com,badfilter
 
 ! https://github.com/uBlockOrigin/uAssets/issues/6570
 |https://$script,3p,domain=zone-anime.net,badfilter
@@ -2345,9 +2306,6 @@ pcgamer.com#@#.hawk-widget
 ! https://forums.lanik.us/viewtopic.php?f=64&t=43990&p=151746#p151745
 @@||livelib.ru/service/*captcha$xhr,image,1p
 
-! https://github.com/uBlockOrigin/uAssets/issues/6669
-@@||harblaze.com/ads/js/jquery$script,1p
-
 ! https://github.com/uBlockOrigin/uAssets/issues/6673
 @@||amazon.jobs/assets/analytics-$script,1p
 
@@ -2376,10 +2334,6 @@ pcgamer.com#@#.hawk-widget
 
 ! fix player volume button
 yugioh.com##.cookie-policy-container-invisible.cookie-policy-container
-
-! https://github.com/NanoMeow/QuickReports/issues/2498
-@@*/crossdomain.xml$object,domain=player.theplatform.com
-@@||fwmrm.net/p/nbcu_as3_tve_live/AdManager.swf$object,domain=player.theplatform.com
 
 ! https://github.com/NanoMeow/QuickReports/issues/2499
 @@||google.com/js/gweb/analytics/doubletrack.js$script,1p
@@ -2437,10 +2391,6 @@ begadistrictnews.com.au,bendigoadvertiser.com.au,goulburnpost.com.au,maitlandmer
 
 ! https://github.com/AdguardTeam/AdguardFilters/issues/46887
 ||googletagmanager.com/gtag/js$script,redirect=noopjs,domain=timparty.tim.it
-
-! https://github.com/NanoMeow/QuickReports/issues/2628
-||piano.io^$badfilter
-||piano.io^$3p
 
 ! https://github.com/uBlockOrigin/uAssets/issues/6784
 ||pega.com^$3p,badfilter
@@ -2680,14 +2630,6 @@ realitatea.net#@#a[href^="https://ad.doubleclick.net/"]
 ! https://www.reddit.com/r/uBlockOrigin/comments/fextvk/ublock_blocking_moosend_web_form/
 @@||cdn.stat-track.com/statics/moosend-tracking.min.js$script,domain=miranpeterman.com
 
-! badfiltering IP addresses from easylist - too broad
-||104.154.$document,badfilter
-||104.197.$document,badfilter
-||104.198.$document,badfilter
-||130.211.$document,badfilter
-||216.21.$document,badfilter
-||51.158.$document,badfilter
-
 ! https://www.reddit.com/r/uBlockOrigin/comments/ff20to/currently_having_an_issue_with_uniquestreamnet/
 @@||wpfc.ml/b.gif$image,domain=uniquestream.net
 
@@ -2803,11 +2745,6 @@ recensionihot.com#@#a[href^="https://www.moscarossa.biz/"]
 @@||cmp.dmgmediaprivacy.co.uk^$frame,script,domain=metro.co.uk
 metro.co.uk###taboola-below-article-thumbnails
 
-! CNAME https://github.com/AdguardTeam/AdguardFilters/issues/52950
-! CNAME https://github.com/easylist/easylist/issues/5039#issuecomment-615182863
-! CNAME https://github.com/uBlockOrigin/uAssets/issues/4575#issuecomment-619406744
-@@||cdn13.com^$script,domain=ddownload.com|porndoe.com
-
 ! https://github.com/NanoMeow/QuickReports/issues/3448
 @@||downdetector.com/*/javascript/adscript.js$script
 @@||static.ziffdavis.com/sitenotice/evidon-barrier.js$script,domain=allestoringen.be|allestoringen.nl|xn--allestrungen-9ib.at|xn--allestrungen-9ib.ch|xn--allestrungen-9ib.de|downdetector.ae|downdetector.ca|downdetector.c|downdetector.co.nz|downdetector.co.uk|downdetector.co.za|downdetector.com.ar|downdetector.com.au|downdetector.com.br|downdetector.com.co|downdetector.com|downdetector.cz|downdetector.dk|downdetector.ec|downdetector.es|downdetector.fi|downdetector.fr|downdetector.gr|downdetector.hk|downdetector.hr|downdetector.hu|downdetector.id|downdetector.ie|downdetector.in|downdetector.it|downdetector.jp|downdetector.mx|downdetector.my|downdetector.no|downdetector.pe|downdetector.pk|downdetector.pl|downdetector.pt|downdetector.ro|downdetector.ru|downdetector.se|downdetector.sg|downdetector.sk|downdetector.web.tr
@@ -2918,9 +2855,6 @@ washingtonpost.com#@#.pb-md.pt-md
 ! https://www.reddit.com/r/uBlockOrigin/comments/gen8cr/ublock_causing_some_webpages_to_load_blank_on/
 order-order.com#@#.tag-sponsored
 
-! unbreak mp4upload.com player
-*$script,3p,domain=mp4upload.com,badfilter
-
 ! broken by french list https://github.com/uBlockOrigin/uAssets/issues/6851#issuecomment-626328180
 *$subdocument,3p,domain=vidcloud9.com,badfilter
 
@@ -2978,6 +2912,7 @@ order-order.com#@#.tag-sponsored
 @@||log.mmstat.com/eg.js$script,domain=youku.com
 
 ! https://github.com/NanoMeow/QuickReports/issues/470
+||cdn.permutive.com/*-web.js$script,redirect=noop.js,domain=independent.co.uk
 @@||imasdk.googleapis.com/js/sdkloader/ima3.$script,domain=independent.co.uk
 
 ! https://github.com/uBlockOrigin/uAssets/issues/7429
@@ -2991,9 +2926,6 @@ order-order.com#@#.tag-sponsored
 
 ! https://github.com/NanoMeow/QuickReports/issues/3892
 @@||c.s-microsoft.com/mscc/statics/*$css,domain=microsoft.com
-
-! https://github.com/uBlockOrigin/uAssets/issues/7343#issuecomment-631386079
-*$stylesheet,3p,domain=dood.watch,badfilter
 
 ! https://github.com/uBlockOrigin/uAssets/issues/7438
 @@||pier1.com/static/*/js/analytics.bundle.js$script,1p
@@ -3024,9 +2956,6 @@ order-order.com#@#.tag-sponsored
 
 ! https://github.com/NanoMeow/QuickReports/issues/3943
 @@||wcs.naver.net/wcslog.js$script,domain=happymoney.co.kr
-
-! https://github.com/uBlockOrigin/uAssets/issues/7465
-||thepopularstuff.com^$badfilter
 
 ! https://github.com/uBlockOrigin/uAssets/issues/7467
 *$script,redirect-rule=noopjs,domain=corriere.it
@@ -3070,9 +2999,6 @@ getcoloringpages.com#@#.adsBlock
 
 ! https://github.com/uBlockOrigin/uAssets/issues/6838
 ||crazyegg.com^$badfilter
-
-! https://github.com/uBlockOrigin/uAssets/issues/7514
-@@||pubads.g.doubleclick.net/gampad/ads?$xhr,domain=tver.jp
 
 ! https://www.reddit.com/r/uBlockOrigin/comments/gy800s/larenait_videos_are_broken/
 ||audit.quantcast.mgr.consensu.org^$badfilter
@@ -3414,11 +3340,8 @@ eslint.org#@#.sponsor-link
 
 ! https://github.com/uBlockOrigin/uAssets/issues/7858
 !#if env_chromium
-@@||googletagmanager.com^$script,redirect-rule,domain=olx.ua
+@@||googletagmanager.com^$script,redirect-rule,domain=olx.*
 !#endif
-
-! https://github.com/uBlockOrigin/uAssets/issues/7644#issuecomment-685262221
-||privacy-center.org^$3p,badfilter
 
 ! https://github.com/uBlockOrigin/uAssets/issues/2381#issuecomment-685824829
 |https://$xmlhttprequest,3p,domain=zippyshare.com,badfilter
@@ -3428,9 +3351,6 @@ eslint.org#@#.sponsor-link
 
 ! cname https://github.com/uBlockOrigin/uAssets/issues/7589#issuecomment-687312936
 @@||privacy-mgmt.com^$script,domain=chip.de
-
-! cname drtuber .com
-@@||cdn13.com^$script,domain=drtuber.com
 
 ! hentaiplay.net broken video player
 *$script,3p,domain=hentaiplay.net,badfilter
@@ -3581,7 +3501,7 @@ hentaiplay.net###video_overlays
 @@||google-analytics.com/analytics.js$script,domain=ads.spotify.com
 
 ! https://github.com/uBlockOrigin/uAssets/issues/8078
-||widgets.outbrain.com/outbrain.js$script,redirect=empty,domain=www.vice.com
+||widgets.outbrain.com/outbrain.js$script,redirect-rule=empty,domain=www.vice.com,important
 
 ! https://www.fox.com/watch/bdb5db80949b2226d9caa10c08dc1032/ broken video
 @@||link.theplatform.com/*/media/*?affiliate=$xhr,domain=fox.com
@@ -3665,9 +3585,6 @@ store.petvalu.com##.store_locator_loading
 |https://$script,3p,domain=upstream.to,badfilter
 *$script,3p,domain=upstream.to,denyallow=jquery.com|hwcdn.net
 
-! cname https://github.com/uBlockOrigin/uAssets/issues/4582#issuecomment-727019275
-@@||cdn13.com^$script,domain=vup.to
-
 ! https://github.com/uBlockOrigin/uAssets/issues/8123
 /^https?:\/\/.*[&%+=]/$popup,domain=mixdrop.co|powvideo.net|powvldeo.cc|prox4you.xyz|putlocker.fyi|putlocker.ninja|putlocker.style|putlockers.fm|putlockers.mn|putlockers.movie|rarbg.to|rarbgaccess.org|rarbgmirror.com|rarbgmirror.org|rarbgmirrored.org|rarbgproxy.org|rarbgprx.org|rarbgunblock.org|rarbgway.org|readcomiconline.to|repelis.net|seehd.pl|sendit.cloud|sendspace.com|sendvid.com|sportp2p.com|steamplay.cc|streamplay.life|streamplay.to|thepiratebay.org|thepiratebay10.org|torlock.com|torrentdownloads.me|torrentfunk2.com|uiz.io|ukpirate.org|unblockall.org|unblocker.cc|up-load.io|upload.ac|uploadproper.com|uploadproper.net|upstream.to|uptobox.com|userscloud.com|vev.io|vidbull.tv|videobin.co|vidlox.me|vidoza.co|vidoza.net|vidtomp3.com|vidup.io|vipbox.live|vipstand.se|vshare.eu|y2mate.com|yify-movies.net|youwatch.org|youzik.com|zippyshare.com,badfilter
 
@@ -3691,9 +3608,6 @@ hero-magazine.com###header:style(position: inherit !important;)
 @@||googlesyndication.com/pagead/js/adsbygoogle.js$script,domain=caminogeek.com
 !#endif
 
-! cname yeptube .com
-@@||cdn13.com^$script,domain=yeptube.com
-
 ! https://github.com/uBlockOrigin/uAssets/issues/7766#issuecomment-731743962
 ||securepubads.g.doubleclick.net/tag/js/gpt.js^$script,redirect-rule=googletagservices_gpt.js,domain=pimylifeup.com
 @@||ads.adthrive.com/sites/*/ads.min.js$script,domain=pimylifeup.com
@@ -3704,9 +3618,6 @@ hero-magazine.com###header:style(position: inherit !important;)
 
 ! https://github.com/easylist/easylist/issues/6536#issuecomment-734950467
 ||securepubads.g.doubleclick.net/tag/js/gpt.js$script,important,redirect=noop.js,domain=indy100.com
-
-! iceporn.com cname issue
-@@||cdn13.com^$script,domain=iceporn.com
 
 ! broken video => https://www.boysfood. com/free-porn-videos/39188768/perfect-boobs-nia-nacci-in-action
 @@||googleads.github.io/videojs-ima/$css,domain=boysfood.com
@@ -3724,9 +3635,6 @@ hero-magazine.com###header:style(position: inherit !important;)
 ! Counter Peter Lowe's 
 ||shareasale.com^$badfilter
 
-! https://github.com/easylist/easylist/issues/6596
-@@||cdn13.com^$script,domain=thisvid.com
-
 ! https://www.reddit.com/r/uBlockOrigin/comments/k74vt7/need_help_ubo_seems_to_be_overblocking/
 @@||imasdk.googleapis.com/js/sdkloader/ima3.js$script,domain=mewatch.sg
 @@||youborafds01.com/data?outputformat=json$xhr,domain=mewatch.sg
@@ -3738,17 +3646,11 @@ hero-magazine.com###header:style(position: inherit !important;)
 ! unviewable subtitle https://github.com/easylist/easylist/commit/4282a904a8036cf8b7d81247ba910e99ddb063e7
 digg.com##.single-story > header:style(margin-top: 40px !important)
 
-! https://www.reddit.com/r/uBlockOrigin/comments/kahlmt/
-||akamaized.net/sc/*.gif$image,domain=msn.com,redirect-rule=1x1.gif
-
 ! CNAME broken site https://github.com/uBlockOrigin/uAssets/pull/8357
 @@||onelink-translations.com^$domain=de.steelseries.com
 
 ! https://www.reddit.com/r/uBlockOrigin/comments/kaarfm/
 @@||news.com.au/*/meta-analytics/$script,1p
-
-! https://forums.lanik.us/viewtopic.php?p=157851#p157851
-|https://$script,domain=rule34.xxx,badfilter
 
 ! unlock biroads .com
 ||biroads.com^$badfilter
@@ -3786,12 +3688,112 @@ beppegrillo.it#@#a[href^="https://www.amazon."][href*="tag="]
 
 ! https://www.reddit.com/r/uBlockOrigin/comments/kgwxh7/mediaitecom_videos_hidden_by_ubo_looks_like/
 ||securepubads.g.doubleclick.net/tag/js/gpt.js^$script,redirect-rule=googletagservices_gpt.js,domain=mediaite.com
-@@||ads.adthrive.com/core^$script,domain=mediaite.com
-@@||ads.adthrive.com/sites/*/ads.min.js$script,domain=mediaite.com
+@@||adthrive.com/$script,domain=mediaite.com
+mediaite.com##.o-promo-unit
 
-! https://www.wilderssecurity.com/threads/ublock-a-lean-and-fast-blocker.365273/page-204#post-2975966
-filoitexnisfilosofias.com###af-preloader
-filoitexnisfilosofias.com##.theiaStickySidebar
+! https://github.com/uBlockOrigin/uAssets/issues/8408
+pioneer.eu##+js(ra, onclick, a[href][onclick^="trackOutboundLink"])
 
-! video broken by cname
-@@||cdn13.com^$script,domain=hd21.com
+! https://www.reddit.com/r/uBlockOrigin/comments/kkkvr7/ad_block_detected/
+/advertisement.$badfilter
+
+! https://github.com/AdguardTeam/AdguardFilters/issues/71177
+javbix.com#@#.adsleft
+
+! https://www.reddit.com/r/uBlockOrigin/comments/knsw09/
+||go.netcraftsmen.com^$1p,frame
+
+! allow sign-in on kitsunekko.net
+@@||apis.google.com/js/platform.js$script,domain=kitsunekko.net
+
+! https://www.gamespot.com/gallery/the-best-movies-and-tv-you-probably-missed-in-2020/2900-3665/ broken images
+@@||cbsistatic.com/*/js/compiled/siteAdsBidBarrel.js$script,domain=gamespot.com
+
+! https://github.com/AdguardTeam/AdguardFilters/issues/71283
+player.tubia.com#@#.companion-ads
+
+! https://github.com/AdguardTeam/AdguardFilters/issues/71428
+researchgate.net##.lite-page__header-navigation--with-ad:style(top: 0 !important;)
+researchgate.net##.research-resources-summary__inner.is-sticky:style(top: 0 !important;)
+
+! darknetdiaries..com cname
+@@||adserver.va3.megaphone.cloud^$media,domain=podigee.com
+
+! https://www.reddit.com/r/uBlockOrigin/comments/kpl5ty/
+||data.over-blog-kiwi.com^$badfilter
+
+! https://www.reddit.com/r/uBlockOrigin/comments/kqh20o/website_doesnt_work_properly/
+@@||imobiliare.ro/js/gtm.js$script,1p
+
+! https://github.com/uBlockOrigin/uAssets/issues/8426
+@@||nexus.ensighten.com/*/Bootstrap.js$script,domain=safeco.com
+
+! broken search for site:adform.net
+google.*#@#a[href*=".adform.net/"]
+
+! nydailynews.com TODAY'S TOP NEWS VIDEOS on article pages
+@@||imasdk.googleapis.com/js/sdkloader/ima3.js$script,domain=nydailynews.com
+
+! https://github.com/uBlockOrigin/uAssets/issues/8438
+blog.notebooksbilliger.de#@#.category-advertorial
+
+! unbreak the site (Peter Lowe's)
+||mparticle.com^$badfilter
+
+! https://twitter.com/welcoMattic/status/1348572029444907009
+seazon.fr##+js(no-fetch-if, url:ipapi.co)
+
+! https://github.com/AdguardTeam/AdguardFilters/issues/72063
+@@||tags.tiqcdn.com/utag/politico/main/prod/utag.js$script,domain=politico.com
+
+! Fix chatbot on https://brave.com/brave-ads/ via Peter Lowes List
+||targeting.api.drift.com^$badfilter
+
+! https://github.com/uBlockOrigin/uAssets/issues/8450
+@@/wp-content/plugins/woocommerce-google-adwords-conversion-tracking-tag/*/admin$1p
+
+! https://github.com/uBlockOrigin/uAssets/issues/8456
+@@||pch.com^$cname
+
+! https://www.reddit.com/r/uBlockOrigin/comments/kwnggu/legitimate_enterprise_website_being_blocked_by/
+@@||microcat-america.superservice.com/content/microcat-dist/js/$script,1p
+
+! https://myaccount.chicagotribune.com/300/home
+||myaccount.chicagotribune.com/assets/scripts/tag-manager/googleTag.js$script,redirect=googletagmanager.com/gtm.js,important
+
+! https://github.com/uBlockOrigin/uAssets/issues/1632#issuecomment-761010732
+@@||google.com^*recaptcha/$csp
+
+! temporary fix https://forums.lanik.us/viewtopic.php?f=90&t=45628
+druckerchannel.de#@##DCGA_CONTAINER
+druckerchannel.de###DCGA
+
+! cname issues on signup
+@@||idolbucks.com^$script,domain=idols69.com|ocreampies.com
+
+! https://github.com/uBlockOrigin/uAssets/issues/8512
+@@||calcioefinanza.it^$cname
+
+! https://github.com/easylist/easylist/pull/7082
+||vrsmash.com/assets/script$badfilter
+
+! override Peter Lowe's filter
+||piano.io^$badfilter
+
+! https://github.com/uBlockOrigin/uAssets/issues/8515
+@@||google-analytics.com/analytics.js$script,redirect-rule=google-analytics.com/analytics.js,domain=indigenousoap.com
+ 
+! https://forums.lanik.us/viewtopic.php?f=64&t=42660
+/transparent-pixel.$badfilter
+
+! https://github.com/uBlockOrigin/uAssets/issues/8521
+@@||tags.tiqcdn.com/utag/vmware/myvmware-privacy/prod/utag.sync.js$script,domain=vmware.com
+@@||tags.tiqcdn.com/utag/vmware/myvmware-privacy/prod/utag.js$script,domain=vmware.com
+
+! seeitlive.co CPU spike
+*$script,redirect-rule=noopjs,domain=seeitlive.co
+||confiant-integrations.global.ssl.fastly.net/*/gpt_and_prebid$script,important,domain=seeitlive.co
+||netdna-ssl.com/sbly-ads/sbly-prebid-$script,important,domain=seeitlive.co
+
+! javynow.com Hot Videos hidden
+javynow.com#@#.videos-ad

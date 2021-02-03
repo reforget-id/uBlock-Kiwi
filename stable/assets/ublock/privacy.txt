@@ -66,6 +66,8 @@
 ! https://www.reddit.com/r/ublock/comments/47o2ih/ublock_disabling_all_javascript_links/d0fhock
 ! Time to bring this filter out of experimental status
 ||googletagservices.com/tag/js/gpt.js$script,redirect=googletagservices.com/gpt.js
+||securepubads.g.doubleclick.net/tag/js/gpt.js$script,redirect=googletagservices_gpt.js
+||pagead2.googlesyndication.com/tag/js/gpt.js$script,redirect=googletagservices_gpt.js
 
 ! https://github.com/gorhill/uBlock/issues/1265
 ||scorecardresearch.com/beacon.js$script,redirect=scorecardresearch.com/beacon.js
@@ -193,7 +195,7 @@ frogogo.ru##+js(aopw, ADMITAD)
 @@||googletagmanager.com/gtm.js$script,redirect-rule,domain=rocketnews24.com
 
 ! https://github.com/uBlockOrigin/uAssets/commit/ee5aec09e45376b7e6fb50ff56cb54425826df0d#commitcomment-44879744
-/stats.php?*event=$image,domain=fapster.xxx|pornomovies.com
+/stats.php?*event=$image
 
 ! beastpics.club etc.
 /check.php?t=*&rand=$image,1p
@@ -205,3 +207,9 @@ frogogo.ru##+js(aopw, ADMITAD)
 ! hd21.com analytics
 ||cnt.hd21.com^
 ||hd21.com/ajax/track?
+
+! drtuber.desi analytics
+||drtuber.*/ajax/track?track_type=
+
+! fastly click-through
+beaumontenterprise.com,chron.com,ctinsider.com,ctpost.com,expressnews.com,houstonchronicle.com,lmtonline.com,middletownpress.com,mrt.com,newstimes.com,nhregister.com,registercitizen.com,sfchronicle.com,stamfordadvocate.com,thehour.com,timesunion.com##+js(cookie-remover, realm.cookiesAndJavascript)
