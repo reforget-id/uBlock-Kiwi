@@ -90,10 +90,9 @@ let cachedUserFilters = '';
     function setButtonVisibility() {
         const icon = document.getElementsByClassName('fa-icon_check')[0]
 
-        if (icon == null || icon == undefined) {
+        if (!icon) {
             setTimeout(setButtonVisibility(), 100)
-        }
-        else {
+        } else {
             const body = document.getElementsByClassName('body')[0]
             body.classList.remove('hideinit')
         }

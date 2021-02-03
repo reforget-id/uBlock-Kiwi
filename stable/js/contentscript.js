@@ -116,7 +116,8 @@ vAPI.contentScript = true;
     try {
         while (
             context !== self.top &&
-            context.location.href.startsWith('about:blank')
+            context.location.href.startsWith('about:blank') &&
+            context.parent.location.href
         ) {
             context = context.parent;
         }
@@ -1734,7 +1735,6 @@ vAPI.injectScriptlet = function(doc, text) {
         vAPI.messaging.send('contentscript', {
             what: 'retrieveContentScriptParameters',
             url: vAPI.effectiveSelf.location.href,
-            charset: document.characterSet,
         }).then(response => {
             bootstrapPhase1(response);
         });

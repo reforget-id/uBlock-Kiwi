@@ -70,7 +70,13 @@ CodeMirror.defineMode("ubo-whitelist-directives", function() {
                 }
                 return null;
             }
-            return reHostnameExtractor.test(line) ? null : 'error';
+            if ( reHostnameExtractor.test(line) === false ) {
+                return 'error';
+            }
+            if ( whitelistDefaultSet.has(line.trim()) ) {
+                return 'keyword';
+            }
+            return null;
         }
     };
 });
@@ -105,7 +111,7 @@ uBlockDashboard.patchCodeMirrorEditor(cmEditor);
     function setButtonVisibility() {
         const icon = document.getElementsByClassName('fa-icon_check')[0]
 
-        if (icon == null || icon == undefined) {
+        if (!icon) {
             setTimeout(setButtonVisibility(), 100)
         }
         else {

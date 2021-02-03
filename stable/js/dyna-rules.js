@@ -122,10 +122,9 @@ const getDiffer = (( ) => {
     function setButtonVisibility() {
         const icon = document.getElementsByClassName('fa-icon_upload-alt')[0]
 
-        if (icon == null || icon == undefined) {
+        if (!icon) {
             setTimeout(setButtonVisibility(), 100)
-        }
-        else {
+        } else {
             const body = document.getElementsByClassName('body')[0]
             body.classList.remove('hideinit')
         }
@@ -639,7 +638,7 @@ const editSaveHandler = function() {
 /******************************************************************************/
 
 self.cloud.onPush = function() {
-    return mergeView.leftOriginal().getValue().trim();
+    return thePanes.orig.original.join('\n');
 };
 
 self.cloud.onPull = function(data, append) {

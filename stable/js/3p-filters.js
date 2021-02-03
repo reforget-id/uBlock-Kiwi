@@ -64,10 +64,9 @@ vAPI.broadcastListener.add(msg => {
     function setButtonVisibility() {
         const icon = document.getElementsByClassName('fa-icon_check')[0]
 
-        if (icon == null || icon == undefined) {
+        if (!icon) {
             setTimeout(setButtonVisibility(), 100)
-        }
-        else {
+        } else {
             const actions = document.getElementById('actions')
             actions.classList.remove('hideinit')
         }

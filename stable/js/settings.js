@@ -78,12 +78,12 @@ const handleImportFilePicker = function() {
         settingsDialog.showModal();
 
         const cancelButton = document.getElementById('cancelAction');
-        cancelButton.addEventListener('click', function() {
+        cancelButton.addEventListener('click', () => {
             return;
         })
         
         const confirmButton = document.getElementById('confirmAction');
-        confirmButton.addEventListener('click', function() {
+        confirmButton.addEventListener('click', () => {
             settingsDialog.close();
             const noticeDialog = document.getElementById('noticeDialog');
             noticeDialog.showModal();
@@ -212,12 +212,12 @@ const resetUserData = function() {
     settingsDialog.showModal();
 
     const cancelButton = document.getElementById('cancelAction');
-    cancelButton.addEventListener('click', function() {
+    cancelButton.addEventListener('click', () => {
         return;
     })
 
     const confirmButton = document.getElementById('confirmAction');
-    confirmButton.addEventListener('click', function() {
+    confirmButton.addEventListener('click', () => {
         settingsDialog.close();
         const noticeDialog = document.getElementById('noticeDialog');
         noticeDialog.showModal();
