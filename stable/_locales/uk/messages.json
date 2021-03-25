@@ -104,7 +104,7 @@
     "description": "For the new mobile-friendly popup design"
   },
   "popupDomainsConnected_v2": {
-    "message": "Доменів приєднано",
+    "message": "Доменів під'єднано",
     "description": "For the new mobile-friendly popup design"
   },
   "popupTipDashboard": {
@@ -370,6 +370,10 @@
   "settingsNoCSPReportsPrompt": {
     "message": "Блокувати CSP-звіти",
     "description": "background information: https://github.com/gorhill/uBlock/issues/3150"
+  },
+  "settingsUncloakCnamePrompt": {
+    "message": "Uncloak canonical names",
+    "description": "background information: https://github.com/uBlockOrigin/uBlock-issues/issues/1513"
   },
   "settingsLastRestorePrompt": {
     "message": "Востаннє відновлено:",

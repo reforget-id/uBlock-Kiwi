@@ -371,6 +371,10 @@
     "message": "Blokuj raporty CSP",
     "description": "background information: https://github.com/gorhill/uBlock/issues/3150"
   },
+  "settingsUncloakCnamePrompt": {
+    "message": "Pokaż rzeczywistą nazwę domeny",
+    "description": "background information: https://github.com/uBlockOrigin/uBlock-issues/issues/1513"
+  },
   "settingsLastRestorePrompt": {
     "message": "Ostatnie przywrócenie wykonano:",
     "description": "English: Last restore:"
