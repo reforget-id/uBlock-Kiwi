@@ -176,7 +176,11 @@ const mergeStrings = function(urls) {
     merged = merged.replace(/^\*+$/, '')
                    .replace(/\*{2,}/g, '*')
                    .replace(/([^*]{1,3}\*)(?:[^*]{1,3}\*)+/g, '$1');
-    return merged;
+
+    // https://github.com/uBlockOrigin/uBlock-issues/issues/1494
+    let pos = merged.indexOf('/');
+    if ( pos === -1 ) { pos = merged.length; }
+    return merged.slice(0, pos).includes('*') ? urls[0] : merged;
 };
 
 /******************************************************************************/
@@ -397,7 +401,7 @@ const cosmeticFilterFromElement = function(elem) {
     }
 
     // Tag name
-    const tagName = elem.localName;
+    const tagName = CSS.escape(elem.localName);
 
     // Use attributes if still no selector found.
     // https://github.com/gorhill/uBlock/issues/1901
@@ -805,9 +809,8 @@ const filterToDOMInterface = (( ) => {
             }
         }
         if ( cssSelectors.size !== 0 ) {
-            vAPI.domFilterer.addCSSRule(
-                Array.from(cssSelectors),
-                vAPI.hideStyle,
+            vAPI.domFilterer.addCSS(
+                `${Array.from(cssSelectors).join('\n')}\n{${vAPI.hideStyle}}`,
                 { mustInject: true }
             );
         }

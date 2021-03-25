@@ -322,7 +322,7 @@ const matchBucket = function(url, hostname, bucket, start) {
     }
 
     // Change -- but only if the user setting actually exists.
-    let mustSave = us.hasOwnProperty(name) && value !== us[name];
+    const mustSave = us.hasOwnProperty(name) && value !== us[name];
     if ( mustSave ) {
         us[name] = value;
     }
@@ -336,6 +336,11 @@ const matchBucket = function(url, hostname, bucket, start) {
         break;
     case 'autoUpdate':
         this.scheduleAssetUpdater(value ? 7 * 60 * 1000 : 0);
+        break;
+    case 'cnameUncloakEnabled':
+        if ( vAPI.net.canUncloakCnames === true ) {
+            vAPI.net.setOptions({ cnameUncloakEnabled: value === true });
+        }
         break;
     case 'collapseBlocked':
         if ( value === false ) {
@@ -640,22 +645,6 @@ const matchBucket = function(url, hostname, bucket, start) {
 
     return parse;
 })();
-
-/******************************************************************************/
-
-// https://github.com/NanoMeow/QuickReports/issues/6#issuecomment-414516623
-//   Inject as early as possible to make the cosmetic logger code less
-//   sensitive to the removal of DOM nodes which may match injected
-//   cosmetic filters.
-
-µBlock.logCosmeticFilters = function(tabId, frameId) {
-    vAPI.tabs.executeScript(tabId, {
-        file: '/js/scriptlets/cosmetic-logger.js',
-        frameId: frameId,
-        matchAboutBlank: true,
-        runAt: 'document_start',
-    });
-};
 
 /******************************************************************************/
 

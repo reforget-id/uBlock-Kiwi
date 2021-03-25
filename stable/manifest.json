@@ -92,7 +92,7 @@
     "managed_schema": "managed_storage.json"
   },
   "update_url": "https://raw.githubusercontent.com/reforget-id/uBlock-Kiwi/main/update.xml",
-  "version": "1.33.2.1",
+  "version": "1.34.0.1",
   "web_accessible_resources": [
     "/web_accessible_resources/*"
   ]
