@@ -82,12 +82,30 @@
 			"https://cdn.statically.io/gh/uBlockOrigin/uAssets/master/filters/unbreak.txt"
 		]
 	},
-	"adguard-generic": {
+	"adguard-noeasylist": {
 		"content": "filters",
 		"group": "ads",
 		"off": true,
-		"title": "AdGuard Base",
+		"title": "AdGuard Base (Without Easylist)",
 		"contentURL": "https://filters.adtidy.org/extension/ublock/filters/2_without_easylist.txt",
+		"supportURL": "https://github.com/AdguardTeam/AdguardFilters#adguard-filters",
+		"instructionURL": "https://kb.adguard.com/en/general/adguard-ad-filters"
+    },
+    "adguard-easylist": {
+		"content": "filters",
+		"group": "ads",
+		"off": true,
+		"title": "AdGuard Base + Easylist",
+		"contentURL": "https://filters.adtidy.org/extension/ublock/filters/2.txt",
+		"supportURL": "https://github.com/AdguardTeam/AdguardFilters#adguard-filters",
+		"instructionURL": "https://kb.adguard.com/en/general/adguard-ad-filters"
+    },
+    "adguard-easylist-opt": {
+		"content": "filters",
+		"group": "ads",
+		"off": true,
+		"title": "AdGuard Base + Easylist (Optimized)",
+		"contentURL": "https://filters.adtidy.org/extension/ublock/filters/2_optimized.txt",
 		"supportURL": "https://github.com/AdguardTeam/AdguardFilters#adguard-filters",
 		"instructionURL": "https://kb.adguard.com/en/general/adguard-ad-filters"
 	},
@@ -112,13 +130,31 @@
 			"assets/thirdparties/easylist-downloads.adblockplus.org/easylist.txt"
 		],
 		"supportURL": "https://forums.lanik.us/"
-	},
+    },
+    "easylist-opt": {
+		"content": "filters",
+        "group": "ads",
+        "off": true,
+		"title": "EasyList (Optimized)",
+		"contentURL": "https://filters.adtidy.org/extension/ublock/filters/101_optimized.txt",
+		"supportURL": "https://github.com/AdguardTeam/AdguardFilters#adguard-filters",
+		"instructionURL": "https://kb.adguard.com/en/general/adguard-ad-filters"
+    },
 	"adguard-spyware": {
 		"content": "filters",
 		"group": "privacy",
 		"off": true,
 		"title": "AdGuard Tracking Protection",
 		"contentURL": "https://filters.adtidy.org/extension/ublock/filters/3.txt",
+		"supportURL": "https://github.com/AdguardTeam/AdguardFilters#adguard-filters",
+		"instructionURL": "https://kb.adguard.com/en/general/adguard-ad-filters"
+    },
+    "adguard-spyware-opt": {
+		"content": "filters",
+		"group": "privacy",
+		"off": true,
+		"title": "AdGuard Tracking Protection (Optimized)",
+		"contentURL": "https://filters.adtidy.org/extension/ublock/filters/3_optimized.txt",
 		"supportURL": "https://github.com/AdguardTeam/AdguardFilters#adguard-filters",
 		"instructionURL": "https://kb.adguard.com/en/general/adguard-ad-filters"
 	},
@@ -133,6 +169,23 @@
 			"assets/thirdparties/easylist-downloads.adblockplus.org/easyprivacy.txt"
 		],
 		"supportURL": "https://forums.lanik.us/"
+    },
+    "easyprivacy-opt": {
+		"content": "filters",
+        "group": "privacy",
+        "off": true,
+		"title": "EasyPrivacy (Optimized)",
+		"contentURL": "https://filters.adtidy.org/extension/ublock/filters/118_optimized.txt",
+		"supportURL": "https://github.com/AdguardTeam/AdguardFilters#adguard-filters",
+		"instructionURL": "https://kb.adguard.com/en/general/adguard-ad-filters"
+    },
+    "ds-malware": {
+		"content": "filters",
+        "group": "malware",
+        "off": true,
+		"title": "Dandelion Sprout's Anti-Malware",
+		"contentURL": "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Dandelion%20Sprout's%20Anti-Malware%20List.txt",
+		"supportURL": " https://github.com/DandelionSprout/adfilt"
 	},
 	"urlhaus-1": {
 		"content": "filters",
@@ -182,7 +235,7 @@
 		"content": "filters",
 		"group": "social",
 		"off": true,
-		"title": "Anti-Facebook",
+		"title": "Fanboy Anti-Facebook",
 		"contentURL": "https://secure.fanboy.co.nz/fanboy-antifacebook.txt",
 		"supportURL": "https://github.com/ryanbr/fanboy-adblock/issues"
 	},
@@ -212,6 +265,22 @@
 			"https://secure.fanboy.co.nz/fanboy-social.txt"
 		],
 		"supportURL": "https://forums.lanik.us/"
+    },
+    "fuckadblock": {
+		"content": "filters",
+		"group": "social",
+		"off": true,
+		"title": "Fuck Fuckadblock",
+		"contentURL": "https://raw.githubusercontent.com/bogachenko/fuckfuckadblock/master/fuckfuckadblock.txt",
+		"supportURL": "https://github.com/bogachenko/fuckfuckadblock"
+	},
+    "idca-cookies": {
+		"content": "filters",
+		"group": "social",
+		"off": true,
+		"title": "I don't care about cookies",
+		"contentURL": "https://www.i-dont-care-about-cookies.eu/abp/",
+		"supportURL": "https://www.i-dont-care-about-cookies.eu/"
 	},
 	"ublock-annoyances": {
 		"content": "filters",
@@ -224,6 +293,33 @@
 			"https://cdn.jsdelivr.net/gh/uBlockOrigin/uAssets@master/filters/annoyances.txt",
 			"https://cdn.statically.io/gh/uBlockOrigin/uAssets/master/filters/annoyances.txt"
 		]
+    },
+    "web-annoyances": {
+		"content": "filters",
+		"group": "social",
+		"off": true,
+		"title": "Web Annoyances Ultralist",
+		"contentURL": "https://raw.githubusercontent.com/yourduskquibbles/webannoyances/master/ultralist.txt",
+		"supportURL": "https://github.com/yourduskquibbles/webannoyances"
+    },
+    "adguard-dns": {
+		"content": "filters",
+		"group": "multipurpose",
+		"updateAfter": 11,
+		"off": true,
+		"title": "AdGuard DNS filter",
+		"contentURL": "https://filters.adtidy.org/extension/ublock/filters/15.txt",
+		"supportURL": "https://github.com/AdguardTeam/AdguardFilters#adguard-filters",
+		"instructionURL": "https://kb.adguard.com/en/general/adguard-ad-filters"
+	},
+    "coin-blocker": {
+		"content": "filters",
+		"group": "multipurpose",
+		"updateAfter": 11,
+		"off": true,
+		"title": "CoinBlocker",
+		"contentURL": "https://gitlab.com/ZeroDot1/CoinBlockerLists/-/raw/master/list_browser_UBO.txt",
+		"supportURL": "https://gitlab.com/ZeroDot1/CoinBlockerLists/"
 	},
 	"dpollock-0": {
 		"content": "filters",
@@ -356,6 +452,15 @@
 		"lang": "id ms",
 		"contentURL": "https://raw.githubusercontent.com/ABPindo/indonesianadblockrules/master/subscriptions/abpindo.txt",
 		"supportURL": "https://github.com/ABPindo/indonesianadblockrules"
+    },
+    "IDN-1": {
+		"content": "filters",
+		"group": "regions",
+		"off": true,
+		"title": "IDN: AdBlockID",
+		"lang": "id",
+		"contentURL": "https://raw.githubusercontent.com/realodix/AdBlockID/master/output/adblockid.txt",
+		"supportURL": "https://github.com/realodix/AdBlockID"
 	},
 	"IRN-0": {
 		"content": "filters",
