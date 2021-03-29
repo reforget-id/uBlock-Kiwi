@@ -212,6 +212,15 @@
         "supportURL": "https://github.com/AdguardTeam/AdguardFilters#adguard-filters",
         "instructionURL": "https://kb.adguard.com/en/general/adguard-ad-filters"
     },
+    "adguard-annoyance-opt": {
+        "content": "filters",
+        "group": "social",
+        "off": true,
+        "title": "AdGuard Annoyances (Optimized)",
+        "contentURL": "https://filters.adtidy.org/extension/ublock/filters/14_optimized.txt",
+        "supportURL": "https://github.com/AdguardTeam/AdguardFilters#adguard-filters",
+        "instructionURL": "https://kb.adguard.com/en/general/adguard-ad-filters"
+    },
     "adguard-social": {
         "content": "filters",
         "group": "social",
@@ -236,6 +245,15 @@
         "title": "Fanboy’s Annoyance",
         "contentURL": "https://secure.fanboy.co.nz/fanboy-annoyance.txt",
         "supportURL": "https://forums.lanik.us/"
+    },
+    "fanboy-annoyance-opt": {
+        "content": "filters",
+        "group": "social",
+        "off": true,
+        "title": "Fanboy’s Annoyance (Optimized)",
+        "contentURL": "https://filters.adtidy.org/extension/ublock/filters/122_optimized.txt",
+        "supportURL": "https://github.com/AdguardTeam/FiltersRegistry",
+        "instructionURL": "https://kb.adguard.com/en/general/filter-rules-statistics"
     },
     "fanboy-cookiemonster": {
         "content": "filters",
