@@ -158,6 +158,14 @@
 		"supportURL": "https://github.com/AdguardTeam/FiltersRegistry",
 		"instructionURL": "https://kb.adguard.com/en/general/filter-rules-statistics"
     },
+    "coin-blocker": {
+		"content": "filters",
+		"group": "malware",
+		"off": true,
+		"title": "CoinBlocker",
+		"contentURL": "https://gitlab.com/ZeroDot1/CoinBlockerLists/-/raw/master/list_browser_UBO.txt",
+		"supportURL": "https://gitlab.com/ZeroDot1/CoinBlockerLists/"
+	},
     "ds-malware": {
 		"content": "filters",
         "group": "malware",
@@ -290,15 +298,6 @@
 		"contentURL": "https://filters.adtidy.org/extension/ublock/filters/15.txt",
 		"supportURL": "https://github.com/AdguardTeam/AdguardFilters#adguard-filters",
 		"instructionURL": "https://kb.adguard.com/en/general/adguard-ad-filters"
-	},
-    "coin-blocker": {
-		"content": "filters",
-		"group": "multipurpose",
-		"updateAfter": 11,
-		"off": true,
-		"title": "CoinBlocker",
-		"contentURL": "https://gitlab.com/ZeroDot1/CoinBlockerLists/-/raw/master/list_browser_UBO.txt",
-		"supportURL": "https://gitlab.com/ZeroDot1/CoinBlockerLists/"
 	},
 	"dpollock-0": {
 		"content": "filters",
