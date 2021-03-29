@@ -2,10 +2,7 @@
 	"assets.json": {
 		"content": "internal",
 		"updateAfter": 13,
-		"contentURL": [
-			"https://raw.githubusercontent.com/gorhill/uBlock/master/assets/assets.json",
-			"assets/assets.json"
-		]
+		"contentURL": "assets/assets.json"
 	},
 	"public_suffix_list.dat": {
 		"content": "internal",
@@ -100,15 +97,6 @@
 		"supportURL": "https://github.com/AdguardTeam/AdguardFilters#adguard-filters",
 		"instructionURL": "https://kb.adguard.com/en/general/adguard-ad-filters"
     },
-    "adguard-easylist-opt": {
-		"content": "filters",
-		"group": "ads",
-		"off": true,
-		"title": "AdGuard Base + Easylist (Optimized)",
-		"contentURL": "https://filters.adtidy.org/extension/ublock/filters/2_optimized.txt",
-		"supportURL": "https://github.com/AdguardTeam/AdguardFilters#adguard-filters",
-		"instructionURL": "https://kb.adguard.com/en/general/adguard-ad-filters"
-	},
 	"adguard-mobile": {
 		"content": "filters",
 		"group": "ads",
@@ -137,8 +125,8 @@
         "off": true,
 		"title": "EasyList (Optimized)",
 		"contentURL": "https://filters.adtidy.org/extension/ublock/filters/101_optimized.txt",
-		"supportURL": "https://github.com/AdguardTeam/AdguardFilters#adguard-filters",
-		"instructionURL": "https://kb.adguard.com/en/general/adguard-ad-filters"
+		"supportURL": "https://github.com/AdguardTeam/FiltersRegistry",
+		"instructionURL": "https://kb.adguard.com/en/general/filter-rules-statistics"
     },
 	"adguard-spyware": {
 		"content": "filters",
@@ -149,15 +137,6 @@
 		"supportURL": "https://github.com/AdguardTeam/AdguardFilters#adguard-filters",
 		"instructionURL": "https://kb.adguard.com/en/general/adguard-ad-filters"
     },
-    "adguard-spyware-opt": {
-		"content": "filters",
-		"group": "privacy",
-		"off": true,
-		"title": "AdGuard Tracking Protection (Optimized)",
-		"contentURL": "https://filters.adtidy.org/extension/ublock/filters/3_optimized.txt",
-		"supportURL": "https://github.com/AdguardTeam/AdguardFilters#adguard-filters",
-		"instructionURL": "https://kb.adguard.com/en/general/adguard-ad-filters"
-	},
 	"easyprivacy": {
 		"content": "filters",
 		"group": "privacy",
@@ -176,8 +155,8 @@
         "off": true,
 		"title": "EasyPrivacy (Optimized)",
 		"contentURL": "https://filters.adtidy.org/extension/ublock/filters/118_optimized.txt",
-		"supportURL": "https://github.com/AdguardTeam/AdguardFilters#adguard-filters",
-		"instructionURL": "https://kb.adguard.com/en/general/adguard-ad-filters"
+		"supportURL": "https://github.com/AdguardTeam/FiltersRegistry",
+		"instructionURL": "https://kb.adguard.com/en/general/filter-rules-statistics"
     },
     "ds-malware": {
 		"content": "filters",
