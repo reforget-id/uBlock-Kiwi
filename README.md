@@ -29,6 +29,13 @@ _This version is only for Kiwi browser on Android._
 
 Mostly UI improvements, i also fixed features that weren't working properly on Kiwi.
 
+**Some fixes and improvements:**
+* Filter editor
+* Backup and Restore Settings
+* Element Zapper mode
+* Some UI improvement
+* Add some filter to the stock lists
+
 See [Releases Page](https://github.com/reforget-id/uBlock-Kiwi/releases) to download.
 
 <br>
