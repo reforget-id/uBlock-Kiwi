@@ -6,7 +6,7 @@
             "https://raw.githubusercontent.com/reforget-id/uBlock-Kiwi/main/stable/assets/assets.json",
             "assets/assets.json"
         ],
-		"cdnURLs": [
+        "cdnURLs": [
             "https://gitcdn.xyz/repo/reforget-id/uBlock-Kiwi/main/stable/assets/assets.json",
             "https://cdn.jsdelivr.net/gh/reforget-id/uBlock-Kiwi@main/stable/assets/assets.json",
             "https://cdn.statically.io/gh/reforget-id/uBlock-Kiwi/main/stable/assets/assets.json",
