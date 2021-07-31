@@ -267,6 +267,14 @@
     "message": "Versión",
     "description": "Example of use: Version 1.26.4"
   },
+  "popup3pScriptFilterTip": {
+    "message": "↑: resaltar filas que tienen scripts de terceros",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party scripts' cell"
+  },
+  "popup3pFrameFilterTip": {
+    "message": "↑: resaltar filas que tienen frames de terceros",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party frames' cell"
+  },
   "pickerCreate": {
     "message": "Crear",
     "description": "English: Create"
@@ -839,6 +847,10 @@
     "message": "Formato markdown",
     "description": "Label for radio-button to pick export text format"
   },
+  "aboutPrivacyPolicy": {
+    "message": "Política de privacidad",
+    "description": "Link to privacy policy on GitHub (English)"
+  },
   "aboutChangelog": {
     "message": "Registro de cambios",
     "description": ""
@@ -877,6 +889,14 @@
   },
   "aboutDependencies": {
     "message": "Dependencias externas (compatibles con GPLv3):",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNs": {
+    "message": "Las listas de filtros propias de uBO se alojan de forma gratuita en las siguientes <a href=\"https://es.wikipedia.org/wiki/Red_de_distribuci%C3%B3n_de_contenidos\">CDN</a>:",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNsInfo": {
+    "message": "Se utilizará una CDN elegida al azar cuando sea necesario actualizar una lista de filtros",
     "description": "Shown in the About pane"
   },
   "aboutBackupDataButton": {
@@ -1033,6 +1053,10 @@
   },
   "contextMenuBlockElementInFrame": {
     "message": "Bloquear elemento en frame...",
+    "description": "An entry in the browser's contextual menu"
+  },
+  "contextMenuSubscribeToList": {
+    "message": "Suscribirse a lista de filtros...",
     "description": "An entry in the browser's contextual menu"
   },
   "contextMenuTemporarilyAllowLargeMediaElements": {

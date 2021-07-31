@@ -103,9 +103,9 @@ const Parser = class {
         this.extOptionsIterator = new ExtOptionsIterator(this);
         this.maxTokenLength = Number.MAX_SAFE_INTEGER;
         this.expertMode = options.expertMode !== false;
-        this.reIsLocalhostRedirect = /(?:0\.0\.0\.0|(?:broadcast|local)host|local|ip6-\w+)(?:[^\w.-]|$)/;
+        this.reIsLocalhostRedirect = /(?:0\.0\.0\.0|broadcasthost|local|localhost(?:\.localdomain)?|ip6-\w+)(?:[^\w.-]|$)/;
         this.reHostname = /^[^\x00-\x24\x26-\x29\x2B\x2C\x2F\x3A-\x40\x5B-\x5E\x60\x7B-\x7F]+/;
-        this.reHostsSink = /^[\w-.:\[\]]+$/;
+        this.reHostsSink = /^[\w%.:\[\]-]+$/;
         this.reHostsSource = /^[^\x00-\x24\x26-\x29\x2B\x2C\x2F\x3A-\x40\x5B-\x5E\x60\x7B-\x7F]+$/;
         this.reUnicodeChar = /[^\x00-\x7F]/;
         this.reUnicodeChars = /[^\x00-\x7F]/g;
@@ -113,6 +113,9 @@ const Parser = class {
         this.rePlainHostname = /^(?:[\w-]+\.)*[a-z]+$/;
         this.rePlainEntity = /^(?:[\w-]+\.)+\*$/;
         this.reEntity = /^[^*]+\.\*$/;
+        // https://github.com/uBlockOrigin/uBlock-issues/issues/1146
+        //   From https://codemirror.net/doc/manual.html#option_specialChars
+        this.reInvalidCharacters = /[\x00-\x1F\x7F-\x9F\xAD\u061C\u200B-\u200F\u2028\u2029\uFEFF\uFFF9-\uFFFC]/;
         this.punycoder = new URL(self.location);
         // TODO: mind maxTokenLength
         this.reGoodRegexToken
@@ -304,6 +307,20 @@ const Parser = class {
         }
         // ##^...
         if ( hasBits(this.slices[i], BITCaret) ) {
+            // ##^responseheader(...)
+            if (
+                selector.startsWith('^responseheader(') &&
+                selector.endsWith(')')
+            ) {
+                this.flavorBits |= BITFlavorExtResponseHeader;
+                this.result.raw = selector.slice(1);
+                const headerName = selector.slice(16, -1).trim().toLowerCase();
+                this.result.compiled = `responseheader(${headerName})`;
+                if ( this.removableHTTPHeaders.has(headerName) === false ) {
+                    this.flavorBits |= BITFlavorUnsupported;
+                }
+                return;
+            }
             this.flavorBits |= BITFlavorExtHTML;
             selector = selector.slice(1);
         }
@@ -1112,6 +1129,7 @@ const Parser = class {
         if ( len === 0 ) { return true; }
         const patternIsRegex = this.patternIsRegex();
         let pattern = this.getNetPattern();
+        if ( this.reInvalidCharacters.test(pattern) ) { return false; }
         // Punycode hostname part of the pattern.
         if ( patternIsRegex === false ) {
             const match = this.reHostname.exec(pattern);
@@ -1241,6 +1259,16 @@ const Parser = class {
         return out;
     }
 };
+
+/******************************************************************************/
+
+Parser.removableHTTPHeaders = Parser.prototype.removableHTTPHeaders = new Set([
+    '',
+    'location',
+    'refresh',
+    'report-to',
+    'set-cookie',
+]);
 
 /******************************************************************************/
 
@@ -1978,6 +2006,7 @@ const BITFlavorExtStrong         = 1 <<  8;
 const BITFlavorExtCosmetic       = 1 <<  9;
 const BITFlavorExtScriptlet      = 1 << 10;
 const BITFlavorExtHTML           = 1 << 11;
+const BITFlavorExtResponseHeader = 1 << 12;
 const BITFlavorIgnore            = 1 << 29;
 const BITFlavorUnsupported       = 1 << 30;
 const BITFlavorError             = 1 << 31;
@@ -2087,6 +2116,7 @@ Parser.prototype.BITFlavorExtStrong = BITFlavorExtStrong;
 Parser.prototype.BITFlavorExtCosmetic = BITFlavorExtCosmetic;
 Parser.prototype.BITFlavorExtScriptlet = BITFlavorExtScriptlet;
 Parser.prototype.BITFlavorExtHTML = BITFlavorExtHTML;
+Parser.prototype.BITFlavorExtResponseHeader = BITFlavorExtResponseHeader;
 Parser.prototype.BITFlavorIgnore = BITFlavorIgnore;
 Parser.prototype.BITFlavorUnsupported = BITFlavorUnsupported;
 Parser.prototype.BITFlavorError = BITFlavorError;
@@ -2293,7 +2323,7 @@ Parser.netOptionTokenNames = new Map([
     [ OPTTokenPing, 'ping' ],
     [ OPTTokenPopunder, 'popunder' ],
     [ OPTTokenPopup, 'popup' ],
-    [ OPTTokenQueryprune, 'queryprune' ],
+    [ OPTTokenQueryprune, 'removeparam' ],
     [ OPTTokenRedirect, 'redirect' ],
     [ OPTTokenRedirectRule, 'redirect-rule' ],
     [ OPTTokenScript, 'script' ],

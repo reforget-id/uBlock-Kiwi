@@ -271,52 +271,26 @@ const toTabId = function(tabId) {
 vAPI.Tabs = class {
     constructor() {
         browser.webNavigation.onCreatedNavigationTarget.addListener(details => {
-            if ( typeof details.url !== 'string' ) {
-                details.url = '';
-            }
-            if ( /^https?:\/\//.test(details.url) === false ) {
-                details.frameId = 0;
-                details.url = this.sanitizeURL(details.url);
-                this.onNavigation(details);
-            }
-            this.onCreated(details);
+            this.onCreatedNavigationTargetHandler(details);
         });
-
         browser.webNavigation.onCommitted.addListener(details => {
-            details.url = this.sanitizeURL(details.url);
-            this.onNavigation(details);
+            this.onCommittedHandler(details);
         });
-
-        // https://github.com/gorhill/uBlock/issues/3073
-        //   Fall back to `tab.url` when `changeInfo.url` is not set.
         browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-            if ( typeof changeInfo.url !== 'string' ) {
-                changeInfo.url = tab && tab.url;
-            }
-            if ( changeInfo.url ) {
-                changeInfo.url = this.sanitizeURL(changeInfo.url);
-            }
-            this.onUpdated(tabId, changeInfo, tab);
+            this.onUpdatedHandler(tabId, changeInfo, tab);
         });
-
         browser.tabs.onActivated.addListener(details => {
             this.onActivated(details);
         });
-
         // https://github.com/uBlockOrigin/uBlock-issues/issues/151
         // https://github.com/uBlockOrigin/uBlock-issues/issues/680#issuecomment-515215220
         if ( browser.windows instanceof Object ) {
-            browser.windows.onFocusChanged.addListener(async windowId => {
-                if ( windowId === browser.windows.WINDOW_ID_NONE ) { return; }
-                const tabs = await vAPI.tabs.query({ active: true, windowId });
-                if ( tabs.length === 0 ) { return; }
-                const tab = tabs[0];
-                this.onActivated({ tabId: tab.id, windowId: tab.windowId });
+            browser.windows.onFocusChanged.addListener(windowId => {
+                this.onFocusChangedHandler(windowId);
             });
         }
-
         browser.tabs.onRemoved.addListener((tabId, details) => {
-            this.onClosed(tabId, details);
+            this.onRemovedHandler(tabId, details);
         });
      }
 
@@ -606,6 +580,48 @@ vAPI.Tabs = class {
         const s = url.slice(0, pos);
         if ( s.search(/\s/) === -1 ) { return url; }
         return s.replace(/\s+/, '') + url.slice(pos);
+    }
+
+    onCreatedNavigationTargetHandler(details) {
+        if ( typeof details.url !== 'string' ) {
+            details.url = '';
+        }
+        if ( /^https?:\/\//.test(details.url) === false ) {
+            details.frameId = 0;
+            details.url = this.sanitizeURL(details.url);
+            this.onNavigation(details);
+        }
+        this.onCreated(details);
+    }
+
+    onCommittedHandler(details) {
+        details.url = this.sanitizeURL(details.url);
+        this.onNavigation(details);
+    }
+
+    onUpdatedHandler(tabId, changeInfo, tab) {
+        // https://github.com/gorhill/uBlock/issues/3073
+        //   Fall back to `tab.url` when `changeInfo.url` is not set.
+        if ( typeof changeInfo.url !== 'string' ) {
+            changeInfo.url = tab && tab.url;
+        }
+        if ( changeInfo.url ) {
+            changeInfo.url = this.sanitizeURL(changeInfo.url);
+        }
+        this.onUpdated(tabId, changeInfo, tab);
+    }
+
+    onRemovedHandler(tabId, details) {
+        this.onClosed(tabId, details);
+    }
+
+    onFocusChangedHandler(windowId) {
+        if ( windowId === browser.windows.WINDOW_ID_NONE ) { return; }
+        vAPI.tabs.query({ active: true, windowId }).then(tabs => {
+            if ( tabs.length === 0 ) { return; }
+            const tab = tabs[0];
+            this.onActivated({ tabId: tab.id, windowId: tab.windowId });
+        });
     }
 
     onActivated(/* details */) {
@@ -1070,11 +1086,13 @@ vAPI.messaging = {
         }
         proxy(response) {
             // https://github.com/chrisaljoudi/uBlock/issues/383
-            if ( this.messaging.ports.has(this.port.name) ) {
+            try {
                 this.port.postMessage({
                     msgId: this.msgId,
                     msg: response !== undefined ? response : null,
                 });
+            } catch (ex) {
+                this.messaging.onPortDisconnect(this.port);
             }
             // Store for reuse
             this.port = null;
@@ -1355,35 +1373,20 @@ vAPI.Net = class {
 
 vAPI.contextMenu = webext.menus && {
     _callback: null,
-    _entries: [],
-    _createEntry: function(entry) {
-        webext.menus.create(JSON.parse(JSON.stringify(entry)));
-    },
+    _hash: '',
     onMustUpdate: function() {},
     setEntries: function(entries, callback) {
         entries = entries || [];
-        let n = Math.max(this._entries.length, entries.length);
-        for ( let i = 0; i < n; i++ ) {
-            const oldEntryId = this._entries[i];
-            const newEntry = entries[i];
-            if ( oldEntryId && newEntry ) {
-                if ( newEntry.id !== oldEntryId ) {
-                    webext.menus.remove(oldEntryId);
-                    this._createEntry(newEntry);
-                    this._entries[i] = newEntry.id;
-                }
-            } else if ( oldEntryId && !newEntry ) {
-                webext.menus.remove(oldEntryId);
-            } else if ( !oldEntryId && newEntry ) {
-                this._createEntry(newEntry);
-                this._entries[i] = newEntry.id;
-            }
+        const hash = entries.map(v => v.id).join();
+        if ( hash === this._hash ) { return; }
+        this._hash = hash;
+        webext.menus.removeAll();
+        for ( const entry of entries ) {
+            webext.menus.create(JSON.parse(JSON.stringify(entry)));
         }
-        n = this._entries.length = entries.length;
+        const n = entries.length;
         callback = callback || null;
-        if ( callback === this._callback ) {
-            return;
-        }
+        if ( callback === this._callback ) { return; }
         if ( n !== 0 && callback !== null ) {
             webext.menus.onClicked.addListener(callback);
             this._callback = callback;

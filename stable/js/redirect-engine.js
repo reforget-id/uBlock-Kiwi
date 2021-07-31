@@ -79,7 +79,11 @@ const redirectableResources = new Map([
         data: 'text',   // Important!
     } ],
     [ 'google-analytics_analytics.js', {
-        alias: 'google-analytics.com/analytics.js',
+        alias: [
+            'google-analytics.com/analytics.js',
+            'googletagmanager_gtm.js',
+            'googletagmanager.com/gtm.js'
+        ],
         data: 'text',
     } ],
     [ 'google-analytics_cx_api.js', {
@@ -96,10 +100,6 @@ const redirectableResources = new Map([
         alias: 'googlesyndication.com/adsbygoogle.js',
         data: 'text',
     } ],
-    [ 'googletagmanager_gtm.js', {
-        alias: 'googletagmanager.com/gtm.js',
-        data: 'text',
-    } ],
     [ 'googletagservices_gpt.js', {
         alias: 'googletagservices.com/gpt.js',
         data: 'text',
@@ -108,6 +108,8 @@ const redirectableResources = new Map([
     } ],
     [ 'ligatus_angular-tag.js', {
         alias: 'ligatus.com/*/angular-tag.js',
+    } ],
+    [ 'mxpnl_mixpanel.js', {
     } ],
     [ 'monkeybroker.js', {
         alias: 'd3pkae9owd2lcf.cloudfront.net/mb105.js',

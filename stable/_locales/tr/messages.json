@@ -88,7 +88,7 @@
     "description": "Example: 15 (13%)"
   },
   "popupBlockedSinceInstallPrompt": {
-    "message": "kurulumdan bu yana",
+    "message": "kurulumdan beri",
     "description": "English: since install"
   },
   "popupOr": {
@@ -266,6 +266,14 @@
   "popupVersion": {
     "message": "Sürüm",
     "description": "Example of use: Version 1.26.4"
+  },
+  "popup3pScriptFilterTip": {
+    "message": "↑: 3. taraf betik içeren satırları vurgula",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party scripts' cell"
+  },
+  "popup3pFrameFilterTip": {
+    "message": "↑: 3. taraf çerçeve içeren satırları vurgula",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party frames' cell"
   },
   "pickerCreate": {
     "message": "Oluştur",
@@ -839,6 +847,10 @@
     "message": "Markdown",
     "description": "Label for radio-button to pick export text format"
   },
+  "aboutPrivacyPolicy": {
+    "message": "Gizlilik ilkesi",
+    "description": "Link to privacy policy on GitHub (English)"
+  },
   "aboutChangelog": {
     "message": "Değişiklik günlüğü",
     "description": ""
@@ -877,6 +889,14 @@
   },
   "aboutDependencies": {
     "message": "Dış bağımlılıklar (GPLv3-uyumlu):",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNs": {
+    "message": "uBO'nun kendi filtre listeleri ücretsiz olarak şu <a href=\"https://wikipedia.org/wiki/Content_delivery_network\">CDN'lerde</a> barındırılır:",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNsInfo": {
+    "message": "Bir filtre listesinin güncellenmesi gerektiğinde rastgele seçilen bir CDN kullanılır",
     "description": "Shown in the About pane"
   },
   "aboutBackupDataButton": {
@@ -1033,6 +1053,10 @@
   },
   "contextMenuBlockElementInFrame": {
     "message": "Çerçevedeki ögeyi engelle...",
+    "description": "An entry in the browser's contextual menu"
+  },
+  "contextMenuSubscribeToList": {
+    "message": "Filtre listesine abone ol...",
     "description": "An entry in the browser's contextual menu"
   },
   "contextMenuTemporarilyAllowLargeMediaElements": {

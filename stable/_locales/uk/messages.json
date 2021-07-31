@@ -132,7 +132,7 @@
     "description": "Tooltip for the no-popups per-site switch"
   },
   "popupTipNoPopups2": {
-    "message": "Натисніть для скасування блокування всіх спливаючих вікон на цьому сайті",
+    "message": "Натисніть для скасування блокування всіх спливних вікон на цьому сайті",
     "description": "Tooltip for the no-popups per-site switch"
   },
   "popupTipNoLargeMedia": {
@@ -172,19 +172,19 @@
     "description": "Tooltip for the no-remote-fonts per-site switch"
   },
   "popupTipNoScripting1": {
-    "message": "Натисніть, щоб повністю вимкнути javaScript на цьому сайті",
+    "message": "Натисніть, щоб повністю вимкнути JavaScript на цьому сайті",
     "description": "Tooltip for the no-scripting per-site switch"
   },
   "popupTipNoScripting2": {
-    "message": "Натисніть, щоб повністю припинити вимкнення javaScript на цьому сайті",
+    "message": "Натисніть, щоб припинити вимкнення JavaScript на цьому сайті",
     "description": "Tooltip for the no-scripting per-site switch"
   },
   "popupNoPopups_v2": {
-    "message": "Спливаючі вікна",
+    "message": "Спливні вікна",
     "description": "Caption for the no-popups per-site switch"
   },
   "popupNoLargeMedia_v2": {
-    "message": "Великі медіа елементи",
+    "message": "Великі медіаелементи",
     "description": "Caption for the no-large-media per-site switch"
   },
   "popupNoCosmeticFiltering_v2": {
@@ -266,6 +266,14 @@
   "popupVersion": {
     "message": "Версія",
     "description": "Example of use: Version 1.26.4"
+  },
+  "popup3pScriptFilterTip": {
+    "message": "↑: Підсвічувати рядки, які містять сторонні скрипти",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party scripts' cell"
+  },
+  "popup3pFrameFilterTip": {
+    "message": "↑: Підсвічувати рядки, які містять сторонні складники",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party frames' cell"
   },
   "pickerCreate": {
     "message": "Створити",
@@ -372,7 +380,7 @@
     "description": "background information: https://github.com/gorhill/uBlock/issues/3150"
   },
   "settingsUncloakCnamePrompt": {
-    "message": "Uncloak canonical names",
+    "message": "Показати CNAME назви",
     "description": "background information: https://github.com/uBlockOrigin/uBlock-issues/issues/1513"
   },
   "settingsLastRestorePrompt": {
@@ -428,7 +436,7 @@
     "description": "English: Apply changes"
   },
   "3pGroupDefault": {
-    "message": "Локальні",
+    "message": "Вбудовані",
     "description": "Header for the uBlock filters section in 'Filter lists pane'"
   },
   "3pGroupAds": {
@@ -444,7 +452,7 @@
     "description": "English: Malware domains"
   },
   "3pGroupAnnoyances": {
-    "message": "Надокучлива реклама",
+    "message": "Надокучливості",
     "description": "The header identifying the filter lists in the category 'annoyances'"
   },
   "3pGroupMultipurpose": {
@@ -839,6 +847,10 @@
     "message": "Markdown",
     "description": "Label for radio-button to pick export text format"
   },
+  "aboutPrivacyPolicy": {
+    "message": "Політика конфіденційності",
+    "description": "Link to privacy policy on GitHub (English)"
+  },
   "aboutChangelog": {
     "message": "Журнал змін",
     "description": ""
@@ -877,6 +889,14 @@
   },
   "aboutDependencies": {
     "message": "Зовнішні залежності (сумісні з GPLv3):",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNs": {
+    "message": "Списки власних фільтрів uBO вільно розміщуються на таких <a href=\"https://wikipedia.org/wiki/Content_delivery_network\">CDN</a>:",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNsInfo": {
+    "message": "Випадково вибраний CDN застосовуватиметься, коли список фільтрів потрібно оновити",
     "description": "Shown in the About pane"
   },
   "aboutBackupDataButton": {
@@ -1033,6 +1053,10 @@
   },
   "contextMenuBlockElementInFrame": {
     "message": "Заблокувати елемент у фреймі",
+    "description": "An entry in the browser's contextual menu"
+  },
+  "contextMenuSubscribeToList": {
+    "message": "Підписатися на список фільтрів...",
     "description": "An entry in the browser's contextual menu"
   },
   "contextMenuTemporarilyAllowLargeMediaElements": {

@@ -28,7 +28,7 @@
     "description": "appears as tab name in dashboard"
   },
   "3pPageName": {
-    "message": "فیلتر های خارجی",
+    "message": "لیست‌های فیلتر",
     "description": "appears as tab name in dashboard"
   },
   "1pPageName": {
@@ -267,6 +267,14 @@
     "message": "نگارش",
     "description": "Example of use: Version 1.26.4"
   },
+  "popup3pScriptFilterTip": {
+    "message": "↑: Emphasize rows which have 3rd-party scripts",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party scripts' cell"
+  },
+  "popup3pFrameFilterTip": {
+    "message": "↑: Emphasize rows which have 3rd-party frames",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party frames' cell"
+  },
   "pickerCreate": {
     "message": "ایجاد",
     "description": "English: Create"
@@ -296,7 +304,7 @@
     "description": "English: Click, Ctrl-click"
   },
   "pickerContextMenuEntry": {
-    "message": "بلاک کردن این شیء",
+    "message": "بلاک کردن این اِلمان‌",
     "description": "An entry in the browser's contextual menu"
   },
   "settingsCollapseBlockedPrompt": {
@@ -839,6 +847,10 @@
     "message": "مارک‌داون",
     "description": "Label for radio-button to pick export text format"
   },
+  "aboutPrivacyPolicy": {
+    "message": "قوانین حریم خصوصی",
+    "description": "Link to privacy policy on GitHub (English)"
+  },
   "aboutChangelog": {
     "message": "تغییرات اخیر",
     "description": ""
@@ -879,6 +891,14 @@
     "message": "وابستگی‌های خارجی (سازگار با GPLv3):",
     "description": "Shown in the About pane"
   },
+  "aboutCDNs": {
+    "message": "لیست‌های فیلتر اصلی uBlock Origin به صورت آزاد در <a href=\"https://wikipedia.org/wiki/Content_delivery_network\">این شبکه‌های تحویل محتوا</a> میزبانی می‌شوند.",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNsInfo": {
+    "message": "وقتی که لازم باشد تا یک لیست فیلتر  به روزرسانی شود، از یکی از  شبکه‌های تحویل محتوا به صورت تصادفی استفاده می‌شود",
+    "description": "Shown in the About pane"
+  },
   "aboutBackupDataButton": {
     "message": "پشتیبان گیری در فایل",
     "description": "Text for button to create a backup of all settings"
@@ -916,7 +936,7 @@
     "description": "No longer used"
   },
   "subscribeButton": {
-    "message": "مشترک شدن",
+    "message": "آبونه شدن",
     "description": "For the button used to subscribe to a filter list"
   },
   "elapsedOneMinuteAgo": {
@@ -1033,6 +1053,10 @@
   },
   "contextMenuBlockElementInFrame": {
     "message": "بلاک‌کردن اِلمان در فریم...",
+    "description": "An entry in the browser's contextual menu"
+  },
+  "contextMenuSubscribeToList": {
+    "message": "Subscribe to filter list...",
     "description": "An entry in the browser's contextual menu"
   },
   "contextMenuTemporarilyAllowLargeMediaElements": {

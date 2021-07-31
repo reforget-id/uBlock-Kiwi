@@ -108,11 +108,21 @@
         targetURL,
         popupType = 'popup'
     ) {
+        // https://github.com/chrisaljoudi/uBlock/issues/323
+        // https://github.com/chrisaljoudi/uBlock/issues/1142
+        // https://github.com/uBlockOrigin/uBlock-issues/issues/1616
+        //   Don't block if uBO is turned off in popup's context
+        if (
+            µb.getNetFilteringSwitch(targetURL) === false ||
+            µb.getNetFilteringSwitch(µb.normalizePageURL(0, targetURL)) === false
+        ) {
+            return 0;
+        }
+
         fctxt.setTabOriginFromURL(rootOpenerURL)
              .setDocOriginFromURL(localOpenerURL || rootOpenerURL)
              .setURL(targetURL)
              .setType('popup');
-        let result;
 
         // https://github.com/gorhill/uBlock/issues/1735
         //   Do not bail out on `data:` URI, they are commonly used for popups.
@@ -153,7 +163,7 @@
             // https://github.com/gorhill/uBlock/issues/581
             //   Take into account popup-specific rules in dynamic URL
             //   filtering, OR generic allow rules.
-            result = µb.sessionURLFiltering.evaluateZ(
+            let result = µb.sessionURLFiltering.evaluateZ(
                 fctxt.getTabHostname(),
                 targetURL,
                 popupType
@@ -181,16 +191,11 @@
             }
         }
 
-        // https://github.com/chrisaljoudi/uBlock/issues/323
-        // https://github.com/chrisaljoudi/uBlock/issues/1142
-        //   Don't block if uBlock is turned off in popup's context
-        if ( µb.getNetFilteringSwitch(targetURL) ) {
-            fctxt.type = popupType;
-            result = µb.staticNetFilteringEngine.matchString(fctxt, 0b0001);
-            if ( result !== 0 ) {
-                fctxt.filter = µb.staticNetFilteringEngine.toLogData();
-                return result;
-            }
+        fctxt.type = popupType;
+        const result = µb.staticNetFilteringEngine.matchString(fctxt, 0b0001);
+        if ( result !== 0 ) {
+            fctxt.filter = µb.staticNetFilteringEngine.toLogData();
+            return result;
         }
 
         return 0;
@@ -540,6 +545,7 @@ housekeep itself.
             if (
                 Array.isArray(openerDetails) === false ||
                 openerDetails.length !== 2 ||
+                openerDetails[1] === null ||
                 openerDetails[1].url === 'about:newtab'
             ) {
                 return;
@@ -878,7 +884,7 @@ vAPI.Tabs = class extends vAPI.Tabs {
         const { frameId, tabId, url } = details;
         if ( frameId === 0 ) {
             µb.tabContextManager.commit(tabId, url);
-            const pageStore = µb.bindTabToPageStore(tabId, 'tabCommitted');
+            const pageStore = µb.bindTabToPageStore(tabId, 'tabCommitted', details);
             if ( pageStore !== null ) {
                 pageStore.journalAddRootFrame('committed', url);
             }
@@ -904,7 +910,7 @@ vAPI.Tabs = class extends vAPI.Tabs {
         if ( !tab.url || tab.url === '' ) { return; }
         if ( !changeInfo.url ) { return; }
         µBlock.tabContextManager.commit(tabId, changeInfo.url);
-        µBlock.bindTabToPageStore(tabId, 'tabUpdated');
+        µBlock.bindTabToPageStore(tabId, 'tabUpdated', tab);
     }
 };
 
@@ -915,7 +921,7 @@ vAPI.tabs = new vAPI.Tabs();
 
 // Create an entry for the tab if it doesn't exist.
 
-µBlock.bindTabToPageStore = function(tabId, context) {
+µBlock.bindTabToPageStore = function(tabId, context, details = undefined) {
     this.updateToolbarIcon(tabId, 0b111);
 
     // Do not create a page store for URLs which are of no interests
@@ -929,8 +935,7 @@ vAPI.tabs = new vAPI.Tabs();
 
     // Tab is not bound
     if ( pageStore === undefined ) {
-        this.updateTitle(tabId);
-        pageStore = this.PageStore.factory(tabId, context);
+        pageStore = this.PageStore.factory(tabId, details);
         this.pageStores.set(tabId, pageStore);
         this.pageStoresToken = Date.now();
         return pageStore;
@@ -952,9 +957,8 @@ vAPI.tabs = new vAPI.Tabs();
     // Rebind according to context. We rebind even if the URL did not change,
     // as maybe the tab was force-reloaded, in which case the page stats must
     // be all reset.
-    pageStore.reuse(context);
+    pageStore.reuse(context, details);
 
-    this.updateTitle(tabId);
     this.pageStoresToken = Date.now();
 
     return pageStore;
@@ -991,7 +995,7 @@ vAPI.tabs = new vAPI.Tabs();
 {
     const NoPageStore = class extends µBlock.PageStore {
         getNetFilteringSwitch(fctxt) {
-            if ( fctxt && fctxt.docId === 0 ) {
+            if ( fctxt ) {
                 const docOrigin = fctxt.getDocOrigin();
                 if ( docOrigin ) {
                     return µBlock.getNetFilteringSwitch(docOrigin);
@@ -1083,58 +1087,6 @@ vAPI.tabs = new vAPI.Tabs();
             newParts |= currentParts;
         }
         tabIdToDetails.set(tabId, newParts);
-    };
-})();
-
-/******************************************************************************/
-
-µBlock.updateTitle = (( ) => {
-    const tabIdToCount = new Map();
-    const delay = 499;
-
-    const updateTitle = async function(tabId) {
-        let count = tabIdToCount.get(tabId);
-        if ( count === undefined ) { return; }
-        tabIdToCount.delete(tabId);
-        const tab = await vAPI.tabs.get(tabId);
-        if ( tab instanceof Object === false || tab.discarded === true ) {
-            return;
-        }
-        const µb = µBlock;
-        const pageStore = µb.pageStoreFromTabId(tabId);
-        if ( pageStore === null ) { return; }
-        // Firefox needs this: if you detach a tab, the new tab won't have
-        // its rawURL set. Concretely, this causes the logger to report an
-        // entry to itself in the logger's tab selector.
-        // TODO: Investigate for a fix vAPI-side.
-        pageStore.rawURL = tab.url;
-        µb.pageStoresToken = Date.now();
-        // https://github.com/gorhill/uMatrix/issues/225
-        //   Sometimes title changes while page is loading.
-        const settled =
-            typeof tab.title === 'string' &&
-            tab.title !== '' &&
-            tab.title === pageStore.title;
-        pageStore.title = tab.title || tab.url || '';
-        if ( settled ) { return; }
-        if ( tabIdToCount.has(tabId) ) { return; }
-        count -= 1;
-        if ( count === 0 ) { return; }
-        tabIdToCount.set(tabId, count);
-        updateTitleAsync(tabId);
-    };
-
-    const updateTitleAsync = function(tabId) {
-        vAPI.setTimeout(( ) => { updateTitle(tabId); }, delay);
-    };
-
-    return function(tabId) {
-        if ( vAPI.isBehindTheSceneTabId(tabId) ) { return; }
-        const count = tabIdToCount.get(tabId);
-        tabIdToCount.set(tabId, 5);
-        if ( count === undefined ) {
-            updateTitleAsync(tabId);
-        }
     };
 })();
 

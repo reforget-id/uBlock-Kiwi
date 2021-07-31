@@ -935,7 +935,7 @@ vAPI.DOMFilterer = class {
                 if ( node.localName === 'iframe' ) {
                     addIFrame(node);
                 }
-                if ( node.childElementCount === 0 ) { continue; }
+                if ( node.firstElementChild === null ) { continue; }
                 const iframes = node.getElementsByTagName('iframe');
                 if ( iframes.length !== 0 ) {
                     addIFrames(iframes);
@@ -1175,7 +1175,7 @@ vAPI.DOMFilterer = class {
             while ( i-- ) {
                 const node = addedNodes[i];
                 pendingNodes.add([ node ]);
-                if ( node.childElementCount === 0 ) { continue; }
+                if ( node.firstElementChild === null ) { continue; }
                 pendingNodes.add(node.querySelectorAll('[id],[class]'));
             }
             if ( pendingNodes.hasNodes() ) {
@@ -1275,12 +1275,21 @@ vAPI.DOMFilterer = class {
 
         vAPI.domCollapser.start();
 
-        if ( response.noCosmeticFiltering ) {
+        const {
+            noSpecificCosmeticFiltering,
+            noGenericCosmeticFiltering,
+            scriptlets,
+        } = response;
+
+        vAPI.noSpecificCosmeticFiltering = noSpecificCosmeticFiltering;
+        vAPI.noGenericCosmeticFiltering = noGenericCosmeticFiltering;
+
+        if ( noSpecificCosmeticFiltering && noGenericCosmeticFiltering ) {
             vAPI.domFilterer = null;
             vAPI.domSurveyor = null;
         } else {
             const domFilterer = vAPI.domFilterer = new vAPI.DOMFilterer();
-            if ( response.noGenericCosmeticFiltering || cfeDetails.noDOMSurveying ) {
+            if ( noGenericCosmeticFiltering || cfeDetails.noDOMSurveying ) {
                 vAPI.domSurveyor = null;
             }
             domFilterer.exceptions = cfeDetails.exceptionFilters;
@@ -1293,9 +1302,9 @@ vAPI.DOMFilterer = class {
 
         // Library of resources is located at:
         // https://github.com/gorhill/uBlock/blob/master/assets/ublock/resources.txt
-        if ( response.scriptlets ) {
-            vAPI.injectScriptlet(document, response.scriptlets);
-            vAPI.injectedScripts = response.scriptlets;
+        if ( scriptlets ) {
+            vAPI.injectScriptlet(document, scriptlets);
+            vAPI.injectedScripts = scriptlets;
         }
 
         if ( vAPI.domSurveyor instanceof Object ) {

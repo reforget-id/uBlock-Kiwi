@@ -267,6 +267,14 @@
     "message": "Έκδοση",
     "description": "Example of use: Version 1.26.4"
   },
+  "popup3pScriptFilterTip": {
+    "message": "Τόνισε τις εγγραφές που έχουν κώδικα τρίτων",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party scripts' cell"
+  },
+  "popup3pFrameFilterTip": {
+    "message": "Τόνισε τις εγγραφές που έχουν πλαίσια τρίτων",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party frames' cell"
+  },
   "pickerCreate": {
     "message": "Δημιουργία",
     "description": "English: Create"
@@ -372,7 +380,7 @@
     "description": "background information: https://github.com/gorhill/uBlock/issues/3150"
   },
   "settingsUncloakCnamePrompt": {
-    "message": "Uncloak canonical names",
+    "message": "Ξεσκέπασμα/εμφάνιση κανονικών ονομάτων CNAME",
     "description": "background information: https://github.com/uBlockOrigin/uBlock-issues/issues/1513"
   },
   "settingsLastRestorePrompt": {
@@ -708,11 +716,11 @@
     "description": "Label to identify a context field (typically a hostname)"
   },
   "loggerEntryDetailsRootContext": {
-    "message": "Root context",
+    "message": "Πλαίσιο ρίζας",
     "description": "Label to identify a root context field (typically a hostname)"
   },
   "loggerEntryDetailsPartyness": {
-    "message": "Partyness",
+    "message": "Μέρος αιτήματος",
     "description": "Label to identify a field providing partyness information"
   },
   "loggerEntryDetailsType": {
@@ -820,7 +828,7 @@
     "description": "A label for the context column"
   },
   "loggerSettingHideColumnPartyness": {
-    "message": "{{input}} Partyness",
+    "message": "{{input}} μέρος αιτήματος",
     "description": "A label for the partyness column"
   },
   "loggerExportFormatList": {
@@ -838,6 +846,10 @@
   "loggerExportEncodeMarkdown": {
     "message": "Markdown",
     "description": "Label for radio-button to pick export text format"
+  },
+  "aboutPrivacyPolicy": {
+    "message": "Πολιτική Απορρήτου",
+    "description": "Link to privacy policy on GitHub (English)"
   },
   "aboutChangelog": {
     "message": "Αρχείο καταγραφής αλλαγών",
@@ -877,6 +889,14 @@
   },
   "aboutDependencies": {
     "message": "Εξωτερικές εξαρτήσεις (συμβατές με GPLv3):",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNs": {
+    "message": "Οι λίστες φίλτρων του uBO φιλοξενούνται ελεύθερα στα ακόλουθα <a href=\"https://wikipedia.org/wiki/Content_delivery_network\">CDNs</a>:",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNsInfo": {
+    "message": "Ένα τυχαία επιλεγμένο CDN χρησιμοποιείται όταν πρέπει να ενημερωθεί μια λίστα φίλτρων",
     "description": "Shown in the About pane"
   },
   "aboutBackupDataButton": {
@@ -1035,6 +1055,10 @@
     "message": "Στοιχείο μπλοκ στο πλαίσιο...",
     "description": "An entry in the browser's contextual menu"
   },
+  "contextMenuSubscribeToList": {
+    "message": "Εγγραφή σε λιστα φιλτρων",
+    "description": "An entry in the browser's contextual menu"
+  },
   "contextMenuTemporarilyAllowLargeMediaElements": {
     "message": "Να επιτρέπονται προσωρινά μεγάλα στοιχεία πολυμέσων",
     "description": "A context menu entry, present when large media elements have been blocked on the current site"
@@ -1052,7 +1076,7 @@
     "description": "Label for buttons used to copy something to the clipboard"
   },
   "toggleBlockingProfile": {
-    "message": "Toggle blocking profile",
+    "message": "Ενεργοποίηση/απενεργοποίηση προφίλ μπλοκαρίσματος",
     "description": "Label for keyboard shortcut used to toggle blocking profile"
   },
   "relaxBlockingMode": {

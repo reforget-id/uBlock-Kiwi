@@ -267,6 +267,14 @@
     "message": "Version",
     "description": "Example of use: Version 1.26.4"
   },
+  "popup3pScriptFilterTip": {
+    "message": "↑ : Accentuer les lignes qui ont des scripts tiers",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party scripts' cell"
+  },
+  "popup3pFrameFilterTip": {
+    "message": "↑ : Accentuer les lignes qui ont des cadres tiers",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party frames' cell"
+  },
   "pickerCreate": {
     "message": "Créer",
     "description": "English: Create"
@@ -839,6 +847,10 @@
     "message": "Markdown",
     "description": "Label for radio-button to pick export text format"
   },
+  "aboutPrivacyPolicy": {
+    "message": "Politique de confidentialité",
+    "description": "Link to privacy policy on GitHub (English)"
+  },
   "aboutChangelog": {
     "message": "Journal des changements",
     "description": ""
@@ -877,6 +889,14 @@
   },
   "aboutDependencies": {
     "message": "Dépendances externes (compatibles GPLv3) :",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNs": {
+    "message": "Les propres listes de filtres d'uBO sont hébergées gratuitement sur les <a href=\"https://fr.wikipedia.org/wiki/R%C3%A9seau_de_diffusion_de_contenu\">RDC</a> suivants :",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNsInfo": {
+    "message": "Un RDC choisi aléatoirement est utilisé lorsqu'une liste de filtres doit être mise à jour",
     "description": "Shown in the About pane"
   },
   "aboutBackupDataButton": {
@@ -1033,6 +1053,10 @@
   },
   "contextMenuBlockElementInFrame": {
     "message": "Bloquer un élément de cadre",
+    "description": "An entry in the browser's contextual menu"
+  },
+  "contextMenuSubscribeToList": {
+    "message": "Souscrire à la liste de filtres",
     "description": "An entry in the browser's contextual menu"
   },
   "contextMenuTemporarilyAllowLargeMediaElements": {

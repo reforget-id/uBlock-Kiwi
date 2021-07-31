@@ -32,20 +32,31 @@
 
 
 
-/// abort-current-inline-script.js
+/// abort-current-script.js
+/// alias acs.js
+/// alias abort-current-inline-script.js
 /// alias acis.js
 (function() {
     const target = '{{1}}';
     if ( target === '' || target === '{{1}}' ) { return; }
+    const reRegexEscape = /[.*+?^${}()|[\]\\]/g;
     const needle = '{{2}}';
-    let reText = '.?';
-    if ( needle !== '' && needle !== '{{2}}' ) {
-        reText = /^\/.+\/$/.test(needle)
-            ? needle.slice(1,-1)
-            : needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    }
+    const reNeedle = (( ) => {
+        if ( needle === '' || needle === '{{2}}' ) { return /^/; }
+        if ( /^\/.+\/$/.test(needle) ) {
+            return new RegExp(needle.slice(1,-1));
+        }
+        return new RegExp(needle.replace(reRegexEscape, '\\$&'));
+    })();
+    const context = '{{3}}';
+    const reContext = (( ) => {
+        if ( context === '' || context === '{{3}}' ) { return /^$/; }
+        if ( /^\/.+\/$/.test(context) ) {
+            return new RegExp(context.slice(1,-1));
+        }
+        return new RegExp(context.replace(reRegexEscape, '\\$&'));
+    })();
     const thisScript = document.currentScript;
-    const re = new RegExp(reText);
     const chain = target.split('.');
     let owner = window;
     let prop;
@@ -66,28 +77,47 @@
     }
     const magic = String.fromCharCode(Date.now() % 26 + 97) +
                   Math.floor(Math.random() * 982451653 + 982451653).toString(36);
-    const validate = function() {
-        const e = document.currentScript;
-        if (
-            e instanceof HTMLScriptElement &&
-            e.src === '' &&
-            e !== thisScript &&
-            re.test(e.textContent)
-        ) {
-            throw new ReferenceError(magic);
+    const scriptTexts = new WeakMap();
+    const getScriptText = elem => {
+        let text = elem.textContent;
+        if ( text.trim() !== '' ) { return text; }
+        if ( scriptTexts.has(elem) ) { return scriptTexts.get(elem); }
+        const [ , mime, content ] =
+            /^data:([^,]*),(.+)$/.exec(elem.src.trim()) ||
+            [ '', '', '' ];
+        try {
+            switch ( true ) {
+            case mime.endsWith(';base64'):
+                text = self.atob(content);
+                break;
+            default:
+                text = self.decodeURIComponent(content);
+                break;
+            }
+        } catch(ex) {
         }
+        scriptTexts.set(elem, text);
+        return text;
+    };
+    const validate = ( ) => {
+        const e = document.currentScript;
+        if ( e instanceof HTMLScriptElement === false ) { return; }
+        if ( reContext.test(e.src) === false ) { return; }
+        if ( e === thisScript ) { return; }
+        if ( reNeedle.test(getScriptText(e)) === false ) { return; }
+        throw new ReferenceError(magic);
     };
     Object.defineProperty(owner, prop, {
         get: function() {
             validate();
             return desc instanceof Object
-                ? desc.get()
+                ? desc.get.call(owner)
                 : value;
         },
         set: function(a) {
             validate();
             if ( desc instanceof Object ) {
-                desc.set(a);
+                desc.set.call(owner, a);
             } else {
                 value = a;
             }
@@ -95,7 +125,7 @@
     });
     const oe = window.onerror;
     window.onerror = function(msg) {
-        if ( typeof msg === 'string' && msg.indexOf(magic) !== -1 ) {
+        if ( typeof msg === 'string' && msg.includes(magic) ) {
             return true;
         }
         if ( oe instanceof Function ) {
@@ -307,6 +337,7 @@
 
 /// addEventListener-defuser.js
 /// alias aeld.js
+// https://github.com/uBlockOrigin/uAssets/issues/9123#issuecomment-848255120
 (function() {
     let needle1 = '{{1}}';
     if ( needle1 === '' || needle1 === '{{1}}' ) {
@@ -330,8 +361,12 @@
         self.EventTarget.prototype.addEventListener,
         {
             apply: function(target, thisArg, args) {
-                const type = String(args[0]);
-                const handler = String(args[1]);
+                let type, handler;
+                try {
+                    type = String(args[0]);
+                    handler = String(args[1]);
+                } catch(ex) {
+                }
                 if (
                     needle1.test(type) === false ||
                     needle2.test(handler) === false
@@ -346,14 +381,19 @@
 
 /// addEventListener-logger.js
 /// alias aell.js
+// https://github.com/uBlockOrigin/uAssets/issues/9123#issuecomment-848255120
 (function() {
     const log = console.log.bind(console);
     self.EventTarget.prototype.addEventListener = new Proxy(
         self.EventTarget.prototype.addEventListener,
         {
             apply: function(target, thisArg, args) {
-                const type = String(args[0]);
-                const handler = String(args[1]);
+                let type, handler;
+                try {
+                    type = String(args[0]);
+                    handler = String(args[1]);
+                } catch(ex) {
+                }
                 log('uBO: addEventListener("%s", %s)', type, handler);
                 return target.apply(thisArg, args);
             }
@@ -367,6 +407,10 @@
 //  When no "prune paths" argument is provided, the scriptlet is
 //  used for logging purpose and the "needle paths" argument is
 //  used to filter logging output.
+//
+//  https://github.com/uBlockOrigin/uBlock-issues/issues/1545
+//  - Add support for "remove everything if needle matches" case
+//
 (function() {
     const rawPrunePaths = '{{1}}';
     const rawNeedlePaths = '{{2}}';
@@ -401,9 +445,15 @@
             }
             const pos = chain.indexOf('.');
             if ( pos === -1 ) {
-                const found = owner.hasOwnProperty(chain);
-                if ( found === false ) { return false; }
-                if ( prune ) {
+                if ( prune === false ) {
+                    return owner.hasOwnProperty(chain);
+                }
+                if ( chain === '*' ) {
+                    for ( const key in owner ) {
+                        if ( owner.hasOwnProperty(key) === false ) { continue; }
+                        delete owner[key];
+                    }
+                } else if ( owner.hasOwnProperty(chain) ) {
                     delete owner[chain];
                 }
                 return true;
@@ -655,6 +705,24 @@
 })();
 
 
+/// no-floc.js
+//  https://github.com/uBlockOrigin/uBlock-issues/issues/1553
+(function() {
+    if ( Document instanceof Object === false ) { return; }
+    if ( Document.prototype.interestCohort instanceof Function === false ) {
+        return;
+    }
+    Document.prototype.interestCohort = new Proxy(
+        Document.prototype.interestCohort,
+        {
+            apply: function() {
+                return Promise.reject();
+            }
+        }
+    );
+})();
+
+
 /// remove-attr.js
 /// alias ra.js
 (function() {
@@ -693,7 +761,7 @@
             }
         }
         if ( skip ) { return; }
-        timer = self.requestIdleCallback(rmattr, { timeout: 67 });
+        timer = self.requestIdleCallback(rmattr, { timeout: 17 });
     };
     const start = ( ) => {
         rmattr();
@@ -708,10 +776,10 @@
     };
     if ( document.readyState !== 'complete' && /\bcomplete\b/.test(behavior) ) {
         self.addEventListener('load', start, { once: true });
-    } else if ( document.readyState === 'loading' ) {
-        self.addEventListener('DOMContentLoaded', start, { once: true });
-    } else {
+    } else if ( document.readyState !== 'loading' || /\basap\b/.test(behavior) ) {
         start();
+    } else {
+        self.addEventListener('DOMContentLoaded', start, { once: true });
     }
 })();
 
@@ -726,7 +794,10 @@
     if ( selector === '' || selector === '{{2}}' ) {
         selector = '.' + tokens.map(a => CSS.escape(a)).join(',.');
     }
+    let behavior = '{{3}}';
+    let timer;
     const rmclass = function() {
+        timer = undefined;
         try {
             const nodes = document.querySelectorAll(selector);
             for ( const node of nodes ) {
@@ -735,14 +806,39 @@
         } catch(ex) {
         }
     };
-    if ( document.readyState === 'loading' ) {
-        window.addEventListener(
-            'DOMContentLoaded',
-            rmclass,
-            { capture: true, once: true }
-        );
-    } else {
+    const mutationHandler = mutations => {
+        if ( timer !== undefined ) { return; }
+        let skip = true;
+        for ( let i = 0; i < mutations.length && skip; i++ ) {
+            const { type, addedNodes, removedNodes } = mutations[i];
+            if ( type === 'attributes' ) { skip = false; }
+            for ( let j = 0; j < addedNodes.length && skip; j++ ) {
+                if ( addedNodes[j].nodeType === 1 ) { skip = false; break; }
+            }
+            for ( let j = 0; j < removedNodes.length && skip; j++ ) {
+                if ( removedNodes[j].nodeType === 1 ) { skip = false; break; }
+            }
+        }
+        if ( skip ) { return; }
+        timer = self.requestIdleCallback(rmclass, { timeout: 67 });
+    };
+    const start = ( ) => {
         rmclass();
+        if ( /\bstay\b/.test(behavior) === false ) { return; }
+        const observer = new MutationObserver(mutationHandler);
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: [ 'class' ],
+            childList: true,
+            subtree: true,
+        });
+    };
+    if ( document.readyState !== 'complete' && /\bcomplete\b/.test(behavior) ) {
+        self.addEventListener('load', start, { once: true });
+    } else if ( document.readyState === 'loading' ) {
+        self.addEventListener('DOMContentLoaded', start, { once: true });
+    } else {
+        start();
     }
 })();
 
@@ -793,6 +889,12 @@
         cValue = true;
     } else if ( cValue === 'null' ) {
         cValue = null;
+    } else if ( cValue === "''" ) {
+        cValue = '';
+    } else if ( cValue === '[]' ) {
+        cValue = [];
+    } else if ( cValue === '{}' ) {
+        cValue = {};
     } else if ( cValue === 'noopFunc' ) {
         cValue = function(){};
     } else if ( cValue === 'trueFunc' ) {
@@ -803,8 +905,6 @@
         cValue = parseFloat(cValue);
         if ( isNaN(cValue) ) { return; }
         if ( Math.abs(cValue) > 0x7FFF ) { return; }
-    } else if ( cValue === "''" ) {
-        cValue = '';
     } else {
         return;
     }

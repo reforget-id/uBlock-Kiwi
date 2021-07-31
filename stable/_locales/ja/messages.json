@@ -267,6 +267,14 @@
     "message": "バージョン",
     "description": "Example of use: Version 1.26.4"
   },
+  "popup3pScriptFilterTip": {
+    "message": "↑: サードパーティのスクリプトを含む行を強調する",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party scripts' cell"
+  },
+  "popup3pFrameFilterTip": {
+    "message": "↑: サードパーティフレームがある行を強調します",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party frames' cell"
+  },
   "pickerCreate": {
     "message": "作成",
     "description": "English: Create"
@@ -839,6 +847,10 @@
     "message": "Markdown 形式",
     "description": "Label for radio-button to pick export text format"
   },
+  "aboutPrivacyPolicy": {
+    "message": "プライバシーポリシー",
+    "description": "Link to privacy policy on GitHub (English)"
+  },
   "aboutChangelog": {
     "message": "更新履歴",
     "description": ""
@@ -877,6 +889,14 @@
   },
   "aboutDependencies": {
     "message": "外部依存関係（GPLv3 互換）",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNs": {
+    "message": "uBlock Origin のフィルターリストは以下の <a href=\"https://wikipedia.org/wiki/Content_delivery_network\">CDN</a> を使って無料でホストされています:",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNsInfo": {
+    "message": "ランダムに選択された CDN がフィルターリストの更新に使用されます",
     "description": "Shown in the About pane"
   },
   "aboutBackupDataButton": {
@@ -1033,6 +1053,10 @@
   },
   "contextMenuBlockElementInFrame": {
     "message": "フレーム内の要素をブロック...",
+    "description": "An entry in the browser's contextual menu"
+  },
+  "contextMenuSubscribeToList": {
+    "message": "フィルターリストを登録...",
     "description": "An entry in the browser's contextual menu"
   },
   "contextMenuTemporarilyAllowLargeMediaElements": {

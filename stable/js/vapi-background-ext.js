@@ -25,10 +25,64 @@
 
 /******************************************************************************/
 
-(( ) => {
-    // https://github.com/uBlockOrigin/uBlock-issues/issues/407
-    if ( vAPI.webextFlavor.soup.has('chromium') === false ) { return; }
+// https://github.com/uBlockOrigin/uBlock-issues/issues/1659
+//   Chromium fails to dispatch onCreatedNavigationTarget() events sometimes,
+//   so we synthetize these missing events when this happens.
 
+vAPI.Tabs = class extends vAPI.Tabs {
+    constructor() {
+        super();
+        this.tabIds = new Set();
+        browser.tabs.onCreated.addListener(tab => {
+            this.onCreatedHandler(tab);
+        });
+    }
+
+    onCreatedHandler(tab) {
+        if ( typeof tab.openerTabId === 'number' ) { return; }
+        if ( tab.index !== 0 ) { return; }
+        if ( tab.url !== '' ) { return; }
+        this.tabIds.add(tab.id);
+    }
+
+    onCreatedNavigationTargetHandler(details) {
+        this.tabIds.delete(details.tabId);
+        super.onCreatedNavigationTargetHandler(details);
+    }
+
+    onCommittedHandler(details) {
+        if ( details.frameId === 0 ) {
+            this.synthesizeNavigationTargetEvent(details);
+        }
+        super.onCommittedHandler(details);
+    }
+
+    onRemovedHandler(tabId, details) {
+        this.tabIds.delete(tabId);
+        super.onRemovedHandler(tabId, details);
+    }
+
+    synthesizeNavigationTargetEvent(details) {
+        if ( this.tabIds.has(details.tabId) === false ) { return; }
+        this.tabIds.delete(details.tabId);
+        if (
+            Array.isArray(details.transitionQualifiers) === false ||
+            details.transitionQualifiers.includes('client_redirect') === false
+        ) {
+            return;
+        }
+        this.onCreatedNavigationTargetHandler({
+            tabId: details.tabId,
+            sourceTabId: details.tabId,
+            sourceFrameId: 0,
+            url: details.url,
+        });
+    }
+};
+
+/******************************************************************************/
+
+{
     const extToTypeMap = new Map([
         ['eot','font'],['otf','font'],['svg','font'],['ttf','font'],['woff','font'],['woff2','font'],
         ['mp3','media'],['mp4','media'],['webm','media'],
@@ -54,6 +108,7 @@
             super();
             this.suspendedTabIds = new Set();
         }
+
         normalizeDetails(details) {
             // Chromium 63+ supports the `initiator` property, which contains
             // the URL of the origin from which the network request was made.
@@ -100,6 +155,7 @@
                 }
             }
         }
+
         // https://www.reddit.com/r/uBlockOrigin/comments/9vcrk3/
         //   Some types can be mapped from 'other', thus include 'other' if and
         //   only if the caller is interested in at least one of those types.
@@ -123,10 +179,12 @@
             }
             return Array.from(out);
         }
+
         suspendOneRequest(details) {
             this.suspendedTabIds.add(details.tabId);
             return { cancel: true };
         }
+
         unsuspendAllRequests() {
             for ( const tabId of this.suspendedTabIds ) {
                 vAPI.tabs.reload(tabId);
@@ -134,7 +192,7 @@
             this.suspendedTabIds.clear();
         }
     };
-})();
+}
 
 /******************************************************************************/
 
@@ -143,9 +201,6 @@
 //   setting "Predict network actions to improve page load performance".
 
 vAPI.prefetching = (( ) => {
-    // https://github.com/uBlockOrigin/uBlock-issues/issues/407
-    if ( vAPI.webextFlavor.soup.has('chromium') === false ) { return; }
-
     let listening = false;
 
     const onHeadersReceived = function(details) {

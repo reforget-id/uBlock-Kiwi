@@ -63,8 +63,6 @@ const µBlock = (( ) => { // jshint ignore:line
         extensionUpdateForceReload: false,
         filterAuthorMode: false,
         filterOnHeaders: false,
-        ignoreRedirectFilters: false,
-        ignoreScriptInjectFilters: false,
         loggerPopupType: 'popup',
         manualUpdateAssetFetchPeriod: 500,
         popupFontSize: 'unset',
@@ -166,6 +164,7 @@ const µBlock = (( ) => { // jshint ignore:line
         compiledCosmeticSection: 200,
         compiledScriptletSection: 300,
         compiledHTMLSection: 400,
+        compiledHTTPHeaderSection: 500,
         compiledSentinelSection: 1000,
         compiledBadSubsection: 1,
 

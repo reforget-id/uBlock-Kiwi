@@ -59,11 +59,13 @@
         get acceptedCount() {
             return µb.cosmeticFilteringEngine.acceptedCount +
                    µb.scriptletFilteringEngine.acceptedCount +
+                   µb.httpheaderFilteringEngine.acceptedCount +
                    µb.htmlFilteringEngine.acceptedCount;
         },
         get discardedCount() {
             return µb.cosmeticFilteringEngine.discardedCount +
                    µb.scriptletFilteringEngine.discardedCount +
+                   µb.httpheaderFilteringEngine.discardedCount +
                    µb.htmlFilteringEngine.discardedCount;
         },
     };
@@ -137,7 +139,7 @@
                     this.timer = undefined;
                     this.strToIdMap.clear();
                 },
-                { timeout: 10000 }
+                { timeout: 5000 }
             );
         }
 
@@ -171,6 +173,34 @@
             }
         }
 
+        hasStr(hostname, exceptionBit, value) {
+            let found = false;
+            for (;;) {
+                let iHn = this.hostnameToSlotIdMap.get(hostname);
+                if ( iHn !== undefined ) {
+                    do {
+                        const strId = this.hostnameSlots[iHn+0];
+                        const str = this.strSlots[strId >>> this.nBits];
+                        if ( (strId & exceptionBit) !== 0 ) {
+                            if ( str === value || str === '' ) { return false; }
+                        }
+                        if ( str === value ) { found = true; }
+                        iHn = this.hostnameSlots[iHn+1];
+                    } while ( iHn !== 0 );
+                }
+                if ( hostname === '' ) { break; }
+                const pos = hostname.indexOf('.');
+                if ( pos !== -1 ) {
+                    hostname = hostname.slice(pos + 1);
+                } else if ( hostname !== '*' ) {
+                    hostname = '*';
+                } else {
+                    hostname = '';
+                }
+            }
+            return found;
+        }
+
         toSelfie() {
             return {
                 hostnameToSlotIdMap: Array.from(this.hostnameToSlotIdMap),
@@ -181,6 +211,7 @@
         }
 
         fromSelfie(selfie) {
+            if ( selfie === undefined ) { return; }
             this.hostnameToSlotIdMap = new Map(selfie.hostnameToSlotIdMap);
             this.hostnameSlots = selfie.hostnameSlots;
             this.strSlots = selfie.strSlots;
@@ -239,12 +270,14 @@
     api.reset = function() {
         µb.cosmeticFilteringEngine.reset();
         µb.scriptletFilteringEngine.reset();
+        µb.httpheaderFilteringEngine.reset();
         µb.htmlFilteringEngine.reset();
     };
 
     api.freeze = function() {
         µb.cosmeticFilteringEngine.freeze();
         µb.scriptletFilteringEngine.freeze();
+        µb.httpheaderFilteringEngine.freeze();
         µb.htmlFilteringEngine.freeze();
     };
 
@@ -267,6 +300,12 @@
             return true;
         }
 
+        // Response header filtering
+        if ( (parser.flavorBits & parser.BITFlavorExtResponseHeader) !== 0 ) {
+            µb.httpheaderFilteringEngine.compile(parser, writer);
+            return true;
+        }
+
         // HTML filtering
         // TODO: evaluate converting Adguard's `$$` syntax into uBO's HTML
         //       filtering syntax.
@@ -280,9 +319,23 @@
         return true;
     };
 
+    api.compileTemporary = function(parser) {
+        if ( (parser.flavorBits & parser.BITFlavorExtScriptlet) !== 0 ) {
+            return µb.scriptletFilteringEngine.compileTemporary(parser);
+        }
+        if ( (parser.flavorBits & parser.BITFlavorExtResponseHeader) !== 0 ) {
+            return µb.httpheaderFilteringEngine.compileTemporary(parser);
+        }
+        if ( (parser.flavorBits & parser.BITFlavorExtHTML) !== 0 ) {
+            return µb.htmlFilteringEngine.compileTemporary(parser);
+        }
+        return µb.cosmeticFilteringEngine.compileTemporary(parser);
+    };
+
     api.fromCompiledContent = function(reader, options) {
         µb.cosmeticFilteringEngine.fromCompiledContent(reader, options);
         µb.scriptletFilteringEngine.fromCompiledContent(reader, options);
+        µb.httpheaderFilteringEngine.fromCompiledContent(reader, options);
         µb.htmlFilteringEngine.fromCompiledContent(reader, options);
     };
 
@@ -292,7 +345,8 @@
             JSON.stringify({
                 cosmetic: µb.cosmeticFilteringEngine.toSelfie(),
                 scriptlets: µb.scriptletFilteringEngine.toSelfie(),
-                html: µb.htmlFilteringEngine.toSelfie()
+                httpHeaders: µb.httpheaderFilteringEngine.toSelfie(),
+                html: µb.htmlFilteringEngine.toSelfie(),
             })
         );
     };
@@ -307,6 +361,7 @@
             if ( selfie instanceof Object === false ) { return false; }
             µb.cosmeticFilteringEngine.fromSelfie(selfie.cosmetic);
             µb.scriptletFilteringEngine.fromSelfie(selfie.scriptlets);
+            µb.httpheaderFilteringEngine.fromSelfie(selfie.httpHeaders);
             µb.htmlFilteringEngine.fromSelfie(selfie.html);
             return true;
         });

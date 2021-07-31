@@ -1,7 +1,7 @@
 /*******************************************************************************
 
     uBlock Origin - a browser extension to block requests.
-    Copyright (C) 2019-present Raymond Hill
+    Copyright (C) 2021-present Raymond Hill
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,22 +21,31 @@
 
 (function() {
     'use strict';
-    window.adsbygoogle = {
-        loaded: true,
-        push: function() {
-        }
+    // https://developer.mixpanel.com/docs/javascript-full-api-reference
+    const mixpanel = {
+        get_distinct_id() {
+            return '';
+        },
+        init(t, cfg) {
+            if ( cfg instanceof Object === false ) { return; }
+            if ( 'loaded' in cfg === false ) { return; }
+            if ( cfg.loaded instanceof Function === false ) { return; }
+            cfg.loaded();
+        },
+        register() {
+        },
+        register_once() {
+        },
+        track() {
+            const cb = Array.from(arguments).pop();
+            if ( cb instanceof Function === false ) { return; }
+            cb();
+        },
     };
-    const phs = document.querySelectorAll('.adsbygoogle');
-    const css = 'height:1px!important;max-height:1px!important;max-width:1px!important;width:1px!important;';
-    for ( let i = 0; i < phs.length; i++ ) {
-        const id = `aswift_${i}`;
-        if ( document.querySelector(`iframe#${id}`) !== null ) { continue; }
-        const fr = document.createElement('iframe');
-        fr.id = id;
-        fr.style = css;
-        const cfr = document.createElement('iframe');
-        cfr.id = `google_ads_frame${i}`;
-        fr.appendChild(cfr);
-        phs[i].appendChild(fr);
+    const q = self.mixpanel && self.mixpanel._i || [];
+    self.mixpanel = mixpanel;
+    for ( const i of q ) {
+        if ( Array.isArray(i) === false ) { continue; }
+        mixpanel.init(...i);
     }
 })();

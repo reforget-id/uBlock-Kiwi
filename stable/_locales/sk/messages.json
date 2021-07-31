@@ -267,6 +267,14 @@
     "message": "Verzia",
     "description": "Example of use: Version 1.26.4"
   },
+  "popup3pScriptFilterTip": {
+    "message": "↑: Zvýrazniť riadky, ktoré majú skripty z tretej strany",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party scripts' cell"
+  },
+  "popup3pFrameFilterTip": {
+    "message": "↑: Zvýrazniť riadky, ktoré majú rámy z tretej strany",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party frames' cell"
+  },
   "pickerCreate": {
     "message": "Vytvoriť",
     "description": "English: Create"
@@ -839,6 +847,10 @@
     "message": "Formátované",
     "description": "Label for radio-button to pick export text format"
   },
+  "aboutPrivacyPolicy": {
+    "message": "Zásady ochrany osobných údajov",
+    "description": "Link to privacy policy on GitHub (English)"
+  },
   "aboutChangelog": {
     "message": "Zoznam zmien",
     "description": ""
@@ -877,6 +889,14 @@
   },
   "aboutDependencies": {
     "message": "Externé závislosti (kompatibilné s GPLv3):",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNs": {
+    "message": "Vlastné zoznamy filtrov uBO sú voľne dostupné na týchto stránkach <a href=\"https://wikipedia.org/wiki/Content_delivery_network\">CDN</a>",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNsInfo": {
+    "message": "Keď bude potrebné aktualizovať zoznam filtrov, použije sa náhodne vybraná sieť CDN",
     "description": "Shown in the About pane"
   },
   "aboutBackupDataButton": {
@@ -1033,6 +1053,10 @@
   },
   "contextMenuBlockElementInFrame": {
     "message": "Zablokovať prvok v ráme…",
+    "description": "An entry in the browser's contextual menu"
+  },
+  "contextMenuSubscribeToList": {
+    "message": "Pridať zoznam filtrov…",
     "description": "An entry in the browser's contextual menu"
   },
   "contextMenuTemporarilyAllowLargeMediaElements": {

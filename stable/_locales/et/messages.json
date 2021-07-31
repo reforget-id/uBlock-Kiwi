@@ -28,7 +28,7 @@
     "description": "appears as tab name in dashboard"
   },
   "3pPageName": {
-    "message": "Filtri loendid",
+    "message": "Filtriloendid",
     "description": "appears as tab name in dashboard"
   },
   "1pPageName": {
@@ -267,6 +267,14 @@
     "message": "Versioon",
     "description": "Example of use: Version 1.26.4"
   },
+  "popup3pScriptFilterTip": {
+    "message": "↑: Tõsta esile kolmanda osapoole skriptidega read",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party scripts' cell"
+  },
+  "popup3pFrameFilterTip": {
+    "message": "↑: Tõsta esile kolmanda osapoole raamidega read",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party frames' cell"
+  },
   "pickerCreate": {
     "message": "Loo",
     "description": "English: Create"
@@ -392,7 +400,7 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "3pAutoUpdatePrompt1": {
-    "message": "Uuenda filtrite loendeid automaatselt.",
+    "message": "Uuenda filtriloendeid automaatselt.",
     "description": "A checkbox in the _3rd-party filters_ pane"
   },
   "3pUpdateNow": {
@@ -696,7 +704,7 @@
     "description": "Label to identify a filter field"
   },
   "loggerEntryDetailsFilterList": {
-    "message": "Filtri loend",
+    "message": "Filtriloend",
     "description": "Label to identify a filter list field"
   },
   "loggerEntryDetailsRule": {
@@ -839,6 +847,10 @@
     "message": "Markdown",
     "description": "Label for radio-button to pick export text format"
   },
+  "aboutPrivacyPolicy": {
+    "message": "Privaatsusteatis",
+    "description": "Link to privacy policy on GitHub (English)"
+  },
   "aboutChangelog": {
     "message": "Muudatuste logi",
     "description": ""
@@ -877,6 +889,14 @@
   },
   "aboutDependencies": {
     "message": "Välised sõltuvused (ühilduvad GPLv3-ga):",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNs": {
+    "message": "uBO enda filtriloendid on vabalt hostitud järgnevates <a href=\"https://et.wikipedia.org/wiki/Sisuedastusv%C3%B5rk\">sisuedastusvõrkudes</a>:",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNsInfo": {
+    "message": "Filtriloendi uuendamiseks kasutatakse juhuslikult valitud sisuedastusvõrku",
     "description": "Shown in the About pane"
   },
   "aboutBackupDataButton": {
@@ -1033,6 +1053,10 @@
   },
   "contextMenuBlockElementInFrame": {
     "message": "Blokeeri raamis olev element...",
+    "description": "An entry in the browser's contextual menu"
+  },
+  "contextMenuSubscribeToList": {
+    "message": "Telli filtriloend...",
     "description": "An entry in the browser's contextual menu"
   },
   "contextMenuTemporarilyAllowLargeMediaElements": {

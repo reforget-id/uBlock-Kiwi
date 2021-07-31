@@ -192,6 +192,10 @@ const FrameStore = class {
             this.domain =
                 vAPI.domainFromHostname(this.hostname) || this.hostname;
         }
+        // Evaluated on-demand
+        // - 0b01: specific cosmetic filtering
+        // - 0b10: generic cosmetic filtering
+        this._cosmeticFilteringBits = undefined;
         return this;
     }
 
@@ -201,6 +205,60 @@ const FrameStore = class {
             FrameStore.junkyard.push(this);
         }
         return null;
+    }
+
+    getCosmeticFilteringBits(tabId) {
+        if ( this._cosmeticFilteringBits !== undefined ) {
+            return this._cosmeticFilteringBits;
+        }
+        this._cosmeticFilteringBits = 0b11;
+        {
+            const result = µb.staticNetFilteringEngine.matchStringReverse(
+                'specifichide',
+                this.rawURL
+            );
+            if ( result !== 0 && µb.logger.enabled ) {
+                µBlock.filteringContext
+                    .duplicate()
+                    .fromTabId(tabId)
+                    .setURL(this.rawURL)
+                    .setRealm('network')
+                    .setType('specifichide')
+                    .setFilter(µb.staticNetFilteringEngine.toLogData())
+                    .toLogger();
+            }
+            if ( result === 2 ) {
+                this._cosmeticFilteringBits &= ~0b01;
+            }
+        }
+        {
+            const result = µb.staticNetFilteringEngine.matchStringReverse(
+                'generichide',
+                this.rawURL
+            );
+            if ( result !== 0 && µb.logger.enabled ) {
+                µBlock.filteringContext
+                    .duplicate()
+                    .fromTabId(tabId)
+                    .setURL(this.rawURL)
+                    .setRealm('network')
+                    .setType('generichide')
+                    .setFilter(µb.staticNetFilteringEngine.toLogData())
+                    .toLogger();
+            }
+            if ( result === 2 ) {
+                this._cosmeticFilteringBits &= ~0b10;
+            }
+        }
+        return this._cosmeticFilteringBits;
+    }
+
+    shouldApplySpecificCosmeticFilters(tabId) {
+        return (this.getCosmeticFilteringBits(tabId) & 0b01) !== 0;
+    }
+
+    shouldApplyGenericCosmeticFilters(tabId) {
+        return (this.getCosmeticFilteringBits(tabId) & 0b10) !== 0;
     }
 
     static factory(frameURL, parentId = -1) {
@@ -270,7 +328,7 @@ const HostnameDetailsMap = class extends Map {
 /******************************************************************************/
 
 const PageStore = class {
-    constructor(tabId, context) {
+    constructor(tabId, details) {
         this.extraData = new Map();
         this.journal = [];
         this.journalTimer = undefined;
@@ -279,15 +337,15 @@ const PageStore = class {
         this.netFilteringCache = NetFilteringResultCache.factory();
         this.hostnameDetailsMap = new HostnameDetailsMap();
         this.counts = new CountDetails();
-        this.init(tabId, context);
+        this.init(tabId, details);
     }
 
-    static factory(tabId, context) {
+    static factory(tabId, details) {
         let entry = PageStore.junkyard.pop();
         if ( entry === undefined ) {
-            entry = new PageStore(tabId, context);
+            entry = new PageStore(tabId, details);
         } else {
-            entry.init(tabId, context);
+            entry.init(tabId, details);
         }
         return entry;
     }
@@ -296,7 +354,7 @@ const PageStore = class {
     //   The context is used to determine whether we report behavior change
     //   to the logger.
 
-    init(tabId, context) {
+    init(tabId, details) {
         const tabContext = µb.tabContextManager.mustLookup(tabId);
         this.tabId = tabId;
 
@@ -310,7 +368,6 @@ const PageStore = class {
         }
 
         this.tabHostname = tabContext.rootHostname;
-        this.title = tabContext.rawURL;
         this.rawURL = tabContext.rawURL;
         this.hostnameDetailsMap.reset();
         this.contentLastModified = 0;
@@ -327,33 +384,17 @@ const PageStore = class {
         this.frames = new Map();
         this.setFrameURL({ url: tabContext.rawURL });
 
-        // https://github.com/uBlockOrigin/uBlock-issues/issues/314
-        const masterSwitch = tabContext.getNetFilteringSwitch();
-
-        this.noCosmeticFiltering = µb.sessionSwitches.evaluateZ(
-            'no-cosmetic-filtering',
-            tabContext.rootHostname
-        ) === true;
-        if (
-            masterSwitch &&
-            this.noCosmeticFiltering &&
-            µb.logger.enabled &&
-            context === 'tabCommitted'
-        ) {
-            µb.filteringContext
-                .duplicate()
-                .fromTabId(tabId)
-                .setURL(tabContext.rawURL)
-                .setRealm('cosmetic')
-                .setType('dom')
-                .setFilter(µb.sessionSwitches.toLogData())
-                .toLogger();
+        if ( this.titleFromDetails(details) === false ) {
+            this.title = tabContext.rawURL;
         }
+
+        // Evaluated on-demand
+        this._noCosmeticFiltering = undefined;
 
         return this;
     }
 
-    reuse(context) {
+    reuse(context, details) {
         // When force refreshing a page, the page store data needs to be reset.
 
         // If the hostname changes, we can't merely just update the context.
@@ -373,6 +414,7 @@ const PageStore = class {
             // URL changed, force a re-evaluation of filtering switch
             this.rawURL = tabContext.rawURL;
             this.setFrameURL({ url: this.rawURL });
+            this.titleFromDetails(details);
             return this;
         }
 
@@ -382,7 +424,7 @@ const PageStore = class {
             this.largeMediaTimer = null;
         }
         this.disposeFrameStores();
-        this.init(this.tabId, context);
+        this.init(this.tabId, details);
         return this;
     }
 
@@ -410,6 +452,17 @@ const PageStore = class {
             PageStore.junkyard.push(this);
         }
         return null;
+    }
+
+    titleFromDetails(details) {
+        if (
+            details instanceof Object === false ||
+            details.title === undefined
+        ) {
+            return false;
+        }
+        this.title = µb.orphanizeString(details.title.slice(0, 128));
+        return true;
     }
 
     disposeFrameStores() {
@@ -493,13 +546,51 @@ const PageStore = class {
                  .getNetFilteringSwitch();
     }
 
-    getSpecificCosmeticFilteringSwitch() {
-        return this.noCosmeticFiltering !== true;
-    }
-
     toggleNetFilteringSwitch(url, scope, state) {
         µb.toggleNetFilteringSwitch(url, scope, state);
         this.netFilteringCache.empty();
+    }
+
+    shouldApplyCosmeticFilters(frameId = 0) {
+        if ( this._noCosmeticFiltering === undefined ) {
+            this._noCosmeticFiltering = this.getNetFilteringSwitch() === false;
+            if ( this._noCosmeticFiltering === false ) {
+                this._noCosmeticFiltering = µb.sessionSwitches.evaluateZ(
+                    'no-cosmetic-filtering',
+                    this.tabHostname
+                ) === true;
+                if ( this._noCosmeticFiltering && µb.logger.enabled ) {
+                    µb.filteringContext
+                        .duplicate()
+                        .fromTabId(this.tabId)
+                        .setURL(this.rawURL)
+                        .setRealm('cosmetic')
+                        .setType('dom')
+                        .setFilter(µb.sessionSwitches.toLogData())
+                        .toLogger();
+                }
+            }
+        }
+        if ( this._noCosmeticFiltering ) { return false; }
+        if ( frameId === -1 ) { return true; }
+        // Cosmetic filtering can be effectively disabled when both specific
+        // and generic cosmetic filters are disabled.
+        return this.shouldApplySpecificCosmeticFilters(frameId) ||
+               this.shouldApplyGenericCosmeticFilters(frameId);
+    }
+
+    shouldApplySpecificCosmeticFilters(frameId) {
+        if ( this.shouldApplyCosmeticFilters(-1) === false ) { return false; }
+        const frameStore = this.getFrameStore(frameId);
+        if ( frameStore === null ) { return false; }
+        return frameStore.shouldApplySpecificCosmeticFilters(this.tabId);
+    }
+
+    shouldApplyGenericCosmeticFilters(frameId) {
+        if ( this.shouldApplyCosmeticFilters(-1) === false ) { return false; }
+        const frameStore = this.getFrameStore(frameId);
+        if ( frameStore === null ) { return false; }
+        return frameStore.shouldApplyGenericCosmeticFilters(this.tabId);
     }
 
     // https://github.com/gorhill/uBlock/issues/2105
@@ -821,7 +912,6 @@ const PageStore = class {
     }
 
     redirectBlockedRequest(fctxt) {
-        if ( µb.hiddenSettings.ignoreRedirectFilters === true ) { return; }
         const directives = µb.staticNetFilteringEngine.redirectRequest(fctxt);
         if ( directives === undefined ) { return; }
         if ( µb.logger.enabled !== true ) { return; }

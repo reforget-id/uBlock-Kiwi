@@ -199,6 +199,14 @@ api.fetchText = async function(url) {
         if ( text.startsWith('<') && text.endsWith('>') ) {
             details.content = '';
         }
+
+        // Important: Non empty text resource must always end with a newline
+        if (
+            details.content.length !== 0 &&
+            details.content.endsWith('\n') === false
+        ) {
+            details.content += '\n';
+        }
     } catch(ex) {
         details = ex;
     }
@@ -218,7 +226,7 @@ api.fetchText = async function(url) {
 api.fetchFilterList = async function(mainlistURL) {
     const toParsedURL = url => {
         try {
-            return new URL(url);
+            return new URL(url.trim());
         } catch (ex) {
         }
     };
@@ -245,9 +253,11 @@ api.fetchFilterList = async function(mainlistURL) {
     const sublistURLs = new Set();
 
     // https://github.com/uBlockOrigin/uBlock-issues/issues/1113
+    //   Process only `!#include` directives which are not excluded by an
+    //   `!#if` directive.
     const processIncludeDirectives = function(results) {
         const out = [];
-        const reInclude = /^!#include +(\S+)/gm;
+        const reInclude = /^!#include +(\S+)[^\n\r]*(?:[\n\r]+|$)/gm;
         for ( const result of results ) {
             if ( typeof result === 'string' ) {
                 out.push(result);
@@ -272,14 +282,14 @@ api.fetchFilterList = async function(mainlistURL) {
                     // Compute nested list path relative to parent list path
                     const pos = result.url.lastIndexOf('/');
                     if ( pos === -1 ) { continue; }
-                    const subURL = result.url.slice(0, pos + 1) + match[1];
+                    const subURL = result.url.slice(0, pos + 1) + match[1].trim();
                     if ( sublistURLs.has(subURL) ) { continue; }
                     sublistURLs.add(subURL);
                     out.push(
                         slice.slice(lastIndex, match.index + match[0].length),
-                        `! >>>>>>>> ${subURL}`,
+                        `! >>>>>>>> ${subURL}\n`,
                         api.fetchText(subURL),
-                        `! <<<<<<<< ${subURL}`
+                        `! <<<<<<<< ${subURL}\n`
                     );
                     lastIndex = reInclude.lastIndex;
                 }
@@ -297,15 +307,24 @@ api.fetchFilterList = async function(mainlistURL) {
     let allParts = [
         this.fetchText(mainlistURL)
     ];
-    for (;;) {
-        allParts = processIncludeDirectives(await Promise.all(allParts));
-        if ( allParts.every(v => typeof v === 'string') ) { break; }
-    }
+    // Abort processing `include` directives if at least one included sublist
+    // can't be fetched.
+    do {
+        allParts = await Promise.all(allParts);
+        const part = allParts.find(part => {
+            return typeof part === 'object' && part.error !== undefined;
+        });
+        if ( part !== undefined ) {
+            return { url: mainlistURL, content: '', error: part.error };
+        }
+        allParts = processIncludeDirectives(allParts);
+    } while ( allParts.some(part => typeof part !== 'string') );
+    // If we reach this point, this means all fetches were successful.
     return {
         url: mainlistURL,
         content: allParts.length === 1
             ? allParts[0]
-            : allParts.map(s => s.trim()).filter(s => s !== '').join('\n') + '\n'
+            : allParts.join('') + '\n'
     };
 };
 
@@ -730,14 +749,20 @@ api.get = async function(assetKey, options = {}) {
 
     const assetRegistry = await getAssetSourceRegistry();
     assetDetails = assetRegistry[assetKey] || {};
-    let contentURLs = [];
+    const contentURLs = [];
     if ( typeof assetDetails.contentURL === 'string' ) {
-        contentURLs = [ assetDetails.contentURL ];
+        contentURLs.push(assetDetails.contentURL);
     } else if ( Array.isArray(assetDetails.contentURL) ) {
-        contentURLs = assetDetails.contentURL.slice(0);
+        contentURLs.push(...assetDetails.contentURL);
     } else if ( reIsExternalPath.test(assetKey) ) {
         assetDetails.content = 'filters';
-        contentURLs = [ assetKey ];
+        contentURLs.push(assetKey);
+    }
+
+    // https://github.com/uBlockOrigin/uBlock-issues/issues/1566#issuecomment-826473517
+    //   Use CDN URLs as fall back URLs.
+    if ( Array.isArray(assetDetails.cdnURLs) ) {
+        contentURLs.push(...assetDetails.cdnURLs);
     }
 
     for ( const contentURL of contentURLs ) {
@@ -776,24 +801,31 @@ const getRemote = async function(assetKey) {
         return details;
     };
 
-    let contentURLs = [];
+    const contentURLs = [];
     if ( typeof assetDetails.contentURL === 'string' ) {
-        contentURLs = [ assetDetails.contentURL ];
+        contentURLs.push(assetDetails.contentURL);
     } else if ( Array.isArray(assetDetails.contentURL) ) {
-        contentURLs = assetDetails.contentURL.slice(0);
+        contentURLs.push(...assetDetails.contentURL);
     }
 
     // If asked to be gentle on remote servers, favour using dedicated CDN
     // servers. If more than one CDN server is present, randomly shuffle the
     // set of servers so as to spread the bandwidth burden.
-    if ( remoteServerFriendly && Array.isArray(assetDetails.cdnURLs) ) {
+    //
+    // https://github.com/uBlockOrigin/uBlock-issues/issues/1566#issuecomment-826473517
+    //   In case of manual update, use CDNs URLs as fall back URLs.
+    if ( Array.isArray(assetDetails.cdnURLs) ) {
         const cdnURLs = assetDetails.cdnURLs.slice();
         for ( let i = 0, n = cdnURLs.length; i < n; i++ ) {
             const j = Math.floor(Math.random() * n);
             if ( j === i ) { continue; }
             [ cdnURLs[j], cdnURLs[i] ] = [ cdnURLs[i], cdnURLs[j] ];
         }
-        contentURLs.unshift(...cdnURLs);
+        if ( remoteServerFriendly ) {
+            contentURLs.unshift(...cdnURLs);
+        } else {
+            contentURLs.push(...cdnURLs);
+        }
     }
 
     for ( const contentURL of contentURLs ) {
@@ -849,6 +881,15 @@ api.metadata = async function() {
     for ( const assetKey in assetDict ) {
         const assetEntry = assetDict[assetKey];
         const cacheEntry = cacheDict[assetKey];
+        if (
+            assetEntry.content === 'filters' &&
+            assetEntry.external !== true
+        ) {
+            assetEntry.isDefault =
+                assetEntry.off === undefined ||
+                assetEntry.off === true &&
+                    µBlock.listMatchesEnvironment(assetEntry);
+        }
         if ( cacheEntry ) {
             assetEntry.cached = true;
             assetEntry.writeTime = cacheEntry.writeTime;

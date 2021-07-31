@@ -267,6 +267,14 @@
     "message": "גרסה",
     "description": "Example of use: Version 1.26.4"
   },
+  "popup3pScriptFilterTip": {
+    "message": "↑: הדגש שורות אשר מכילות סקריפטים צד-3",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party scripts' cell"
+  },
+  "popup3pFrameFilterTip": {
+    "message": "↑: הדגש שורות אשר מכילות מסגרות צד-3",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party frames' cell"
+  },
   "pickerCreate": {
     "message": "צור",
     "description": "English: Create"
@@ -839,6 +847,10 @@
     "message": "פורמט Markdown",
     "description": "Label for radio-button to pick export text format"
   },
+  "aboutPrivacyPolicy": {
+    "message": "מדיניות פרטיות",
+    "description": "Link to privacy policy on GitHub (English)"
+  },
   "aboutChangelog": {
     "message": "רשימת שינויים",
     "description": ""
@@ -877,6 +889,14 @@
   },
   "aboutDependencies": {
     "message": "תלויות חיצוניות (תואם-GPLv3):",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNs": {
+    "message": "רשימות המסננים של uBO מופצות בחינם בשירותי ה <a href=\"https://wikipedia.org/wiki/Content_delivery_network\">CDN</a> הבאים:",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNsInfo": {
+    "message": "כאשר רשימת מסננים צריכה להתעדכן, נבחר באקראי לטובת זאת שירות CDN  ",
     "description": "Shown in the About pane"
   },
   "aboutBackupDataButton": {
@@ -1033,6 +1053,10 @@
   },
   "contextMenuBlockElementInFrame": {
     "message": "חסום אלמנט בתוך מסגרת...",
+    "description": "An entry in the browser's contextual menu"
+  },
+  "contextMenuSubscribeToList": {
+    "message": "הירשם לרשימת המסננים...",
     "description": "An entry in the browser's contextual menu"
   },
   "contextMenuTemporarilyAllowLargeMediaElements": {

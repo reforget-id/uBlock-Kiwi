@@ -107,7 +107,8 @@ const allTypesBits =
     1 << (typeNameToTypeValue['main_frame'] >>> TypeBitsOffset) - 1 |
     1 << (typeNameToTypeValue['inline-font'] >>> TypeBitsOffset) - 1 |
     1 << (typeNameToTypeValue['inline-script'] >>> TypeBitsOffset) - 1;
-
+const documentTypeBit = 
+    1 << (typeNameToTypeValue['main_frame'] >>> TypeBitsOffset) - 1;
 const unsupportedTypeBit =
     1 << (typeNameToTypeValue['unsupported'] >>> TypeBitsOffset) - 1;
 
@@ -137,6 +138,8 @@ const typeValueToTypeName = [
 ];
 
 //const typeValueFromCatBits = catBits => (catBits >>> TypeBitsOffset) & 0b11111;
+
+const MAX_TOKEN_LENGTH = 7;
 
 /******************************************************************************/
 
@@ -573,6 +576,12 @@ const FilterPatternPlain = class {
         const s = bidiTrie.extractString(this.i, this.n);
         details.pattern.push(s);
         details.regex.push(restrFromPlainPattern(s));
+        // https://github.com/gorhill/uBlock/issues/3037
+        //   Make sure the logger reflects accurately internal match, taking
+        //   into account MAX_TOKEN_LENGTH.
+        if ( /^[0-9a-z%]{1,6}$/i.exec(s.slice(this.tokenBeg)) !== null ) {
+            details.regex.push('(?![0-9A-Za-z%])');
+        }
     }
 
     toSelfie() {
@@ -2473,7 +2482,7 @@ const urlTokenizer = new (class {
 
         this.knownTokens = new Uint8Array(65536);
         this.resetKnownTokens();
-        this.MAX_TOKEN_LENGTH = 7;
+        this.MAX_TOKEN_LENGTH = MAX_TOKEN_LENGTH;
     }
 
     setURL(url) {
@@ -2535,7 +2544,7 @@ const urlTokenizer = new (class {
         if ( l === 0 ) { return this.emptyTokenHash; }
         const vtc = this._validTokenChars;
         let th = vtc[s.charCodeAt(0)];
-        for ( let i = 1; i !== 7 && i !== l; i++ ) {
+        for ( let i = 1; i !== 7 /* MAX_TOKEN_LENGTH */ && i !== l; i++ ) {
             th = th << 4 ^ vtc[s.charCodeAt(i)];
         }
         return th;
@@ -2598,7 +2607,7 @@ const urlTokenizer = new (class {
                         if ( cc === 0x3F /* '?' */ ) { hasq = i; }
                         break;
                     }
-                    if ( n === 7 ) { continue; }
+                    if ( n === 7 /* MAX_TOKEN_LENGTH */ ) { continue; }
                     th = th << 4 ^ v;
                     n += 1;
                 }
@@ -2788,7 +2797,7 @@ const FilterParser = class {
         this.tokenHash = this.noTokenHash;
         this.tokenBeg = 0;
         this.typeBits = 0;
-        this.notTypes = 0;
+        this.notTypeBits = 0;
         this.firstWildcardPos = -1;
         this.secondWildcardPos = -1;
         this.firstCaretPos = -1;
@@ -2818,7 +2827,7 @@ const FilterParser = class {
             ? this.tokenIdToNormalizedType.get(id)
             : allTypesBits;
         if ( not ) {
-            this.notTypes |= typeBit;
+            this.notTypeBits |= typeBit;
         } else {
             this.typeBits |= typeBit;
         }
@@ -2988,11 +2997,20 @@ const FilterParser = class {
         }
         // Negated network types? Toggle on all network type bits.
         // Negated non-network types can only toggle themselves.
-        if ( (this.notTypes & allNetworkTypesBits) !== 0 ) {
-            this.typeBits |= allNetworkTypesBits;
-        }
-        if ( this.notTypes !== 0 ) {
-            this.typeBits &= ~this.notTypes;
+        //
+        // https://github.com/gorhill/uBlock/issues/2385
+        //   Toggle on all network types if:
+        //   - at least one network type is negated; or
+        //   - no network type is present -- i.e. all network types are
+        //     implicitly toggled on
+        if ( this.notTypeBits !== 0 ) {
+            if (
+                (this.notTypeBits & allNetworkTypesBits) !== 0 ||
+                (this.typeBits & allNetworkTypesBits) === 0
+            ) {
+                this.typeBits |= allNetworkTypesBits;
+            }
+            this.typeBits &= ~this.notTypeBits;
             if ( this.typeBits === 0 ) { return false; }
         }
         // CSP directives implicitly apply only to document/subdocument.
@@ -3754,16 +3772,18 @@ FilterContainer.prototype.compileToAtomicFilter = function(
     writer
 ) {
     const catBits = parsed.action | parsed.party;
-    let typeBits = parsed.typeBits;
+    let { typeBits } = parsed;
 
     // Typeless
     if ( typeBits === 0 ) {
         writer.push([ catBits, parsed.tokenHash, fdata ]);
         return;
     }
-
     // If all network types are set, create a typeless filter
-    if ( (typeBits & allNetworkTypesBits) === allNetworkTypesBits ) {
+    if (
+        (typeBits & allNetworkTypesBits) === allNetworkTypesBits &&
+        (parsed.notTypeBits & documentTypeBit) === 0
+    ) {
         writer.push([ catBits, parsed.tokenHash, fdata ]);
         typeBits &= ~allNetworkTypesBits;
     }
@@ -4268,6 +4288,9 @@ FilterContainer.compareRedirectRequests = function(a, b) {
 
 /******************************************************************************/
 
+// https://github.com/uBlockOrigin/uBlock-issues/issues/1626
+//   Do not redirect when the number of query parameters does not change.
+
 FilterContainer.prototype.filterQuery = function(fctxt) {
     const directives = this.matchAndFetchModifiers(fctxt, 'queryprune');
     if ( directives === undefined ) { return; }
@@ -4277,6 +4300,7 @@ FilterContainer.prototype.filterQuery = function(fctxt) {
     let hpos = url.indexOf('#', qpos + 1);
     if ( hpos === -1 ) { hpos = url.length; }
     const params = new Map(new self.URLSearchParams(url.slice(qpos + 1, hpos)));
+    const inParamCount = params.size;
     const out = [];
     for ( const directive of directives ) {
         if ( params.size === 0 ) { break; }
@@ -4322,14 +4346,16 @@ FilterContainer.prototype.filterQuery = function(fctxt) {
         }
     }
     if ( out.length === 0 ) { return; }
-    fctxt.redirectURL = url.slice(0, qpos);
-    if ( params.size !== 0 ) {
-        fctxt.redirectURL += '?' + Array.from(params).map(a =>
-            a[1] === '' ? a[0] : `${a[0]}=${encodeURIComponent(a[1])}`
-        ).join('&');
-    }
-    if ( hpos !== url.length ) {
-        fctxt.redirectURL += url.slice(hpos);
+    if ( params.size !== inParamCount ) {
+        fctxt.redirectURL = url.slice(0, qpos);
+        if ( params.size !== 0 ) {
+            fctxt.redirectURL += '?' + Array.from(params).map(a =>
+                a[1] === '' ? a[0] : `${a[0]}=${encodeURIComponent(a[1])}`
+            ).join('&');
+        }
+        if ( hpos !== url.length ) {
+            fctxt.redirectURL += url.slice(hpos);
+        }
     }
     return out;
 };

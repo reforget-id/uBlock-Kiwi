@@ -267,6 +267,14 @@
     "message": "버전",
     "description": "Example of use: Version 1.26.4"
   },
+  "popup3pScriptFilterTip": {
+    "message": "↑: 보조 스크립트 행 강조",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party scripts' cell"
+  },
+  "popup3pFrameFilterTip": {
+    "message": "↑: 보조 프레임 행 강조",
+    "description": "Tooltip shown when hovering small filtering widget in '3rd-party frames' cell"
+  },
   "pickerCreate": {
     "message": "생성",
     "description": "English: Create"
@@ -684,7 +692,7 @@
     "description": "A keyword in the built-in row filtering expression"
   },
   "loggerRowFiltererBuiltin3p": {
-    "message": "서드 파티",
+    "message": "보조",
     "description": "A keyword in the built-in row filtering expression"
   },
   "loggerEntryDetailsHeader": {
@@ -839,6 +847,10 @@
     "message": "마크다운",
     "description": "Label for radio-button to pick export text format"
   },
+  "aboutPrivacyPolicy": {
+    "message": "개인정보취급방침",
+    "description": "Link to privacy policy on GitHub (English)"
+  },
   "aboutChangelog": {
     "message": "변경사항",
     "description": ""
@@ -877,6 +889,14 @@
   },
   "aboutDependencies": {
     "message": "외부 종속성 (GPLv3 호환):",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNs": {
+    "message": "아래 <a href=\"https://wikipedia.org/wiki/Content_delivery_network\">CDN</a>에서 uBO의 필터 목록을 무료로 호스팅해 줍니다:",
+    "description": "Shown in the About pane"
+  },
+  "aboutCDNsInfo": {
+    "message": "필터 목록을 업데이트할 때 무작위로 선택된 CDN이 쓰입니다.",
     "description": "Shown in the About pane"
   },
   "aboutBackupDataButton": {
@@ -1033,6 +1053,10 @@
   },
   "contextMenuBlockElementInFrame": {
     "message": "프레임 내 구성 요소 차단",
+    "description": "An entry in the browser's contextual menu"
+  },
+  "contextMenuSubscribeToList": {
+    "message": "필터 목록 구독...",
     "description": "An entry in the browser's contextual menu"
   },
   "contextMenuTemporarilyAllowLargeMediaElements": {

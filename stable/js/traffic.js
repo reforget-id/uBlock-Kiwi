@@ -53,6 +53,9 @@ window.addEventListener('webextFlavor', function() {
         vAPI.webextFlavor.major < 59;
 }, { once: true });
 
+// https://github.com/uBlockOrigin/uBlock-issues/issues/1553
+const supportsFloc = document.interestCohort instanceof Function;
+
 /******************************************************************************/
 
 // Intercept and filter web requests.
@@ -508,7 +511,8 @@ const onHeadersReceived = function(details) {
     // Keep in mind response headers will be modified in-place if needed, so
     // `details.responseHeaders` will always point to the modified response
     // headers.
-    const responseHeaders = details.responseHeaders;
+    const { responseHeaders } = details;
+    if ( Array.isArray(responseHeaders) === false ) { return; }
 
     if ( isRootDoc === false && µb.hiddenSettings.filterOnHeaders === true ) {
         const result = pageStore.filterOnHeaders(fctxt, responseHeaders);
@@ -540,10 +544,19 @@ const onHeadersReceived = function(details) {
 
     // At this point we have a HTML document.
 
-    const filteredHTML = µb.canFilterResponseData &&
-                         filterDocument(pageStore, fctxt, details) === true;
+    const filteredHTML =
+        µb.canFilterResponseData && filterDocument(fctxt, details) === true;
 
-    let modifiedHeaders = injectCSP(fctxt, pageStore, responseHeaders) === true;
+    let modifiedHeaders = false;
+    if ( µb.httpheaderFilteringEngine.apply(fctxt, responseHeaders) === true ) {
+        modifiedHeaders = true;
+    }
+    if ( injectCSP(fctxt, pageStore, responseHeaders) === true ) {
+        modifiedHeaders = true;
+    }
+    if ( supportsFloc && foilFloc(fctxt, responseHeaders) ) {
+        modifiedHeaders = true;
+    }
 
     // https://bugzilla.mozilla.org/show_bug.cgi?id=1376932
     //   Prevent document from being cached by the browser if we modified it,
@@ -552,7 +565,7 @@ const onHeadersReceived = function(details) {
     //   Use `no-cache` instead of `no-cache, no-store, must-revalidate`, this
     //   allows Firefox's offline mode to work as expected.
     if ( (filteredHTML || modifiedHeaders) && dontCacheResponseHeaders ) {
-        let cacheControl = µb.hiddenSettings.cacheControlForFirefox1376932;
+        const cacheControl = µb.hiddenSettings.cacheControlForFirefox1376932;
         if ( cacheControl !== 'unset' ) {
             let i = headerIndexFromName('cache-control', responseHeaders);
             if ( i !== -1 ) {
@@ -565,7 +578,7 @@ const onHeadersReceived = function(details) {
     }
 
     if ( modifiedHeaders ) {
-        return { responseHeaders: responseHeaders };
+        return { responseHeaders };
     }
 };
 
@@ -614,7 +627,7 @@ const normalizeBehindTheSceneResponseHeaders = function(details) {
 
 **/
 
-const filterDocument = (function() {
+const filterDocument = (( ) => {
     const µb = µBlock;
     const filterers = new Map();
     let domParser, xmlSerializer,
@@ -805,7 +818,7 @@ const filterDocument = (function() {
         filterers.delete(this);
     };
 
-    return function(pageStore, fctxt, extras) {
+    return function(fctxt, extras) {
         // https://github.com/gorhill/uBlock/issues/3478
         const statusCode = extras.statusCode || 0;
         if ( statusCode !== 0 && (statusCode < 200 || statusCode >= 300) ) {
@@ -1000,6 +1013,23 @@ const injectCSP = function(fctxt, pageStore, responseHeaders) {
         value: cspSubsets.join(', ')
     });
 
+    return true;
+};
+
+/******************************************************************************/
+
+// https://github.com/uBlockOrigin/uBlock-issues/issues/1553
+// https://github.com/WICG/floc#opting-out-of-computation
+
+const foilFloc = function(fctxt, responseHeaders) {
+    const hn = fctxt.getHostname();
+    if ( µBlock.scriptletFilteringEngine.hasScriptlet(hn, 1, 'no-floc') === false ) {
+        return false;
+    }
+    responseHeaders.push({
+        name: 'Permissions-Policy',
+        value: 'interest-cohort=()' }
+    );
     return true;
 };
 

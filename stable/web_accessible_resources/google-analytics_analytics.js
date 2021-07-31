@@ -24,9 +24,6 @@
     // https://developers.google.com/analytics/devguides/collection/analyticsjs/
     const noopfn = function() {
     };
-    const noopnullfn = function() {
-        return null;
-    };
     //
     const Tracker = function() {
     };
@@ -64,7 +61,9 @@
     ga.create = function() {
         return new Tracker();
     };
-    ga.getByName = noopnullfn;
+    ga.getByName = function() {
+        return new Tracker();
+    };
     ga.getAll = function() {
         return [];
     };
@@ -74,12 +73,30 @@
     w[gaName] = ga;
     // https://github.com/gorhill/uBlock/issues/3075
     const dl = w.dataLayer;
-    if ( dl instanceof Object && dl.hide instanceof Object && typeof dl.hide.end === 'function' ) {
-        dl.hide.end();
+    if ( dl instanceof Object ) {
+        if ( dl.hide instanceof Object && typeof dl.hide.end === 'function' ) {
+            dl.hide.end();
+        }
+        if ( typeof dl.push === 'function' ) {
+            const doCallback = function(item) {
+                if ( item instanceof Object === false ) { return; }
+                if ( typeof item.eventCallback !== 'function' ) { return; }
+                setTimeout(item.eventCallback, 1);
+            };
+            if ( Array.isArray(dl) ) {
+                dl.push = item => doCallback(item);
+                const q = dl.slice();
+                for ( const item of q ) {
+                    doCallback(item);
+                }
+            }
+        }
     }
     // empty ga queue
     if ( gaQueue instanceof Function && Array.isArray(gaQueue.q) ) {
-        for ( const entry of gaQueue.q ) {
+        const q = gaQueue.q.slice();
+        gaQueue.q.length = 0;
+        for ( const entry of q ) {
             ga(...entry);
         }
     }

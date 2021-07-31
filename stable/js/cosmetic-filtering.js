@@ -540,6 +540,15 @@ FilterContainer.prototype.compileSpecificSelector = function(
 
 /******************************************************************************/
 
+FilterContainer.prototype.compileTemporary = function(parser) {
+    return {
+        session: this.sessionFilterDB,
+        selector: parser.result.compiled,
+    };
+};
+
+/******************************************************************************/
+
 FilterContainer.prototype.fromCompiledContent = function(reader, options) {
     if ( options.skipCosmetic ) {
         this.skipCompiledContent(reader);
@@ -957,7 +966,10 @@ FilterContainer.prototype.retrieveSpecificSelectors = function(
     };
     const injectedCSS = [];
 
-    if ( options.noCosmeticFiltering !== true ) {
+    if (
+        options.noSpecificCosmeticFiltering !== true ||
+        options.noGenericCosmeticFiltering !== true
+    ) {
         const injectedHideFilters = [];
         const specificSet = this.$specificSet;
         const proceduralSet = this.$proceduralSet;
@@ -1152,7 +1164,7 @@ FilterContainer.prototype.benchmark = async function() {
         entity: '',
     };
     const options = {
-        noCosmeticFiltering: false,
+        noSpecificCosmeticFiltering: false,
         noGenericCosmeticFiltering: false,
     };
     let count = 0;
